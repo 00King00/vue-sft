@@ -20,11 +20,9 @@
         class="posts posts-sm"
         :options="themesSlickOptions">
         <ThemeItem
-          :key="item.id"
-          v-for="item in discussions"
+          v-for="item in discussions" :key="item.id"
           :item="item"
           />
-
       </Slick>
     </section>
     <section class="section-top-discuss m-show">

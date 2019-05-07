@@ -346,7 +346,7 @@ export default {
 
       const animate = () => {
         // if (Math.abs(endAngle - startAngle) < Math.abs(2 * curveAngleMovementUnit)) {
-        if (true) {
+        if (direction) {
           this.updateAngle(endAngle)
         } else {
           const newAngle = startAngle + curveAngleMovementUnit

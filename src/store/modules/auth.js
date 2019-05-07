@@ -27,6 +27,7 @@ export default {
 					return true
 				})
 				.catch(err => {
+					console.log(err);
 					if (localStorage.getItem('auth')) {
 						localStorage.removeItem('auth')
 					}
@@ -37,7 +38,7 @@ export default {
       return Register(data)
 				.then(result => {
 					alert('Register success')
-					return true
+					return result
 				})
 		},
 

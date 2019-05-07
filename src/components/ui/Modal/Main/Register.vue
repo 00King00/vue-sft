@@ -77,6 +77,7 @@ export default {
       })
         .then(response => {
           this.closeAllModal()
+          return response
         })
 
     }

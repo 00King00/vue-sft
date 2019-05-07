@@ -18,8 +18,6 @@
 </template>
 
 <script>
-import {mapActions, mapState} from 'vuex'
-
 import Item from './Item'
 
 export default {

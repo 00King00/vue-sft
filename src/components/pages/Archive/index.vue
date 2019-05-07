@@ -118,9 +118,9 @@
         </div>
       </div>
       <div class="disc">
-        <div v-for="(items, key) in archive">
-          <item v-for="item in items" :item="item"/>
-          <div class="div-date"><span>{{key}}</span></div>
+        <div v-for="(items, i) in archive" :key="`archiveItems_${i}`">
+          <item v-for="(item, index) in items" :item="item" :key="`items_${index}`"></item>
+          <div class="div-date"><span>{{i}}</span></div>
         </div>
       </div>
     </section>
