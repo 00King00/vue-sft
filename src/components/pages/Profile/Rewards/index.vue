@@ -5,7 +5,7 @@
       <div class="rewards">
         <rewardItem
           class="active"
-          v-for="reward in profile_rewards"
+          v-for="(reward, i) in profile_rewards" :key="`reward_${i}`"
           :data="reward"
           />
       </div>

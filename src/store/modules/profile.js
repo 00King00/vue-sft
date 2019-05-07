@@ -181,7 +181,7 @@ export default {
         .then(res => commit('favoriteUsers', res.data.result))
     },
 
-    addFavoritesUsers ({ commit, dispatch }, { id, object_id }) {
+    addFavoritesUsers ({ dispatch }, { id, object_id }) {
       return AddFavoriteUsers(id, object_id)
         .then(() => dispatch('getFavoriteUsers', id))
     },
