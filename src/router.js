@@ -1,25 +1,52 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
 
 Vue.use(Router)
 
+import Main from '@/components/pages/Main'
+import About from '@/components/pages/About'
+import Search from '@/components/pages/Search'
+import Archive from '@/components/pages/Archive'
+import MainDiscussion from '@/components/pages/Discussion/Main'
+import AddDiscussion from '@/components/pages/Discussion/Add'
+import MainProfile from '@/components/pages/Profile/Main'
+import DeleteProfile from '@/components/pages/Profile/DeleteAccount'
+import MainProfileEducation from '@/components/pages/Profile/Education/Main'
+import EditProfileEducation from '@/components/pages/Profile/Education/Edit'
+import MainProfileAreasOfKnowledge from '@/components/pages/Profile/AreasOfKnowledge/Main'
+import EditProfileAreasOfKnowledge from '@/components/pages/Profile/AreasOfKnowledge/Edit'
+import FavoritesProfile from '@/components/pages/Profile/Favorites'
+import HistoryProfile from '@/components/pages/Profile/History'
+import LogoutProfile from '@/components/pages/Profile/Logout'
+import RewardsProfile from '@/components/pages/Profile/Rewards'
+import SettingsProfile from '@/components/pages/Profile/Settings'
+import PrivacyPolicy from '@/components/pages/PrivacyPolicy'
+import TermsOfUse from '@/components/pages/TermsOfUse'
+import PageNotFound from '@/components/pages/PageNotFound'
+
 export default new Router({
-  mode: 'history',
-  base: process.env.BASE_URL,
+  mode: "history",
   routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Home
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    }
+    { path: '/', name: 'Main', component: Main },
+    { path: '/about', name: 'About', component: About },
+    { path: '/search', name: 'Search', component: Search },
+    { path: '/archive', name: 'Archive', component: Archive },
+    { path: '/discussion/add', name: 'DiscussionAdd', component: AddDiscussion },
+    { path: '/discussion/:id', name: 'Discussion', component: MainDiscussion },
+    { path: '/profile/logout', name: 'Logout', component: LogoutProfile },
+    { path: '/profile/settings', name: 'Settings', component: SettingsProfile },
+    { path: '/profile/rewards', name: 'Rewards', component: RewardsProfile },
+    { path: '/profile/history', name: 'History', component: HistoryProfile },
+    { path: '/profile/favorites', name: 'Favorites', component: FavoritesProfile },
+    { path: '/profile/delete', name: 'Delete', component: DeleteProfile },
+    { path: '/profile/education', name: 'MainEducation', component: MainProfileEducation },
+    { path: '/profile/education/edit', name: 'EditEducation', component: EditProfileEducation },
+    { path: '/profile/areas-of-knowledge', name: 'MainAreasOfKnowledge', component: MainProfileAreasOfKnowledge },
+    { path: '/profile/areas-of-knowledge/edit', name: 'EditAreasOfKnowledge', component: EditProfileAreasOfKnowledge },
+    { path: '/profile/education/edit', name: 'EditEducation', component: EditProfileEducation },
+    { path: '/profile/:id', name: 'MainProfile', component: MainProfile },
+    { path: '/terms-of-use', name: 'TermsOfUse', component: TermsOfUse },
+    { path: '/privacy-policy', name: 'PrivacyPolicy', component: PrivacyPolicy },
+    { path: '*', component: PageNotFound }
   ]
 })

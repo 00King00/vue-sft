@@ -1,29 +1,104 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+  <div class="main-wrapper">
+    <div v-if="showPreloader" class="preloader">
+      <div class="preloader_lays">
+        <div class="preloader_para">
+          <img src="@/assets/img/par.png" alt="" />
+        </div>
+      </div>
+      <div class="preloader_cntr">
+        <div class="logo_img"><img src="@/assets/svg/logo.svg" alt="" /></div>
+        <div class="logo_txt">Search For Truth</div>
+      </div>
+      <div class="preloader_mouse">
+        <img src="@/assets/img/mouse.png" alt="" />
+      </div>
     </div>
-    <router-view/>
+    <!-- BEGIN CONTENT -->
+    <main class="content">
+      <div class="content_cols">
+        <div class="wrapper">
+          <SideBar />
+          <router-view/>
+        </div>
+      </div>
+    </main>
+    <!-- CONTENT EOF  -->
+    <!-- BEGIN HEADER -->
+    <Header />
+    <!-- HEADER EOF   -->
+    <!-- BEGIN footer -->
+    <Footer />
+    <!-- footer EOF   -->
+    <Modal />
+    <!-- <div class="donate-btn">
+      <a href="#">Donate</a>
+    </div> -->
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+import Header from '@/components/ui/Header'
+import Footer from '@/components/ui/Footer'
+import SideBar from '@/components/ui/SideBar'
+import Modal from '@/components/ui/Modal'
+
+import { mapMutations } from 'vuex'
+
+import '@/assets/css/style.css'
+if (window.innerWidth >= 768) {
+  require('@/assets/css/tablet.css')
 }
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+if (window.innerWidth >= 1024) {
+  require('@/assets/css/desktop.css')
+}
+
+export default {
+  name: 'App',
+
+  data () {
+    return {
+      showPreloader: true
     }
+  },
+  methods: {
+    ...mapMutations('auth', ['login'])
+  },
+
+  mounted () {
+    let auth = localStorage.getItem('auth')
+
+    if (auth) {
+      auth = JSON.parse(auth)
+      this.login(auth)
+    }
+
+    this.$nextTick(() => {
+      setTimeout(() => {
+        this.showPreloader = false
+      }, 0)
+    })
+  },
+
+  components: { Header, Footer, SideBar, Modal }
+}
+</script>
+
+<style lang="scss">
+.donate-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  z-index: 9999;
+  a {
+    border-radius: 20px;
+    padding: 10px;
+    background: linear-gradient(64.85deg, #284dc0 32.48%, #ff441d 84.02%);
+    color: #fff;
+    font-size: 15px;
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.22);
+    text-align: center;
+    transition: all 0.2s ease;
   }
 }
 </style>
