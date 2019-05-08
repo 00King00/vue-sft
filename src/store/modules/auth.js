@@ -1,9 +1,8 @@
 import { Login, Register } from '@/api'
-import axios from 'axios'
-let BaseUrl = 'http://37.252.1.151:5000/api/public';
+import router from '@/router'
+
 export default {
   namespaced: true,
-
   state: {
 		auth: {
 			token: false,
@@ -11,6 +10,7 @@ export default {
 			fullname: false,
 			avatar: false
 		}
+
 	},
 
 	mutations: {
@@ -23,36 +23,29 @@ export default {
 		login (store, data) {
 			return Login(data)
 				.then(result => {
-					store.commit('login', result.data.result)
-					localStorage.setItem('auth', JSON.stringify(result.data.result))
-					return true
+					store.commit('login', result.data)
+					localStorage.setItem('auth', JSON.stringify(result.data))
+					return "success login"
 				})
-				.catch(err => {
-					console.log(err);
+				.catch(() => {
 					if (localStorage.getItem('auth')) {
 						localStorage.removeItem('auth')
 					}
 				})
 		},
-		// register (store, data) {
-	    //   return Register(data)
-		// 			.then(result => {
-		// 				alert('Register success')
-		// 				return true
-		// 			})
-		// },
-		REGISTER (store, data) {
-			console.log(data)
-			axios.post(BaseUrl+'/access/registration', data).then(res => {
-				console.log(res);
-				return res;
-
-			})
+		register (store, data) {
+			return Register(data)
+					.then((res) => {
+						alert('Register success')
+						return res
+					})
 		},
+
 
     logout () {
       localStorage.removeItem('auth')
-      window.location = '/'
+      //window.location = '/'
+      router.push('/')
     }
 	}
 }

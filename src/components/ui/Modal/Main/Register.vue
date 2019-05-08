@@ -64,18 +64,18 @@ export default {
     ...mapActions('modal', ['addModal', 'closeModal']),
     ...mapMutations('modal', ['closeAllModal']),
     ...mapMutations('profile', ['setUserData']),
-    ...mapActions('auth', ['REGISTER']),
+    ...mapActions('auth', ['register']),
 
     registerUser () {
       if (!this.terms) return false;
       if (this.password !== this.re_password) return false
 
-      this.REGISTER({
+      this.register({
         email: this.email,
         fullname: this.fullname,
         password: this.password
       })
-        .then(response => {
+        .then((response) => {
           this.closeAllModal()
           console.log(response)
         })

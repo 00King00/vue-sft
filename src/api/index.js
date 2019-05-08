@@ -4,14 +4,14 @@ const qs = require('qs')
 function Request (token) {
   // TODO дописать зависимость baseURL от process.env.HOST & PORT
   // const baseURL = process.env.NODE_ENV === 'production' ? 'http://sft.sliceplanet.ml/api/public' : 'http://localhost:5000/api/public'
-  const baseURL = 'http://sft.crank.ru:5000/api/public'
+  const baseURL = 'http://37.252.1.151:5000/api/public'
   // console.log('baseURL', baseURL)
   if (token) {
     return axios.create({
       baseURL,
       headers: {
         token,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/x-www-form-urlencoded'
       }
     })
   }
@@ -32,42 +32,41 @@ export function Login (data) {
   form.append('email', data.email)
   form.append('password', data.password)
 
-  return request.post('/login', form)
+  return request.post('/access/auth', form)
     .then(response => {
-      request = Request(response.data.result.token)
+      //request = Request(response.data.result.token)
       return response
     })
-    .catch(err => alert(err.response.data.message))
+    .catch(err =>{
+		return err
+		//alert(err.response.data.message)
+	})
 }
-
 export function Register (data) {
   let form = new FormData()
   form.append('email', data.email)
   form.append('fullname', data.fullname)
   form.append('password', data.password)
 
-  return request.post('/register', form)
-    .catch(err => alert(err.response.data.message))
+  return request.post('/access/registration', form)
+
 }
 
 export function GetProfile (id) {
   return request.get(`/profile/${id}`)
-    .catch(err => alert(err.response.data.message))
+
 }
 
 export function GetProfileEducation (id) {
   return request.get(`/profile/${id}/education`)
-    .catch(err => alert(err.response.data.message))
 }
 
 export function GetProfileRewards (id) {
   return request.get(`/profile/${id}/rewards`)
-    .catch(err => alert(err.response.data.message))
 }
 
 export function GetProfileKnowledges (id) {
   return request.get(`/profile/${id}/knowledges`)
-    .catch(err => alert(err.response.data.message))
 }
 
 export function SavePrifileKnowledges (userId, id, score) {
@@ -88,7 +87,6 @@ export function EditProfile (id, data) {
   }
 
   return request.post(`/profile/${id}`, form)
-    .catch(err => alert(err.response.data.message))
 }
 
 export function EditProfileEducation (id, data) {
@@ -102,42 +100,34 @@ export function EditProfileEducation (id, data) {
   })
 
   return request.post(`/profile/${id}/education`, form)
-    .catch(err => alert(err.response.data.message))
 }
 
 export function GetProfileFavoriteAspects (id) {
   return request.get(`/profile/${id}/favorite/aspects`)
-    .catch(err => alert(err.response.data.message))
 }
 
 export function AddFavoritesDiscussion (id, object_id) {
   return request.post(`/profile/${id}/favorite/disquss`, { object_id })
-    .catch(err => alert(err.response.data.message))
 }
 
 export function FavoritesDiscussion (id) {
   return request.get(`/profile/${id}/favorite/disquss`)
-    .catch(err => alert(err.response.data.message))
 }
 
 export function DeleteFavoritesDiscussion (id, object_id) {
   return request.delete(`/profile/${id}/favorite/disquss`, { data: { object_id } })
-    .catch(err => alert(err.response.data.message))
 }
 
 export function AddFavoritesAspects (id, object_id) {
   return request.post(`/profile/${id}/favorite/aspects`, { object_id })
-    .catch(err => alert(err.response.data.message))
 }
 
 export function FavoritesAspects (id) {
   return request.get(`/profile/${id}/favorite/aspects`)
-    .catch(err => alert(err.response.data.message))
 }
 
 export function DeleteFavoritesAspects (id, object_id) {
   return request.delete(`/profile/${id}/favorite/aspects`, { data: { object_id } })
-    .catch(err => alert(err.response.data.message))
 }
 
 export function CreateNewDiscussion (data) {
@@ -162,52 +152,42 @@ export function CreateNewDiscussion (data) {
   })
 
   return request.put(`/discussions`, form)
-    .catch(err => alert(err.response.data.message))
 }
 
 export function GetDiscussions () {
   return request.get('/discussions')
-    .catch(err => alert(err.response.data.message))
 }
 
 export function GetDiscussion (id) {
   return request.get('/discussions/' + id)
-    .catch(err => alert(err.response.data.message))
 }
 
 export function GetDiscussionAspects (id) {
   return request.get(`/discussions/${id}/aspects`)
-    .catch(err => alert(err.response.data.message))
 }
 
 export function GetDiscussionArguments (id) {
   return request.get(`/discussions/${id}/arguments`)
-    .catch(err => alert(err.response.data.message))
 }
 
 export function AddDiscussionArguments (id, data) {
   return request.post(`/discussions/${id}/arguments`, data)
-    .catch(err => alert(err.response.data.message))
 }
 
 export function UsersTop () {
   return request.get(`/users/top`)
-    .catch(err => alert(err.response.data.message))
 }
 
 export function GetFavoriteUsers (id) {
   return request.get(`/profile/favorite/users`, { user_id: id })
-    .catch(err => alert(err.response.data.message))
 }
 
 export function AddFavoriteUsers (id, object_id) {
   return request.post(`/profile/favorite/users`, { user_id: id, object_id })
-    .catch(err => alert(err.response.data.message))
 }
 
 export function DeleteFavoriteUsers (id, object_id) {
   return request.delete(`/profile/favorite/users`, { data: { user_id: id, object_id } })
-    .catch(err => alert(err.response.data.message))
 }
 
 export function DeleteUser (id) {
