@@ -52,10 +52,10 @@ export default {
 
   data () {
     return {
-      email: 'kek@mail.ru',
-      fullname: 'Kek',
-      password: '123456',
-      re_password: '123456',
+      email: '',
+      fullname: '',
+      password: '',
+      re_password: '',
       terms: false
     }
   },
@@ -64,20 +64,20 @@ export default {
     ...mapActions('modal', ['addModal', 'closeModal']),
     ...mapMutations('modal', ['closeAllModal']),
     ...mapMutations('profile', ['setUserData']),
-    ...mapActions('auth', ['register']),
+    ...mapActions('auth', ['REGISTER']),
 
     registerUser () {
       if (!this.terms) return false;
-      if (this.password !== this.re_password) return false;
+      if (this.password !== this.re_password) return false
 
-      this.register({
+      this.REGISTER({
         email: this.email,
         fullname: this.fullname,
         password: this.password
       })
         .then(response => {
           this.closeAllModal()
-          return response
+          console.log(response)
         })
 
     }
@@ -86,6 +86,8 @@ export default {
 </script>
 
 
-<style scoped>
-
+<style>
+.win_account{
+	cursor: pointer;
+}
 </style>

@@ -1,5 +1,6 @@
 import { Login, Register } from '@/api'
-
+import axios from 'axios'
+let BaseUrl = 'http://37.252.1.151:5000/api/public';
 export default {
   namespaced: true,
 
@@ -33,13 +34,20 @@ export default {
 					}
 				})
 		},
+		// register (store, data) {
+	    //   return Register(data)
+		// 			.then(result => {
+		// 				alert('Register success')
+		// 				return true
+		// 			})
+		// },
+		REGISTER (store, data) {
+			console.log(data)
+			axios.post(BaseUrl+'/access/registration', data).then(res => {
+				console.log(res);
+				return res;
 
-		register (store, data) {
-      return Register(data)
-				.then(result => {
-					alert('Register success')
-					return result
-				})
+			})
 		},
 
     logout () {
