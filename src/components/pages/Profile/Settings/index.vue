@@ -80,9 +80,8 @@ export default {
   name: "Settings",
   data() {
     return {
-      old_email: 'romka.postgres@gmail.com',
-      new_email: 'romka.nauma@gmail.com',
-
+      old_email: '',
+      new_email: '',
       old_password: '',
       new_password: '',
       re_new_password: '',
@@ -112,7 +111,7 @@ export default {
       if (this.new_password !== this.re_new_password) return alert('Пароли не идеинтичны')
 
       this.editUser({
-        id: this.auth.id,
+        //id: this.auth.id,
         old_password: this.old_password,
         new_password: this.new_password,
       })

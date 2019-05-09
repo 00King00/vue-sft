@@ -4,7 +4,7 @@ import {
   GetProfileRewards,
   GetProfileKnowledges,
   SavePrifileKnowledges,
-
+  EditPassword,
   EditProfile,
   EditProfileEducation,
 
@@ -94,7 +94,7 @@ export default {
     getUserProfile (store, id) {
       return GetProfile(id)
         .then(response => {
-          store.commit('setUserProfile', response.data.result)
+          store.commit('setUserProfile', response.data)
           return response
         })
     },
@@ -102,7 +102,7 @@ export default {
     getUserEducation (store, id) {
       return GetProfileEducation(id)
         .then(response => {
-          store.commit('setUserEducation', response.data.result)
+          store.commit('setUserEducation', response.data)
           return response
         })
     },
@@ -110,7 +110,7 @@ export default {
     getUserRewards (store, id) {
       return GetProfileRewards(id)
         .then(response => {
-          store.commit('setUserRewards', response.data.result)
+          store.commit('setUserRewards', response.data)
           return response
         })
     },
@@ -118,7 +118,7 @@ export default {
     getUserKnowledges (store, id) {
       return GetProfileKnowledges(id)
         .then(response => {
-          store.commit('setUserKnowledges', response.data.result)
+          store.commit('setUserKnowledges', response.data)
           return response
         })
     },
@@ -130,7 +130,7 @@ export default {
     },
 
     editUser (store, data) {
-      return EditProfile(data.id, data)
+      return EditPassword( data)
     },
 
     editUserEducation (store, data) {

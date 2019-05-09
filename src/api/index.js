@@ -53,7 +53,7 @@ export function Register (data) {
 }
 
 export function GetProfile (id) {
-  return request.get(`/profile/${id}`)
+  return request.get(`/profiles/${id}`)
 
 }
 
@@ -73,6 +73,9 @@ export function SavePrifileKnowledges (userId, id, score) {
   return request.post(`/profile/${userId}/knowledges`, { object_id: id, score })
 }
 
+export function EditPassword(data){
+	 return request.post(`/profiles/current/security/password`, data)
+}
 export function EditProfile (id, data) {
   let form = new FormData()
 
