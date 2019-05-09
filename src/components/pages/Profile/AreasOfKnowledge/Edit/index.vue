@@ -5,7 +5,7 @@
       <div class="fields-vis fields-vis_add" v-if="knowledge_list">
         <div class="fields_center">
           <div class="fields_center_circ">
-            <div class="fields_center_num">{{ balance < 0 ? 0 : balance }}</div>
+            <div class="fields_center_num">{{ balance ? 0 : balance}}</div>
           </div>
           <div class="fields_center_name c-blue">{{$lang.profile.ballCount}}</div>
           <div class="fields_center_txt">{{$lang.profile.globalBall}} {{maxBal}}</div>
@@ -67,7 +67,7 @@ export default {
     ...mapState('profile', ['profile', 'profile_knowledge']),
 
     balance () {
-      return this.maxBal - this.knowledge_list.reduce((acc, item) => acc + item.score, 0)
+      return (this.maxBal - this.knowledge_list.reduce((acc, item) => acc + item.score, 0)) < 0
     }
 
   },
@@ -95,7 +95,7 @@ export default {
           this.$router.push('/profile/areas-of-knowledge')
         })
         .catch(err => {
-          console.log(err)
+          return err
         })
     },
 

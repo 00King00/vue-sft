@@ -1,11 +1,13 @@
 <template>
   <div class="center">
-    <section class="section-form" v-if="profile">
+    <section class="section-form" v-if="true">
       <div class="h2 m-hid"><h1>{{ profile.fullname }}</h1></div>
       <div class="card">
         <div class="card_img"><img :src="profile.avatar" alt=""/></div>
         <div class="card_cont">
-          <div class="card_verif"><span class="icon-check" v-if="profile.education.verification"></span>{{ $lang.profile[profile.education.verification ? 'confirm' : 'notConfirm'] }}</div>
+          <div class="card_verif">
+            <span class="icon-check" v-if="profile.education.verification"></span>{{ $lang.profile[profile.education.verification ? 'confirm' : 'notConfirm'] }}
+          </div>
           <table class="card_info">
             <tr><th>{{$lang.profile.country}}:</th><td>{{ profile.education.country || 'Не заполнено' }}</td></tr>
             <tr><th>{{$lang.profile.city}}:</th><td>{{ profile.education.city || 'Не заполнено' }}</td></tr>
@@ -16,12 +18,12 @@
           </table>
         </div>
       </div>
-
-      <div class="card_title" v-if="profile_rewards.length"><span class="icon-cab4"></span>{{$lang.profile.achive}}</div>
+      <div class="card_title" v-if="profile_rewards.length"><span class="icon-cab4"></span>{{$lang.profile.achive}}
+      </div>
       <div class="rewards scroll" v-if="profile_rewards.length">
         <div class="scroll_in">
           <div
-            v-for="reward in profile_rewards"
+            v-for="(reward, index) in profile_rewards" :key="index"
             @click.prevent="addModal({name: 'RewardsInfo', data: reward })"
             class="rewards_item">
             <div class="rewards_item_ico"><img :src="reward.image" alt=""/></div>
@@ -30,10 +32,10 @@
           </div>
         </div>
       </div>
-
-      <div class="card_title" v-if="profile_knowledge.length"><span class="icon-cab5"></span>{{$lang.profile.edu}}</div>
+      <div class="card_title" v-if="profile_knowledge.length"><span class="icon-cab5"></span>{{$lang.profile.edu}}
+      </div>
       <div class="fields" v-if="profile_knowledge.length">
-        <div class="fields_col" v-for="item in profile_knowledge">
+        <div class="fields_col" v-for="(item , i) in profile_knowledge" :key="`profile_knowledge${i}`">
           <div class="fields_item" style="margin: 0; left: 0; right: 0; top: 0; bottom: 0;">
             <div class="fields_item_num" style="left: 94%; top: 39%;">{{ item.score }}</div>
             <div class="fields_item_img"><img :src="item.knowledge.image" alt=""/></div>
