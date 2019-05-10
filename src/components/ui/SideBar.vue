@@ -114,9 +114,9 @@ export default {
 
   methods: {
     ...mapActions('modal', ['openLoginModal']),
-    openUserMenu () {
-      this.userMenuOpened = !this.userMenuOpened
-    }
+    // openUserMenu () {
+    //   this.userMenuOpened = !this.userMenuOpened
+    // }
   },
 
   computed: {
@@ -125,7 +125,8 @@ export default {
     activePage () {
       return this.$route.name
     }
-  }
+  },
+
 }
 </script>
 

@@ -5,10 +5,10 @@ export default {
   namespaced: true,
   state: {
 		auth: {
-			token: false,
-			id: false,
-			fullname: false,
-			avatar: false
+			token: null,
+			id: null,
+			fullname: null,
+			avatar: null
 		}
 
 	},

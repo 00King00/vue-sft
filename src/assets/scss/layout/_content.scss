@@ -1079,6 +1079,10 @@ display:flex; align-items: center; justify-content: center; background: #E1E3EB;
 }
 @media screen and (max-width: 528px) {
 	.country_libra {    margin: 5px auto 20px; width:300px;   height: 200px;}
-	.country_libra_in {    width: 140%;    margin: 0 -20%;    transform: scale(0.7);    transform-origin: top;}
-
+	.country_libra_in {
+		width: 140%;
+		margin: 0 -20%;
+		transform: scale(0.7);
+		transform-origin: top;}
+	}
 }

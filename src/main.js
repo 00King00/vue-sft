@@ -5,7 +5,7 @@ import store from './store/store.js'
 import Lang from 'vuejs-localization'
 import VueCircleSlider from '@/components/ui/CircleSlider/index.js'
 const VueScrollTo = require('vue-scrollto')
-
+import '@/assets/scss/style.scss'
 Vue.use(VueCircleSlider)
 Vue.use(VueScrollTo, {
   offset: -90

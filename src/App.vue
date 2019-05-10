@@ -45,13 +45,13 @@ import Modal from '@/components/ui/Modal'
 
 import { mapMutations } from 'vuex'
 
-import '@/assets/css/style.css'
-if (window.innerWidth >= 768) {
-  require('@/assets/css/tablet.css')
-}
-if (window.innerWidth >= 1024) {
-  require('@/assets/css/desktop.css')
-}
+// import '@/assets/css/style.css'
+// if (window.innerWidth >= 768) {
+//   require('@/assets/css/tablet.css')
+// }
+// if (window.innerWidth >= 1024) {
+//   require('@/assets/css/desktop.css')
+// }
 
 export default {
   name: 'App',
