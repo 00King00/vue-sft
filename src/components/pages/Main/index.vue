@@ -244,8 +244,8 @@ export default {
   },
 
   mounted () {
-    if (this.discussions.length <= 0) { this.getDiscussions() }
-    if (this.usersTop.length <= 0) { this.getUsersTop() }
+    //if (this.discussions.length <= 0) { this.getDiscussions() }
+    //if (this.usersTop.length <= 0) { this.getUsersTop() }
   }
 
 }

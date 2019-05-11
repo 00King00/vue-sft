@@ -98,7 +98,7 @@ export default {
     ...mapActions('profile', ['EditPassword', 'EditEmail','ChangeAvatar']),
     test(){
       console.log("test")
-      this.$axios.get('http://37.252.1.151:5000/api/public/profiles/current').then(res => console.log(res))
+      this.$axios.get('http://37.252.1.151:5000/api/public/profiles/current', {withCredentials: true}).then(res => console.log(res))
     },
 
     changeEmail () {
@@ -114,18 +114,29 @@ export default {
 
     changePassword () {
       if (this.new_password !== this.re_new_password) return alert('Пароли не идеинтичны')
-
-      this.EditPassword({
-        old_password: this.old_password,
-        new_password: this.new_password,
-      })
-        .then(response => {
-          console.log(response);
-          if (response.status !== 200){
-            alert('Что то пошло не так...')
-            } else
-              { alert('Success!')}
-        })
+            this.$axios.post('http://37.252.1.151:5000/api/public/profiles/current/security/password',
+            {
+              "old_password": this.old_password,
+              "new_password": this.old_password
+            },
+            {
+              withCredentials: true,
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'x-www-form-urlencoded',
+              }
+            }).then(res => console.log(res))
+      // this.EditPassword({
+      //   old_password: this.old_password,
+      //   new_password: this.new_password,
+      // })
+      //   .then(response => {
+      //     console.log(response);
+      //     if (response.status !== 200){
+      //       alert('Что то пошло не так...')
+      //       } else
+      //         { alert('Success!')}
+      //   }).catch(err => console.log(err))
     },
 
     changeAvatar (e) {

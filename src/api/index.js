@@ -1,11 +1,10 @@
 import axios from 'axios'
 const qs = require('qs')
-
 function Request () {
   // TODO дописать зависимость baseURL от process.env.HOST & PORT
   // const baseURL = process.env.NODE_ENV === 'production' ? 'http://sft.sliceplanet.ml/api/public' : 'http://localhost:5000/api/public'
   const baseURL = 'http://37.252.1.151:5000/api/public'
-  return axios.create({ baseURL })
+  return axios.create({ baseURL, withCredentials: true })
 }
 
 let request = Request()
@@ -64,17 +63,23 @@ export function SavePrifileKnowledges (userId, id, score) {
 }
 
 export function EditPassword(data){
-  return request.post(`/profiles/current/security/password`, data)
+  const baseURL = 'http://37.252.1.151:5000/api/public';
+  return axios.post(`/profiles/current/security/password`, data,
+    {
+      baseURL,
+      withCredentials: true,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'x-www-form-urlencoded',
+      }
+    })
 }
 export function EditEmail(data){
   return request.post("/profiles/current/security/email", data)
 }
 export function ChangeAvatar(data){
-  return request.put(`/profiles/${data.id}/avatar`, data)
+  return request.put(`/profiles/${data.profile_id}/avatar`, data)
 }
-
-
-
 //export function EditProfile (id, data) {
 //   let form = new FormData()
 //

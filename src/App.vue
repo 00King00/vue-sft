@@ -65,18 +65,19 @@ export default {
     ...mapMutations('auth', ['login'])
   },
 
-  mounted () {
-    let auth = localStorage.getItem('auth')
-
+  mounted() {
+    let auth = localStorage.getItem('auth');
+  
     if (auth) {
-      auth = JSON.parse(auth)
+      auth = JSON.parse(auth);
+      console.log(auth)
       this.login(auth)
     }
-
-    this.$nextTick(() => {
+    this.$nextTick(function() {
+      let self = this;
       setTimeout(() => {
-        this.showPreloader = false
-      }, 0)
+        self.showPreloader = false
+      }, 100)
     })
   },
 
