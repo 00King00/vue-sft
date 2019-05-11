@@ -70,6 +70,8 @@
         </div>
       </div>
     </section>
+    <button type="button" name="button" @click="test">test</button>
+
   </div>
 </template>
 
@@ -93,15 +95,18 @@ export default {
   },
 
   methods: {
-    ...mapActions('profile', ['editUser']),
+    ...mapActions('profile', ['EditPassword', 'EditEmail','ChangeAvatar']),
+    test(){
+      console.log("test")
+      this.$axios.get('http://37.252.1.151:5000/api/public/profiles/current').then(res => console.log(res))
+    },
 
     changeEmail () {
-      this.editUser({
-        id: this.auth.id,
-        old_email: this.old_email,
+      this.EditEmail({
         new_email: this.new_email,
       })
         .then(response => {
+          console.log(response);
           if (response.status !== 200) return;
           alert('Success!')
         })
@@ -110,27 +115,30 @@ export default {
     changePassword () {
       if (this.new_password !== this.re_new_password) return alert('Пароли не идеинтичны')
 
-      this.editUser({
-        //id: this.auth.id,
+      this.EditPassword({
         old_password: this.old_password,
         new_password: this.new_password,
       })
         .then(response => {
-          if (response.status !== 200) return;
-          alert('Success!')
+          console.log(response);
+          if (response.status !== 200){
+            alert('Что то пошло не так...')
+            } else
+              { alert('Success!')}
         })
     },
 
     changeAvatar (e) {
       let avatar = e.target.files[0]
 
-      this.editUser({
-        id: this.auth.id,
+      this.ChangeAvatar({
+        profile_id: this.auth.id,
         avatar,
       })
         .then(response => {
+          console.log(response);
           if (response.status !== 200) return;
-          alert('Success!')
+          alert('Avatar successfully changed')
         })
     }
   }

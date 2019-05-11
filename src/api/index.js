@@ -1,31 +1,21 @@
 import axios from 'axios'
 const qs = require('qs')
 
-function Request (token) {
+function Request () {
   // TODO дописать зависимость baseURL от process.env.HOST & PORT
   // const baseURL = process.env.NODE_ENV === 'production' ? 'http://sft.sliceplanet.ml/api/public' : 'http://localhost:5000/api/public'
   const baseURL = 'http://37.252.1.151:5000/api/public'
-  // console.log('baseURL', baseURL)
-  if (token) {
-    return axios.create({
-      baseURL,
-      headers: {
-        token,
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    })
-  }
   return axios.create({ baseURL })
 }
 
-let request
-let auth = localStorage.getItem('auth')
-if (auth) {
-  auth = JSON.parse(auth)
-  request = Request(auth.token)
-} else {
-  request = Request()
-}
+let request = Request()
+//let auth = localStorage.getItem('auth')
+// if (auth) {
+//   auth = JSON.parse(auth)
+//   request = Request(auth.token)
+// } else {
+//   request = Request()
+// }
 
 export function Login (data) {
   let form = new FormData()
@@ -76,21 +66,30 @@ export function SavePrifileKnowledges (userId, id, score) {
 export function EditPassword(data){
   return request.post(`/profiles/current/security/password`, data)
 }
-export function EditProfile (id, data) {
-  let form = new FormData()
-
-  if (data.hasOwnProperty('avatar')) {
-    form.append('avatar', data.avatar)
-  } else if (data.hasOwnProperty('old_email') && data.hasOwnProperty('new_email')) {
-    form.append('old_email', data.old_email)
-    form.append('new_email', data.new_email)
-  } else if (data.hasOwnProperty('old_password') && data.hasOwnProperty('new_password')) {
-    form.append('old_password', data.old_password)
-    form.append('new_password', data.new_password)
-  }
-
-  return request.post(`/profile/${id}`, form)
+export function EditEmail(data){
+  return request.post("/profiles/current/security/email", data)
 }
+export function ChangeAvatar(data){
+  return request.put(`/profiles/${data.id}/avatar`, data)
+}
+
+
+
+//export function EditProfile (id, data) {
+//   let form = new FormData()
+//
+//   if (data.hasOwnProperty('avatar')) {
+//     form.append('avatar', data.avatar)
+//   } else if (data.hasOwnProperty('old_email') && data.hasOwnProperty('new_email')) {
+//     form.append('old_email', data.old_email)
+//     form.append('new_email', data.new_email)
+//   } else if (data.hasOwnProperty('old_password') && data.hasOwnProperty('new_password')) {
+//     form.append('old_password', data.old_password)
+//     form.append('new_password', data.new_password)
+//   }
+//
+//   return request.post(`/profile/${id}`, form)
+// }
 
 export function EditProfileEducation (id, data) {
   let form = new FormData()

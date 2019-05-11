@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import axios from 'axios'
 import router from './router'
 import store from './store/store.js'
 import Lang from 'vuejs-localization'
@@ -14,7 +15,7 @@ Lang.requireAll(require.context('@/lang', true, /\.js$/))
 
 // init modules
 Vue.use(Lang, { default: 'ru' })
-
+Vue.prototype.$axios = axios;
 Vue.config.productionTip = false
 
 new Vue({

@@ -5,7 +5,9 @@ import {
   GetProfileKnowledges,
   SavePrifileKnowledges,
   EditPassword,
-  EditProfile,
+  EditEmail,
+  ChangeAvatar,
+  //EditProfile,
   EditProfileEducation,
 
   AddFavoritesDiscussion,
@@ -129,10 +131,18 @@ export default {
       }
     },
 
-    editUser (store, data) {
-      return EditPassword( data)
+    // editUser (store, data) {
+    //   return EditPassword( data)
+    // },
+    EditPassword(ctx, data){
+         return EditPassword( data)
     },
-
+    EditEmail(ctx, data){
+         return EditEmail( data)
+    },
+    ChangeAvatar(ctx, data){
+      return ChangeAvatar(data)
+    },
     editUserEducation (store, data) {
       return EditProfileEducation(data.id, data)
     },
