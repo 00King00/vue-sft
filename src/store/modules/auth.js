@@ -58,7 +58,6 @@ export default {
     logout ({commit}) {
       localStorage.removeItem('auth')
       commit('logout')
-      //window.location = '/'
       router.push('/')
     }
 	}
