@@ -48,14 +48,14 @@
         <div class="LK_form">
           <form @submit.prevent="changeEmail">
             <div class="form_cols">
-              <div class="form_cols_item">
+              <!-- <div class="form_cols_item">
                 <div class="form_row">
                   <label>{{$lang.profile.oldEmail}}</label>
                   <div class="form_el">
                     <input v-model="old_email" type="text" class="t-inp" required>
                   </div>
                 </div>
-              </div>
+              </div> -->
               <div class="form_cols_item">
                 <div class="form_row">
                   <label>{{$lang.profile.newEmail}}</label>
@@ -74,32 +74,28 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 
 export default {
   name: "Settings",
   data() {
     return {
-      old_email: 'romka.postgres@gmail.com',
-      new_email: 'romka.nauma@gmail.com',
-
+      old_email: '',
+      new_email: '',
       old_password: '',
       new_password: '',
       re_new_password: '',
     }
   },
-
   computed: {
     ...mapState('auth', ['auth'])
   },
 
   methods: {
-    ...mapActions('profile', ['editUser']),
-
+    ...mapActions('profile', ['EditPassword', 'EditEmail','ChangeAvatar']),
+    ...mapMutations('auth', ['login','updateAvatar']),
     changeEmail () {
-      this.editUser({
-        id: this.auth.id,
-        old_email: this.old_email,
+      this.EditEmail({
         new_email: this.new_email,
       })
         .then(response => {
@@ -107,31 +103,29 @@ export default {
           alert('Success!')
         })
     },
-
     changePassword () {
       if (this.new_password !== this.re_new_password) return alert('Пароли не идеинтичны')
-
-      this.editUser({
-        id: this.auth.id,
-        old_password: this.old_password,
-        new_password: this.new_password,
-      })
-        .then(response => {
-          if (response.status !== 200) return;
-          alert('Success!')
-        })
+      let form = new FormData();
+        form.append("old_password", this.old_password)
+        form.append("new_password", this.new_password)
+            this.$axios.post('/profiles/current/security/password', form ).then(res => console.log(res))
     },
-
     changeAvatar (e) {
-      let avatar = e.target.files[0]
-
-      this.editUser({
-        id: this.auth.id,
+      let avatar = e.target.files[0];
+      this.ChangeAvatar({
+        profile_id: this.auth.id,
         avatar,
       })
         .then(response => {
           if (response.status !== 200) return;
-          alert('Success!')
+            this.$axios.get('/profiles/current').then(res => {
+              this.updateAvatar()
+                if(res.status == 200){
+                  let auth = res.data;
+                  this.login(auth);
+                }
+              alert('Avatar successfully changed')
+            })
         })
     }
   }

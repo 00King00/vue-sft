@@ -45,39 +45,39 @@ import Modal from '@/components/ui/Modal'
 
 import { mapMutations } from 'vuex'
 
-import '@/assets/css/style.css'
-if (window.innerWidth >= 768) {
-  require('@/assets/css/tablet.css')
-}
-if (window.innerWidth >= 1024) {
-  require('@/assets/css/desktop.css')
-}
+// import '@/assets/css/style.css'
+// if (window.innerWidth >= 768) {
+//   require('@/assets/css/tablet.css')
+// }
+// if (window.innerWidth >= 1024) {
+//   require('@/assets/css/desktop.css')
+// }
 
 export default {
   name: 'App',
 
   data () {
     return {
-      showPreloader: true
+      showPreloader: false
     }
   },
   methods: {
     ...mapMutations('auth', ['login'])
   },
 
-  mounted () {
-    let auth = localStorage.getItem('auth')
-
-    if (auth) {
-      auth = JSON.parse(auth)
-      this.login(auth)
-    }
-
-    this.$nextTick(() => {
-      setTimeout(() => {
-        this.showPreloader = false
-      }, 0)
-    })
+  mounted() {
+    let auth;
+      this.$axios.get('/profiles/current').then(res => {
+      if(res.status == 200){
+        auth = res.data;
+        this.login(auth)
+      }
+    }).catch(err => console.log(err.message))
+  //   this.$nextTick(function() {
+  //     let self = this;
+  //     setTimeout(() => {
+  //       self.showPreloader = false
+	// }, 1000)
   },
 
   components: { Header, Footer, SideBar, Modal }

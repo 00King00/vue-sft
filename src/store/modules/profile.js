@@ -4,8 +4,10 @@ import {
   GetProfileRewards,
   GetProfileKnowledges,
   SavePrifileKnowledges,
-
-  EditProfile,
+  EditPassword,
+  EditEmail,
+  ChangeAvatar,
+  //EditProfile,
   EditProfileEducation,
 
   AddFavoritesDiscussion,
@@ -32,7 +34,7 @@ export default {
   namespaced: true,
 
   state: {
-    profile: false,
+    profile: null,
     profile_rewards: [],
     profile_knowledge: [],
     profile_education: false,
@@ -94,7 +96,7 @@ export default {
     getUserProfile (store, id) {
       return GetProfile(id)
         .then(response => {
-          store.commit('setUserProfile', response.data.result)
+          store.commit('setUserProfile', response.data)
           return response
         })
     },
@@ -102,7 +104,7 @@ export default {
     getUserEducation (store, id) {
       return GetProfileEducation(id)
         .then(response => {
-          store.commit('setUserEducation', response.data.result)
+          store.commit('setUserEducation', response.data)
           return response
         })
     },
@@ -110,7 +112,7 @@ export default {
     getUserRewards (store, id) {
       return GetProfileRewards(id)
         .then(response => {
-          store.commit('setUserRewards', response.data.result)
+          store.commit('setUserRewards', response.data)
           return response
         })
     },
@@ -118,7 +120,7 @@ export default {
     getUserKnowledges (store, id) {
       return GetProfileKnowledges(id)
         .then(response => {
-          store.commit('setUserKnowledges', response.data.result)
+          store.commit('setUserKnowledges', response.data)
           return response
         })
     },
@@ -129,10 +131,15 @@ export default {
       }
     },
 
-    editUser (store, data) {
-      return EditProfile(data.id, data)
+    EditPassword(ctx, data){
+         return EditPassword( data)
     },
-
+    EditEmail(ctx, data){
+         return EditEmail( data)
+    },
+    ChangeAvatar(ctx, data){
+      return ChangeAvatar(data)
+    },
     editUserEducation (store, data) {
       return EditProfileEducation(data.id, data)
     },

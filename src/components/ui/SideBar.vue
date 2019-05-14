@@ -15,7 +15,10 @@
         </router-link>
 
         <router-link :to="'/profile/' + auth.id" class="cab_top_prof">
-          <div class="cab_top_icon"><img :src="auth.avatar" :alt="auth.fullname" style="border-radius: 50%;"></div>
+          <div class="cab_top_icon">
+            <img v-if="auth.avatar_url" :src="'http://37.252.1.151:5000'+auth.avatar_url" :key="renderKeyAvatar" :alt="auth.fullname" style="border-radius: 50%;">
+            <span v-else class="icon-user"></span>
+          </div>
           <div class="cab_top_txt">
             <div class="cab_top_name">{{auth.fullname}}</div>
             <div class="cab_top_mail">{{auth.email}}</div>
@@ -108,24 +111,25 @@ export default {
 
   data () {
     return {
-      userMenuOpened: false
     }
   },
 
   methods: {
     ...mapActions('modal', ['openLoginModal']),
+	...mapActions('modal', ['openLoginModal']),
     openUserMenu () {
-      this.userMenuOpened = !this.userMenuOpened
+      this.$store.commit('auth/toggleUserMenuOpened', null, { root: true })
     }
   },
 
   computed: {
-    ...mapState('auth', ['auth']),
+    ...mapState('auth', ['auth','userMenuOpened', 'renderKeyAvatar']),
 
     activePage () {
       return this.$route.name
     }
-  }
+  },
+
 }
 </script>
 

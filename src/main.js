@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import App from './App.vue'
+import axios from 'axios'
 import router from './router'
 import store from './store/store.js'
 import Lang from 'vuejs-localization'
 import VueCircleSlider from '@/components/ui/CircleSlider/index.js'
 const VueScrollTo = require('vue-scrollto')
-
+import '@/assets/scss/style.scss'
 Vue.use(VueCircleSlider)
 Vue.use(VueScrollTo, {
   offset: -90
@@ -14,8 +15,10 @@ Lang.requireAll(require.context('@/lang', true, /\.js$/))
 
 // init modules
 Vue.use(Lang, { default: 'ru' })
-
+const baseURL = 'http://37.252.1.151:5000/api/public';
+Vue.prototype.$axios = axios.create({ baseURL, withCredentials: true })
 Vue.config.productionTip = false
+Vue.config.devtools = true
 
 new Vue({
   router,

@@ -40,7 +40,7 @@ export default {
 
   data () {
     return {
-      email: 'romka.postgres@gmail.com',
+      email: 'mr-bilous@yandex.ru',
       password: '123456'
     }
   },
@@ -57,11 +57,12 @@ export default {
         password: this.password
       })
         .then(success => {
+			console.log("success login");
           if (success) {
             this.closeAllModal()
           }
         })
-        
+
     }
   }
 }

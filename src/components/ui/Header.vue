@@ -34,7 +34,7 @@
                 <div class="header_link_txt">{{$lang.header.aspects}}</div>
               </a>
             </li>
-            <li :class="{'disabled': !auth.token}">
+            <li :class="{'disabled': !auth.id}">
               <router-link to="/profile/favorites">
                 <span class="icon-fav"></span>
                 <div class="header_link_txt">{{$lang.header.favorites}}</div>
@@ -46,7 +46,7 @@
                 <div class="header_link_txt">{{$lang.header.messages}}</div>
               </a>
             </li>-->
-            <li v-if="!auth.token">
+            <li v-if="!auth.id">
               <a href="#" @click.prevent="openLoginModal()">
                 <span class="icon-user"></span>
                 <div class="header_link_txt">{{$lang.header.login}}</div>

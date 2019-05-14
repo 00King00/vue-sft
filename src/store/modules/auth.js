@@ -1,20 +1,42 @@
-import { Login, Register } from '@/api'
+import { Login, Register, Logout } from '@/api'
+import router from '@/router'
 
 export default {
-  namespaced: true,
-
-  state: {
+	namespaced: true,
+	state: {
 		auth: {
-			token: false,
-			id: false,
-			fullname: false,
-			avatar: false
-		}
+			id: null,
+			fullname: null,
+			avatar_url: null,
+			is_confirmed: false,
+			total_likes: null,
+			i_like: false
+		},
+		userMenuOpened: false,
+		renderKeyAvatar: 1,
+
 	},
 
 	mutations: {
 		login (state, data) {
 			state.auth = data
+		},
+		toggleUserMenuOpened(state){
+			if (state.auth.id !== null) state.userMenuOpened = !state.userMenuOpened
+		},
+		logout(state){
+			state.auth = {
+				id: null,
+				fullname: null,
+				avatar_url: null,
+				is_confirmed: false,
+				total_likes: null,
+				i_like: false
+			}
+			state.userMenuOpened = false
+		},
+		updateAvatar(state){
+			state.renderKeyAvatar += 1;
 		}
 	},
 
@@ -22,29 +44,22 @@ export default {
 		login (store, data) {
 			return Login(data)
 				.then(result => {
-					store.commit('login', result.data.result)
-					localStorage.setItem('auth', JSON.stringify(result.data.result))
-					return true
-				})
-				.catch(err => {
-					console.log(err);
-					if (localStorage.getItem('auth')) {
-						localStorage.removeItem('auth')
-					}
+					store.commit('login', result.data)
+					return "success login"
 				})
 		},
-
 		register (store, data) {
-      return Register(data)
-				.then(result => {
-					alert('Register success')
-					return result
-				})
+			return Register(data)
+					.then((res) => {
+						alert('Register success')
+						return res
+					})
 		},
-
-    logout () {
-      localStorage.removeItem('auth')
-      window.location = '/'
-    }
+		logout ({commit}) {
+			Logout().then(()=>{
+				commit('logout')
+				router.push('/')
+			})
+		}
 	}
 }
