@@ -1,11 +1,12 @@
 <template>
   <div class="center">
-    <section class="section_discussion" v-if="discussion">
+    <!-- <section class="section_discussion" v-if="discussion"> -->
+    <section class="section_discussion" v-if="discussionTest">
       <div class="h2"><h1>{{ discussion.title }}</h1></div>
       <div class="country_libra">
         <div class="country_libra_in">
           <div class="country_libra_svg"></div>
-          <div class="c_b blue_c"><span class="icon-check"></span><span class="c_b_val">{{ discussion.voutes.for }}%</span></div>
+          <div class="c_b blue_c"><span class="icon-check"></span><span class="c_b_val">{{ discussion.voutes.fore }}%</span></div>
           <div class="c_b blue_r"><span class="icon-close"></span><span class="c_b_val">{{ discussion.voutes.against }}%</span></div>
         </div>
       </div>
@@ -35,6 +36,13 @@ export default {
 
   data () {
     return {
+      discussionTest: {
+        title: "Ести ли жизнь на Земле?",
+        voutes:
+          {fore: 8, against: 2},
+
+
+      },
     }
   },
 

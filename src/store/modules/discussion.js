@@ -2,8 +2,8 @@ import {
   CreateNewDiscussion,
   GetDiscussions,
   GetDiscussion,
-  GetDiscussionAspects,
-  GetDiscussionArguments,
+  GetAspects,
+  GetArguments,
   AddDiscussionArguments
 } from '@/api'
 
@@ -44,7 +44,7 @@ export default {
     getDiscussions (store) {
       return GetDiscussions()
         .then(response => {
-          store.commit('setDiscussionsList', response.data.result)
+          store.commit('setDiscussionsList', response.data)
         })
     },
 
@@ -57,17 +57,17 @@ export default {
     },
 
     getDiscussionAspects (store, id) {
-      return GetDiscussionAspects(id)
+      return GetAspects(id)
         .then(response => {
-          store.commit('setDiscussionAspects', response.data.result)
+          store.commit('setDiscussionAspects', response.data)
           return response
         })
     },
 
     getDiscussionArguments (store, id) {
-      return GetDiscussionArguments(id)
+      return GetArguments(id)
         .then(response => {
-          store.commit('setDiscussionArguments', response.data.result)
+          store.commit('setDiscussionArguments', response.data)
           return response
         })
     },

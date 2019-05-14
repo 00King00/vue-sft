@@ -22,7 +22,7 @@ export function Login (data) {
 		//alert(err.response.data.message)
 	})
 }//*
-export function Logout (data){
+export function Logout (){
   return request.post('/access/logout')
 }//*
 export function Register (data) {
@@ -129,48 +129,34 @@ export function DeleteFavoritesAspects (id, object_id) {
 }
 
 export function CreateNewDiscussion (data) {
-  let form = new FormData()
-
-  form.append('title', data.title)
-  form.append('cover', data.cover)
-
-  if (typeof (data.aspect.id) !== 'undefined') {
-    form.append('aspect_id', data.aspect.id)
-  } else {
-    form.append('aspect_title', data.aspect.title)
-    form.append('aspect_image', data.aspect.image)
-  }
-
-  form.append('argument_description', data.argument)
-  form.append('argument_position', data.position)
-  form.append('argument_links', JSON.stringify(data.links))
-
-  Object.keys(data.files).map(i => {
-    form.append('argument_file' + (+i + 1), data.files[i])
-  })
-
-  return request.put(`/discussions`, form)
+  return request.post(`/discussions`, data,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+    }
+  }) //*
 }
 
 export function GetDiscussions () {
   return request.get('/discussions')
-}
+} //*
 
 export function GetDiscussion (id) {
   return request.get('/discussions/' + id)
-}
+} //*
 
-export function GetDiscussionAspects (id) {
-  return request.get(`/discussions/${id}/aspects`)
-}
+export function GetAspects () {
+  return request.get(`/aspects`)
+} //*
 
-export function GetDiscussionArguments (id) {
-  return request.get(`/discussions/${id}/arguments`)
-}
+export function GetArguments (id) {
+  return request.get(`/arguments/${id}`)
+} //*
 
 export function AddDiscussionArguments (id, data) {
   return request.post(`/discussions/${id}/arguments`, data)
-}
+} //*
 
 export function UsersTop () {
   return request.get(`/users/top`)
