@@ -1,16 +1,19 @@
-import { Login, Register } from '@/api'
+import { Login, Register, Logout } from '@/api'
 import router from '@/router'
 
 export default {
-  namespaced: true,
-  state: {
+	namespaced: true,
+	state: {
 		auth: {
-			token: null,
 			id: null,
 			fullname: null,
-			avatar_url: null
+			avatar_url: null,
+			is_confirmed: false,
+			total_likes: null,
+			i_like: false
 		},
-		userMenuOpened: false
+		userMenuOpened: false,
+		renderKeyAvatar: 1,
 
 	},
 
@@ -23,12 +26,17 @@ export default {
 		},
 		logout(state){
 			state.auth = {
-				token: null,
 				id: null,
 				fullname: null,
-				avatar_url: null
+				avatar_url: null,
+				is_confirmed: false,
+				total_likes: null,
+				i_like: false
 			}
 			state.userMenuOpened = false
+		},
+		updateAvatar(state){
+			state.renderKeyAvatar += 1;
 		}
 	},
 
@@ -37,13 +45,7 @@ export default {
 			return Login(data)
 				.then(result => {
 					store.commit('login', result.data)
-					localStorage.setItem('auth', JSON.stringify(result.data))
 					return "success login"
-				})
-				.catch(() => {
-					if (localStorage.getItem('auth')) {
-						localStorage.removeItem('auth')
-					}
 				})
 		},
 		register (store, data) {
@@ -53,12 +55,11 @@ export default {
 						return res
 					})
 		},
-
-
-    logout ({commit}) {
-      localStorage.removeItem('auth')
-      commit('logout')
-      router.push('/')
-    }
+		logout ({commit}) {
+			Logout().then(()=>{
+				commit('logout')
+				router.push('/')
+			})
+		}
 	}
 }

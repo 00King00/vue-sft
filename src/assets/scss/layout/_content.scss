@@ -298,7 +298,12 @@ form .error {color:red;}
 }
 .cab_top {color: #000000; font-weight:500; position: relative;background: #FFFFFF; border-bottom:1px solid rgba(181, 181, 181, 0.3); padding: 10px 0px 10px; display: flex; flex-direction: row; align-items: center; justify-content: space-between;}
 .cab_top_icon {background: #BEBCBC; border-radius: 50%; width: 40px; height: 40px; margin:0 15px 0 0; min-width: 40px; text-align: center; line-height: 40px;font-size: 20px; color:#fff;
-	img {vertical-align: top;}
+	img {
+    vertical-align: top;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+  }
 }
 .cab_top_txt {    line-height: 1.2;}
 .cab_top_opener {position: relative; display: inline-block; vertical-align: middle; width: 20px;height:20px;

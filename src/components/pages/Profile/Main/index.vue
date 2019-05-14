@@ -52,7 +52,6 @@
 import { mapState, mapActions } from 'vuex'
 export default {
   name: "Profile",
-
   methods: {
     ...mapActions('profile', ['getUserProfile', 'getUserRewards', 'getUserKnowledges']),
     ...mapActions('modal', ['addModal']),
@@ -61,8 +60,8 @@ export default {
   mounted () {
     let requests = [
       this.getUserProfile(this.id),
-      this.getUserRewards(this.id),
-      this.getUserKnowledges(this.id)
+      //this.getUserRewards(this.id),
+      //this.getUserKnowledges(this.id)
     ]
 
     Promise.all(requests)
@@ -74,7 +73,7 @@ export default {
   computed: {
     ...mapState('profile', ['profile', 'profile_rewards', 'profile_knowledge']),
 
-    id () {
+    id() {
       return this.$route.params.id;
     }
   },

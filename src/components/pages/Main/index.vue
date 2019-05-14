@@ -90,18 +90,18 @@
             <div class="form_cols_item">
               <div class="form_row">
                 <label><span class="error">*</span> {{$lang.main.feedName}}:</label>
-                <div class="form_el"><input type="text" class="t-inp" value="Николай"></div>
+                <div class="form_el"><input type="text" class="t-inp" value="Николай" v-model="feedbackName"></div>
               </div>
               <div class="form_row">
                 <label><span class="error">*</span> {{$lang.main.feedEmail}}:</label>
-                <div class="form_el"><input type="text" class="t-inp" placeholder="example@gmail.com"></div>
+                <div class="form_el"><input type="email" class="t-inp" v-model="feedbackEmail" placeholder="example@gmail.com"></div>
               </div>
             </div>
             <div class="form_cols_item">
               <div class="form_row">
                 <label><span class="error">*</span> {{$lang.main.feedTheme}}:</label>
                 <div class="form_el">
-                  <div class="jq-selectbox jqselect placeholder">
+                  <!-- <div class="jq-selectbox jqselect placeholder">
                     <div class="jq-selectbox__select">
                       <div class="jq-selectbox__select-text">{{$lang.main.feedEmpty}}</div>
                       <div class="jq-selectbox__trigger"><div class="jq-selectbox__trigger-arrow"></div></div>
@@ -114,12 +114,18 @@
                         <li style="">Пожелания</li>
                       </ul>
                     </div>
-                  </div>
+                  </div> -->
+                  <select class="jq-selectbox jqselect placeholder" v-model="feedbackTopic">
+                    <option disabled selected value="">Выберите один из вариантов</option>
+                    <option value="claim">claim</option>
+                    <option value="offer">offer</option>
+                    <option value="wish">wish</option>
+                  </select>
                 </div>
               </div>
               <div class="form_row">
                 <label>{{$lang.main.feedMessage}}:</label>
-                <div class="form_el"><textarea></textarea></div>
+                <div class="form_el"><textarea v-model="feedbackMessage"></textarea></div>
               </div>
             </div>
           </div>
@@ -134,12 +140,12 @@
                 <div class="jq-file">
                   <div class="jq-file__name">{{$lang.main.feedAttach}}</div>
                   <div class="jq-file__browse"><span class="icon-link"></span></div>
-                  <input type="file">
+                  <input type="file" ref="filefeed" @change="processFile">
                 </div>
               </div>
             </div>
           </div>
-          <div class="form_btn"><input type="submit" :value="$lang.main.feedSend" class="btn"></div>
+          <div class="form_btn"><input type="submit" :value="$lang.main.feedSend" class="btn" @click.prevent="SubmitFeedback"></div>
         </form>
       </div>
     </section>
@@ -151,14 +157,13 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import Slick from 'vue-slick'
-
 import PostItem from './PostItem'
 import ThemeItem from './ThemeItem'
 import UserItem from './UserItem'
 import ReviewItem from './ReviewItem'
 import VueRecaptcha from 'vue-recaptcha'
 import slick from '@/components/mixins/slick'
-
+let   feedbackFile = null;
 export default {
   name: 'Main',
 
@@ -166,6 +171,10 @@ export default {
 
   data () {
     return {
+      feedbackTopic: "",
+      feedbackEmail: "",
+      feedbackMessage: "",
+      feedbackName: "",
       postsSlickOptions: {
         infinity: true,
         dots: true,
@@ -240,7 +249,27 @@ export default {
 
   methods: {
     ...mapActions('discussion', ['getDiscussions']),
-    ...mapActions('profile', ['getUsersTop'])
+    ...mapActions('profile', ['getUsersTop']),
+    SubmitFeedback(){
+      let data = new FormData();
+      data.append("email", this.feedbackEmail)
+      data.append("name", this.feedbackName)
+      data.append("topic", this.feedbackTopic)
+      data.append("message", this.feedbackMessage)
+      if( feedbackFile !== null) {data.append("file", feedbackFile)}
+      console.log(data);
+      this.$axios.post('/feedback', data,{
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'multipart/form-data',
+        }
+      }).then(res => console.log(res))
+    },
+    processFile(e) {
+      feedbackFile = e.target.files[0]
+      console.log(feedbackFile);
+   }
+
   },
 
   mounted () {
@@ -285,4 +314,5 @@ export default {
   .form_row {
     margin-bottom: 66px;
   }
+
 </style>

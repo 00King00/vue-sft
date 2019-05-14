@@ -7,20 +7,11 @@ function Request () {
   return axios.create({ baseURL, withCredentials: true })
 }
 
-let request = Request()
-//let auth = localStorage.getItem('auth')
-// if (auth) {
-//   auth = JSON.parse(auth)
-//   request = Request(auth.token)
-// } else {
-//   request = Request()
-// }
-
+let request = Request() //*
 export function Login (data) {
   let form = new FormData()
   form.append('email', data.email)
   form.append('password', data.password)
-
   return request.post('/access/auth', form)
     .then(response => {
       //request = Request(response.data.result.token)
@@ -30,7 +21,10 @@ export function Login (data) {
 		return err
 		//alert(err.response.data.message)
 	})
-}
+}//*
+export function Logout (data){
+  return request.post('/access/logout')
+}//*
 export function Register (data) {
   let form = new FormData()
   form.append('email', data.email)
@@ -39,7 +33,7 @@ export function Register (data) {
 
   return request.post('/access/registration', form)
 
-}
+}//*
 
 export function GetProfile (id) {
   return request.get(`/profiles/${id}`)
@@ -64,7 +58,7 @@ export function SavePrifileKnowledges (userId, id, score) {
 
 export function EditPassword(data){
   const baseURL = 'http://37.252.1.151:5000/api/public';
-  return axios.post(`/profiles/current/security/password`, data,
+  return request.post(`/profiles/current/security/password`, data,
     {
       baseURL,
       withCredentials: true,
@@ -73,28 +67,25 @@ export function EditPassword(data){
         'Content-Type': 'x-www-form-urlencoded',
       }
     })
-}
+}//*
 export function EditEmail(data){
-  return request.post("/profiles/current/security/email", data)
-}
-export function ChangeAvatar(data){
-  return request.put(`/profiles/${data.profile_id}/avatar`, data)
-}
-//export function EditProfile (id, data) {
-//   let form = new FormData()
-//
-//   if (data.hasOwnProperty('avatar')) {
-//     form.append('avatar', data.avatar)
-//   } else if (data.hasOwnProperty('old_email') && data.hasOwnProperty('new_email')) {
-//     form.append('old_email', data.old_email)
-//     form.append('new_email', data.new_email)
-//   } else if (data.hasOwnProperty('old_password') && data.hasOwnProperty('new_password')) {
-//     form.append('old_password', data.old_password)
-//     form.append('new_password', data.new_password)
-//   }
-//
-//   return request.post(`/profile/${id}`, form)
-// }
+  let form = new FormData();
+  form.append('email', data.new_email)
+  return request.post("/profiles/current/security/email", form)
+}//*
+export function ChangeAvatar({profile_id, avatar}){
+  console.log(avatar);
+  let form = new FormData();
+  form.append("avatar", avatar)
+
+  return request.put(`/profiles/${profile_id}/avatar`, form,
+  {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'multipart/form-data',
+    }
+  })
+}//*
 
 export function EditProfileEducation (id, data) {
   let form = new FormData()
@@ -198,8 +189,8 @@ export function DeleteFavoriteUsers (id, object_id) {
 }
 
 export function DeleteUser (id) {
-  return request.delete(`/profile`, { data: { user_id: id } })
-}
+  return request.delete(`/profiles/${id}`)
+}//*
 
 export function FilterFfavoriteDisquss (id, data) {
   return request.get(`/profile/${id}/favorite/disquss`, {

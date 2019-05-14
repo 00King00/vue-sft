@@ -48,7 +48,8 @@ export default {
   },
 
   mounted () {
-    return this.getUserEducation()
+    console.log(this.auth.id);
+    return this.getUserEducation(this.auth.id)
   }
 }
 </script>

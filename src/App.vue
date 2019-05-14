@@ -58,7 +58,7 @@ export default {
 
   data () {
     return {
-      showPreloader: true
+      showPreloader: false
     }
   },
   methods: {
@@ -66,19 +66,18 @@ export default {
   },
 
   mounted() {
-    let auth = localStorage.getItem('auth');
-  
-    if (auth) {
-      auth = JSON.parse(auth);
-      console.log(auth)
-      this.login(auth)
-    }
-    this.$nextTick(function() {
-      let self = this;
-      setTimeout(() => {
-        self.showPreloader = false
-      }, 100)
-    })
+    let auth;
+      this.$axios.get('/profiles/current').then(res => {
+      if(res.status == 200){
+        auth = res.data;
+        this.login(auth)
+      }
+    }).catch(err => console.log(err.message))
+  //   this.$nextTick(function() {
+  //     let self = this;
+  //     setTimeout(() => {
+  //       self.showPreloader = false
+	// }, 1000)
   },
 
   components: { Header, Footer, SideBar, Modal }

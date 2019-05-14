@@ -15,8 +15,10 @@ Lang.requireAll(require.context('@/lang', true, /\.js$/))
 
 // init modules
 Vue.use(Lang, { default: 'ru' })
-Vue.prototype.$axios = axios;
+const baseURL = 'http://37.252.1.151:5000/api/public';
+Vue.prototype.$axios = axios.create({ baseURL, withCredentials: true })
 Vue.config.productionTip = false
+Vue.config.devtools = true
 
 new Vue({
   router,

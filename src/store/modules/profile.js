@@ -34,7 +34,7 @@ export default {
   namespaced: true,
 
   state: {
-    profile: false,
+    profile: null,
     profile_rewards: [],
     profile_knowledge: [],
     profile_education: false,
@@ -131,9 +131,6 @@ export default {
       }
     },
 
-    // editUser (store, data) {
-    //   return EditPassword( data)
-    // },
     EditPassword(ctx, data){
          return EditPassword( data)
     },
