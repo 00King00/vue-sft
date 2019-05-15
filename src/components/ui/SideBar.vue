@@ -53,9 +53,11 @@
       </div>
     </div>
     <div class="sidebar-themes m-hid">
-      <router-link class="add_link" to="/discussion/add">
+      <div class="add_link"  @click.prevent="toggle">
         <div class="circ_grad"><span class="icon-plus"></span></div>
-        <span>{{$lang.main.add}}</span></router-link>
+        <span v-if="discussionButton" >{{$lang.main.add}}</span>
+        <span v-else>cancle</span>
+      </div>
       <ul class="sidebar-themes_list">
         <li>
           <router-link to="/" v-scroll-to="'#theme-day'"><span class="icon-arrow_down"></span>{{$lang.main.dayTheme}}</router-link>
@@ -119,16 +121,28 @@ export default {
 	...mapActions('modal', ['openLoginModal']),
     openUserMenu () {
       this.$store.commit('auth/toggleUserMenuOpened', null, { root: true })
-    }
+    },
+    toggle(){
+      if(this.discussionButton){
+        this.$store.commit('discussion/toggleDiscussionButton', false)
+        this.$router.push('/discussion/add')
+      } else {
+        this.$store.commit('discussion/toggleDiscussionButton', true)
+        this.$router.go(-1)
+      }
+    },
   },
 
   computed: {
     ...mapState('auth', ['auth','userMenuOpened', 'renderKeyAvatar']),
+    ...mapState('discussion', ['discussionButton']),
 
     activePage () {
       return this.$route.name
     }
   },
+  mounted(){  
+  }
 
 }
 </script>

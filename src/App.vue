@@ -73,6 +73,7 @@ export default {
         this.login(auth)
       }
     }).catch(err => console.log(err.message))
+    this.$store.commit('discussion/toggleDiscussionButton', false)
   //   this.$nextTick(function() {
   //     let self = this;
   //     setTimeout(() => {

@@ -12,12 +12,15 @@ export default {
 
   state: {
     discussions: [],
-    discussion: false,
-    discussion_aspects: false,
-    discussion_arguments: []
+    discussion: null,
+    discussion_aspects: null,
+    discussion_arguments: [],
+    discussionButton: true
   },
 
   mutations: {
+    toggleDiscussionButton(state, payload){
+      payload ? state.discussionButton = payload : state.discussionButton = !state.discussionButton},
     setDiscussionsList (state, list) {
       state.discussions = list
     },
@@ -51,10 +54,10 @@ export default {
     getDiscussion (store, id) {
       return GetDiscussion(id)
         .then(response => {
-          store.commit('setDiscussion', response.data.result)
+          store.commit('setDiscussion', response.data)
           return response
         })
-    },
+    },//*
 
     getDiscussionAspects (store, id) {
       return GetAspects(id)

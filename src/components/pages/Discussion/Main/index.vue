@@ -1,13 +1,12 @@
 <template>
   <div class="center">
-    <!-- <section class="section_discussion" v-if="discussion"> -->
-    <section class="section_discussion" v-if="discussionTest">
+    <section class="section_discussion" v-if="discussion">
       <div class="h2"><h1>{{ discussion.title }}</h1></div>
       <div class="country_libra">
         <div class="country_libra_in">
           <div class="country_libra_svg"></div>
-          <div class="c_b blue_c"><span class="icon-check"></span><span class="c_b_val">{{ discussion.voutes.fore }}%</span></div>
-          <div class="c_b blue_r"><span class="icon-close"></span><span class="c_b_val">{{ discussion.voutes.against }}%</span></div>
+          <div class="c_b blue_c"><span class="icon-check"></span><span class="c_b_val">{{ discussion.votes.true }}%</span></div>
+          <div class="c_b blue_r"><span class="icon-close"></span><span class="c_b_val">{{ discussion.votes.false }}%</span></div>
         </div>
       </div>
 
@@ -36,13 +35,10 @@ export default {
 
   data () {
     return {
-      discussionTest: {
-        title: "Ести ли жизнь на Земле?",
-        voutes:
-          {fore: 8, against: 2},
-
-
-      },
+      // discussionTest: {
+      //   title: "Ести ли жизнь на Земле?",
+      //   voutes: {fore: 80, against: 20},
+      // },
     }
   },
 
@@ -57,9 +53,10 @@ export default {
     ...mapActions('discussion', ['getDiscussion', 'getDiscussionAspects', 'getDiscussionArguments']),
 
     async fetch () {
-      await this.getDiscussionArguments(this.$route.params.id)
-      await this.getDiscussion(this.$route.params.id)
-      await this.getDiscussionAspects(this.$route.params.id)
+      await Promise.all([
+        this.getDiscussionArguments(this.$route.params.id),
+        this.getDiscussion(this.$route.params.id),
+        this.getDiscussionAspects(this.$route.params.id)])
     }
   },
 

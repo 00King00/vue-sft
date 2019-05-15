@@ -3,7 +3,7 @@
     <section class="section_task">
       <div class="h2"><h1>{{$lang.descAdd.title}}</h1></div>
       <div class="edu_block_content">
-        <a href="#" class="btn btn-bord-red c_link" @click="$router.go(-1)">{{$lang.descAdd.cancel}}</a>
+        <a href="#" class="btn btn-bord-red c_link" @click="cansel">{{$lang.descAdd.cancel}}</a>
         <div class="edu_block current">
           <div class="edu_number"><span>1</span></div>
           <div class="edu_block_wrap">
@@ -55,7 +55,7 @@
               <textarea v-model="form.argument" :placeholder="$lang.descAdd.arg"></textarea>
             </div>
             <div class="w_thesis_linksblock">
-              <input type="file" style="display: none;" ref="files" multiple="multiple" name="files[]" @change="selectFiles">
+              <input type="file" style="display: none;" ref="files" multiple="multiple" name="files" @change="selectFiles">
               <div class="w_thesis_linksblock_ls">
                 <a href="#" class="plus_link" @click.prevent="addFiles()" title="Add files"><span class="icon-plus"></span></a>
                 <a href="#" class="sh_link" @click.prevent="addLink()" title="Add links"><span class="icon-link2"></span></a>
@@ -73,9 +73,9 @@
               </div>
               <div class="w_thesis_title" v-show="form.files.length">Files:</div>
               <div class="w_thesis_files">
-                <div class="w_thesis_files_file" v-for="file in form.files" :key="file">
+                <div class="w_thesis_files_file" v-for="(file, index) in form.files" :key="`file_${index}`">
                   <span class="icon-doc1"></span>
-                  <a href="#" class="w-close-link"><span class="icon-cab7"></span></a>
+                  <a href="#" class="w-close-link" @click.prevent="removeFile(`file_${index}`)"><span class="icon-cab7"></span></a>
                   <span class="w_thesis_txt">{{ file.name }}</span>
                 </div>
               </div>
@@ -122,6 +122,10 @@ export default {
   mounted () {
     this.getUserFavoriteAspects(this.auth.id)
   },
+  beforeRouteLeave (to, from, next) {
+    this.$store.commit('discussion/toggleDiscussionButton', true)
+    next()
+  },
 
   computed: {
     ...mapState('auth', ['auth']),
@@ -132,7 +136,9 @@ export default {
     ...mapActions('modal', ['addModal']),
     ...mapActions('profile', ['getUserFavoriteAspects']),
     ...mapActions('discussion', ['createNewDiscussion']),
-
+    cansel(){
+      this.$router.go(-1)
+    },
     sendForm () {
       this.form.lang = this.$lang.current_lang
       this.createNewDiscussion(this.form)
@@ -153,15 +159,28 @@ export default {
     addFiles () {
       this.$refs.files.click()
     },
+    removeFile(key) {
+    this.form.files.splice(key, 1)
+    },
 
     selectFiles (e) {
-      let files = e.target.files
-
-      if (files.length > 2) {
-        alert('Max 2 files')
+      if(this.form.files.length <= 1 && e.target.files.length == 1){
+        this.form.files.push(e.target.files[0])
+      }else{
+        let files = e.target.files;
+        let filesArray = [];
+        for (let i = 0; i < files.length; i++) {
+            filesArray[i] = files.item(i);
+        }
+        console.log(filesArray)
+        if (filesArray.length > 2) {
+          alert('Max 2 files')
+          console.log(filesArray)
+          this.form.files = filesArray.splice(1)
+        }else{
+          this.form.files = filesArray
+        }
       }
-
-      this.form.files = files
     },
 
     uploadCover (e) {
