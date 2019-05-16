@@ -68,7 +68,7 @@
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  name: "EducationMain",
+  name: "EducationEdit",
 
   data () {
     return {

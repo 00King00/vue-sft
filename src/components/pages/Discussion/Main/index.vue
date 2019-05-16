@@ -5,18 +5,23 @@
       <div class="country_libra">
         <div class="country_libra_in">
           <div class="country_libra_svg"></div>
-          <div class="c_b blue_c"><span class="icon-check"></span><span class="c_b_val">{{ discussion.votes.true }}%</span></div>
-          <div class="c_b blue_r"><span class="icon-close"></span><span class="c_b_val">{{ discussion.votes.false }}%</span></div>
+          <!-- <div class="c_b blue_c"><span class="icon-check"></span><span class="c_b_val">{{ discussion.votes.true }}%</span></div>
+          <div class="c_b blue_r"><span class="icon-close"></span><span class="c_b_val">{{ discussion.votes.false }}%</span></div> -->
+          <div class="c_b blue_c">
+              <v-progress-circular  size="174"  :value="discussion.votes.true" color="blue" width="12" rotate="-90">{{discussion.votes.true}}%</v-progress-circular>
+          </div>
+          <div class="c_b blue_r">
+              <v-progress-circular size="174"  :value="discussion.votes.false" color="red" width="12" rotate="-90">{{discussion.votes.false}}%</v-progress-circular>
+          </div>
         </div>
       </div>
 
-      <Aspects :aspects="discussion_aspects"/>
+      <Aspects :aspects="discussion_aspects.items"/>
 
       <div class="country_wr">
         <div class="country_title">{{$lang.descAdd.arg}}:</div>
         <div class="disc">
           <Argument :item="{}" />
-
           <div class="disc_line_plus" @click.prevent="addModal({name: 'DiscussionArgument'})"><a href="#"><span class="icon-plus"></span><span>Add</span></a></div>
         </div>
       </div>
@@ -35,10 +40,6 @@ export default {
 
   data () {
     return {
-      // discussionTest: {
-      //   title: "Ести ли жизнь на Земле?",
-      //   voutes: {fore: 80, against: 20},
-      // },
     }
   },
 
@@ -67,5 +68,9 @@ export default {
 </script>
 
 <style scoped>
-
+  .c_b{
+    background: none;
+    width: auto;
+    heigth: auto;
+  }
 </style>

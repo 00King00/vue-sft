@@ -13,7 +13,9 @@ export default {
   state: {
     discussions: [],
     discussion: null,
-    discussion_aspects: null,
+    discussion_aspects: {
+      items: []
+    },
     discussion_arguments: [],
     discussionButton: true
   },

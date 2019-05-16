@@ -42,7 +42,6 @@ export default new Router({
     { path: '/profile/education/edit', name: 'EditEducation', component: EditProfileEducation },
     { path: '/profile/areas-of-knowledge', name: 'MainAreasOfKnowledge', component: MainProfileAreasOfKnowledge },
     { path: '/profile/areas-of-knowledge/edit', name: 'EditAreasOfKnowledge', component: EditProfileAreasOfKnowledge },
-    { path: '/profile/education/edit', name: 'EditEducation', component: EditProfileEducation },
     { path: '/profile/:id', name: 'MainProfile', component: MainProfile },
     { path: '/terms-of-use', name: 'TermsOfUse', component: TermsOfUse },
     { path: '/privacy-policy', name: 'PrivacyPolicy', component: PrivacyPolicy },

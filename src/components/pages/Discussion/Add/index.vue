@@ -39,7 +39,7 @@
                   />
 
                 <div class="aspect_item aspect_item_plus">
-                  <a href="#" @click.prevent="addModal({name: 'DiscussionAdd'})">
+                  <a href="#" @click.prevent="addModal({name: 'DiscussionAddAspects'})">
                     <div class="aspect_item_add"><span class="icon-plus"></span><span>{{$lang.descAdd.add}}</span></div>
                   </a>
                 </div>

@@ -7,6 +7,19 @@ import Lang from 'vuejs-localization'
 import VueCircleSlider from '@/components/ui/CircleSlider/index.js'
 const VueScrollTo = require('vue-scrollto')
 import '@/assets/scss/style.scss'
+//import 'vuetify/lib/src/stylus/components/_app.styl'
+//import 'vuetify/lib/src/stylus/components/_progress-circular.styl'
+import 'vuetify/src/stylus/app.styl'
+import Vuetify, {
+	VApp, // required
+  VProgressCircular
+} from 'vuetify/lib'
+Vue.use(Vuetify, {
+  components: {
+    VApp,
+    VProgressCircular
+  }
+})
 Vue.use(VueCircleSlider)
 Vue.use(VueScrollTo, {
   offset: -90

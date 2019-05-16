@@ -26,7 +26,7 @@
 <script>
   import {mapMutations} from 'vuex'
   export default {
-    name: "Add",
+    name: "DiscussionAddAspects",
     data() {
       return {
         title: '',

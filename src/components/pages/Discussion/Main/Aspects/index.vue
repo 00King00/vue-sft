@@ -6,7 +6,7 @@
       <Item v-for="item in aspects" :key="item.title" :item="item"/>
 
       <div class="aspect_item aspect_item_plus">
-        <a href="#" @click.prevent="addModal({name: 'DiscussionAdd'})">
+        <a href="#" @click.prevent="addModal({name: 'DiscussionAddAspects'})">
           <div class="aspect_item_add">
             <span class="icon-plus"></span>
             <span>Add</span>
@@ -19,13 +19,15 @@
 
 <script>
 import Item from './Item'
-
+import { mapActions } from 'vuex'
 export default {
   name: "Aspects",
 
   components: { Item },
-
-  props: ['aspects']
+  methods: {
+    ...mapActions('modal', ['addModal']),
+  },
+  props: ['aspects'],
 }
 </script>
 
