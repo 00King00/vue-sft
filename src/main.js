@@ -12,12 +12,18 @@ import '@/assets/scss/style.scss'
 import 'vuetify/src/stylus/app.styl'
 import Vuetify, {
 	VApp, // required
-  VProgressCircular
+  VProgressCircular,
+	VBtn,
+	VCard,
+	VCardText
 } from 'vuetify/lib'
 Vue.use(Vuetify, {
   components: {
     VApp,
-    VProgressCircular
+    VProgressCircular,
+		VBtn,
+		VCard,
+		VCardText
   }
 })
 Vue.use(VueCircleSlider)

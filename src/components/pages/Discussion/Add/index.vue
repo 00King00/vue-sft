@@ -4,92 +4,117 @@
       <div class="h2"><h1>{{$lang.descAdd.title}}</h1></div>
       <div class="edu_block_content">
         <a href="#" class="btn btn-bord-red c_link" @click="cansel">{{$lang.descAdd.cancel}}</a>
-        <div class="edu_block current">
-          <div class="edu_number"><span>1</span></div>
-          <div class="edu_block_wrap">
-            <div class="w_v">
-              <div class="w_thesis_title">{{$lang.descAdd.themeTitle}}</div>
-              <div class="w_v_inp">
-                <input type="text" class="t-inp" v-model="form.title" :placeholder="$lang.descAdd.themeTitle"/>
-                <!-- <span class="check_span"></span> -->
+        <v-card elevation="5">
+          <v-card-text>
+            <div class="edu_block current">
+              <div class="edu_number">
+                <div class="circle active">
+                  1
+                </div>
+              </div>
+              <div class="">
+                <div class="w_v">
+                  <div class="w_thesis_title">{{$lang.descAdd.themeTitle}}</div>
+                  <div class="w_v_inp">
+                    <input type="text" class="t-inp" v-model="form.title" :placeholder="$lang.descAdd.themeTitle"/>
+                    <!-- <span class="check_span"></span> -->
+                  </div>
+                </div>
+                <div class="edu-inp-wrap">
+                  <div class="w_thesis_title">Добавить изображение:</div>
+                  <div class="edu-inp-cont" style="text-align: center;">
+                    <span class="icon-link2 edu-inp-icon"></span>
+                    <input type="file" name="cover" @change="uploadCover" value="Выбрать" />
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="edu-inp-wrap">
-              <div class="w_thesis_title">Добавить изображение:</div>
-              <div class="edu-inp-cont" style="text-align: center;">
-                <span class="icon-link2 edu-inp-icon"></span>
-                <input type="file" name="cover" @change="uploadCover" value="Выбрать" />
+          </v-card-text>
+        </v-card>
+        <v-card>
+          <v-card-text>
+            <div class="edu_block">
+              <div class="edu_number">
+                <div class="circle">
+                  2
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <div class="edu_block">
-          <div class="edu_number"><span>2</span></div>
-          <div class="edu_block_wrap">
-            <div class="w_asp country_wr">
-              <div class="w_thesis_title">{{$lang.descAdd.select}}</div>
-              <div class="aspect aspect-check">
+              <div class="edu_block_wrap">
+                <div class="w_asp country_wr">
+                  <div class="w_thesis_title">{{$lang.descAdd.select}}</div>
+                  <div class="aspect aspect-check">
 
-                <Item
-                  v-for="(item, index) in favorite_aspects"
-                  :key="item.title"
-                  :item="item"
-                  :active="index === active_aspect"
-                  @click.native="setActiveAspect(index)"
-                  />
+                    <Item
+                      v-for="(item, index) in favorite_aspects"
+                      :key="item.title"
+                      :item="item"
+                      :active="index === active_aspect"
+                      @click.native="setActiveAspect(index)"
+                      />
 
-                <div class="aspect_item aspect_item_plus">
-                  <a href="#" @click.prevent="addModal({name: 'DiscussionAddAspects'})">
-                    <div class="aspect_item_add"><span class="icon-plus"></span><span>{{$lang.descAdd.add}}</span></div>
-                  </a>
+                    <div class="aspect_item aspect_item_plus">
+                      <a href="#" @click.prevent="addModal({name: 'DiscussionAddAspects'})">
+                        <div class="aspect_item_add"><span class="icon-plus"></span><span>{{$lang.descAdd.add}}</span></div>
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="edu_block">
-          <div class="edu_number"><span>3</span></div>
-          <div class="edu_block_wrap">
-            <div class="w_thesis">
-              <div class="w_thesis_title">{{$lang.descAdd.arg}}</div>
-              <textarea v-model="form.argument" :placeholder="$lang.descAdd.arg"></textarea>
-            </div>
-            <div class="w_thesis_linksblock">
-              <input type="file" style="display: none;" ref="files" multiple="multiple" name="files" @change="selectFiles">
-              <div class="w_thesis_linksblock_ls">
-                <a href="#" class="plus_link" @click.prevent="addFiles()" title="Add files"><span class="icon-plus"></span></a>
-                <a href="#" class="sh_link" @click.prevent="addLink()" title="Add links"><span class="icon-link2"></span></a>
-              </div>
-              <div class="w_thesis_title" v-show="form.links.length">{{$lang.descAdd.links}}</div>
-              <div class="w_thesis_link_cont">
-                <div
-                  class="w_thesis_link_line"
-                  v-for="(link, index) in form.links"
-                  :key="index"
-                  >
-                  <input type="text" class="t-inp" :value="link" readonly/>
-                  <a href="#" class="w-close-link" @click.prevent="removeLink(index)"><span class="icon-cab7"></span></a>
+          </v-card-text>
+        </v-card>
+        <v-card>
+          <v-card-text>
+            <div class="edu_block">
+              <div class="edu_number">
+                <div class="circle">
+                  3
                 </div>
               </div>
-              <div class="w_thesis_title" v-show="form.files.length">Files:</div>
-              <div class="w_thesis_files">
-                <div class="w_thesis_files_file" v-for="(file, index) in form.files" :key="`file_${index}`">
-                  <span class="icon-doc1"></span>
-                  <a href="#" class="w-close-link" @click.prevent="removeFile(`file_${index}`)"><span class="icon-cab7"></span></a>
-                  <span class="w_thesis_txt">{{ file.name }}</span>
+              <div class="edu_block_wrap">
+                <div class="w_thesis">
+                  <div class="w_thesis_title">{{$lang.descAdd.arg}}</div>
+                  <textarea v-model="form.argument" :placeholder="$lang.descAdd.arg"></textarea>
                 </div>
+                <div class="w_thesis_linksblock">
+                  <input type="file" style="display: none;" ref="files" multiple="multiple" name="files" @change="selectFiles">
+                  <div class="w_thesis_linksblock_ls">
+                    <a href="#" class="plus_link" @click.prevent="addFiles()" title="Add files"><span class="icon-plus"></span></a>
+                    <a href="#" class="sh_link" @click.prevent="addLink()" title="Add links"><span class="icon-link2"></span></a>
+                  </div>
+                  <div class="w_thesis_title" v-show="form.links.length">{{$lang.descAdd.links}}</div>
+                  <div class="w_thesis_link_cont">
+                    <div
+                      class="w_thesis_link_line"
+                      v-for="(link, index) in form.links"
+                      :key="index"
+                      >
+                      <input type="text" class="t-inp" :value="link" readonly/>
+                      <a href="#" class="w-close-link" @click.prevent="removeLink(index)"><span class="icon-cab7"></span></a>
+                    </div>
+                  </div>
+                  <div class="w_thesis_title" v-show="form.files.length">Files:</div>
+                  <div class="w_thesis_files">
+                    <div class="w_thesis_files_file" v-for="(file, index) in form.files" :key="`file_${index}`">
+                      <span class="icon-doc1"></span>
+                      <a href="#" class="w-close-link" @click.prevent="removeFile(`file_${index}`)"><span class="icon-cab7"></span></a>
+                      <span class="w_thesis_txt">{{ file.name }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="win_pos">
+                  <div class="w_thesis_title">{{$lang.descAdd.position}}</div>
+                  <div class="w_pos_links">
+                    <a href="#" :class="{'active': form.position === 1}" @click.prevent="form.position = 1" class="w_pos_links_link w_pos_links_link1">{{$lang.descAdd.yes}}</a>
+                    <a href="#" :class="{'active': form.position === 0}" @click.prevent="form.position = 0" class="w_pos_links_link w_pos_links_link2">{{$lang.descAdd.no}}</a>
+                  </div>
+                </div>
+                <input @click.prevent="sendForm" type="submit" class="btn btn-bot" :value="$lang.descAdd.publish"/>
               </div>
             </div>
-            <div class="win_pos">
-              <div class="w_thesis_title">{{$lang.descAdd.position}}</div>
-              <div class="w_pos_links">
-                <a href="#" :class="{'active': form.position === 1}" @click.prevent="form.position = 1" class="w_pos_links_link w_pos_links_link1">{{$lang.descAdd.yes}}</a>
-                <a href="#" :class="{'active': form.position === 0}" @click.prevent="form.position = 0" class="w_pos_links_link w_pos_links_link2">{{$lang.descAdd.no}}</a>
-              </div>
-            </div>
-            <input @click.prevent="sendForm" type="submit" class="btn btn-bot" :value="$lang.descAdd.publish"/>
-          </div>
-        </div>
+          </v-card-text>
+        </v-card>
+
       </div>
     </section>
   </div>
@@ -195,6 +220,41 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  .h2{
+      margin-bottom: 50px;
+  }
+  .circle{
+    position: absolute;
+    display: inline-block;
+    width: 75px;
+    height: 75px;
+    background-color: #EDECEC;
+    border-radius: 100%;
+    margin-top: -50px;
+    font-size: 42px;
+    color: white;
+    border: 10px solid white;
+    font-weight: bold;
+    left: 50%;
+    top: -45px;
+    transform: translateX(-50%);
+    text-align: center;
+    box-shadow: 0px 0px 0px 0px rgba(0,0,0,0), 0px 0px 0px 0px rgba(0,0,0,0), 0px -2px 2px 0px rgba(0,0,0,0.12);
+    &.active{
+      background: linear-gradient(45deg, rgba(5,96,206,1) 0%, rgba(2,156,231,1) 100%);
+    }
+}
 
+  .edu_number{
+    position: relative;
+
+  }
+  .v-card{
+    margin-bottom: 60px;
+
+  }
+  .v-card__text{
+    padding: 60px 30px;
+  }
 </style>

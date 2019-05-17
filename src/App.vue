@@ -73,7 +73,10 @@ export default {
         this.login(auth)
       }
     }).catch(err => console.log(err.message))
-    this.$store.commit('discussion/toggleDiscussionButton', false)
+    if(this.$route.path == "/discussion/add"){
+      this.$store.commit('discussion/toggleDiscussionButton', false)
+    }else{this.$store.commit('discussion/toggleDiscussionButton', true)}
+
   //   this.$nextTick(function() {
   //     let self = this;
   //     setTimeout(() => {

@@ -8,10 +8,12 @@
           <!-- <div class="c_b blue_c"><span class="icon-check"></span><span class="c_b_val">{{ discussion.votes.true }}%</span></div>
           <div class="c_b blue_r"><span class="icon-close"></span><span class="c_b_val">{{ discussion.votes.false }}%</span></div> -->
           <div class="c_b blue_c">
-              <v-progress-circular  size="174"  :value="discussion.votes.true" color="blue" width="12" rotate="-90">{{discussion.votes.true}}%</v-progress-circular>
+            <span class="icon-check"></span>
+            <v-progress-circular  size="174"  :value="discussion.votes.true" color="blue" width="12" rotate="-90">{{discussion.votes.true}}%</v-progress-circular>
           </div>
           <div class="c_b blue_r">
-              <v-progress-circular size="174"  :value="discussion.votes.false" color="red" width="12" rotate="-90">{{discussion.votes.false}}%</v-progress-circular>
+            <span class="icon-close"></span>
+            <v-progress-circular size="174"  :value="discussion.votes.true" color="red" width="12" rotate="-90">{{discussion.votes.false}}%</v-progress-circular>
           </div>
         </div>
       </div>
@@ -46,8 +48,18 @@ export default {
   components: { Aspects, Argument },
 
   computed: {
-    ...mapState('discussion', ['discussion', 'discussion_aspects', 'discussion_arguments'])
-  },
+    ...mapState('discussion', ['discussion', 'discussion_aspects', 'discussion_arguments']),
+    // circleSizeTrue(){
+    //   if(this.discussion.votes.true >= this.discussion.votes.true ){
+    //     return 174
+    //   } else {return 150}
+    // },
+    // circleSizeFalse(){
+    //   if(this.discussion.votes.true <= this.discussion.votes.true ) {
+    //     return 174
+    //   } else {return 150}
+    // }
+},
 
   methods: {
     ...mapActions('modal', ['addModal']),
@@ -71,6 +83,7 @@ export default {
   .c_b{
     background: none;
     width: auto;
-    heigth: auto;
+    height: auto;
+    background: none;
   }
 </style>
