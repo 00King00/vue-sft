@@ -10,4 +10,6 @@ module.exports = {
   publish: 'Thema verfassen',
   yes: 'Ja',
   no: 'Nein',
+  searchAspects: 'Choose Aspect',
+  nameAspects: "Name of Aspects"
 }

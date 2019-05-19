@@ -5,15 +5,13 @@
       <div class="country_libra">
         <div class="country_libra_in">
           <div class="country_libra_svg"></div>
-          <!-- <div class="c_b blue_c"><span class="icon-check"></span><span class="c_b_val">{{ discussion.votes.true }}%</span></div>
-          <div class="c_b blue_r"><span class="icon-close"></span><span class="c_b_val">{{ discussion.votes.false }}%</span></div> -->
           <div class="c_b blue_c">
             <span class="icon-check"></span>
-            <v-progress-circular  size="174"  :value="discussion.votes.true" color="blue" width="12" rotate="-90">{{discussion.votes.true}}%</v-progress-circular>
+            <v-progress-circular  :size="circleSizeTrue"  :value="discussion.votes.true" color="blue" width="12" rotate="-90">{{discussion.votes.true}}%</v-progress-circular>
           </div>
           <div class="c_b blue_r">
             <span class="icon-close"></span>
-            <v-progress-circular size="174"  :value="discussion.votes.true" color="red" width="12" rotate="-90">{{discussion.votes.false}}%</v-progress-circular>
+            <v-progress-circular :size="circleSizeFalse"  :value="discussion.votes.false" color="red" width="12" rotate="-90">{{discussion.votes.false}}%</v-progress-circular>
           </div>
         </div>
       </div>
@@ -49,16 +47,16 @@ export default {
 
   computed: {
     ...mapState('discussion', ['discussion', 'discussion_aspects', 'discussion_arguments']),
-    // circleSizeTrue(){
-    //   if(this.discussion.votes.true >= this.discussion.votes.true ){
-    //     return 174
-    //   } else {return 150}
-    // },
-    // circleSizeFalse(){
-    //   if(this.discussion.votes.true <= this.discussion.votes.true ) {
-    //     return 174
-    //   } else {return 150}
-    // }
+    circleSizeTrue(){
+      if(this.discussion.votes.true >= this.discussion.votes.true ){
+        return 174
+      } else {return 100}
+    },
+    circleSizeFalse(){
+      if(this.discussion.votes.true <= this.discussion.votes.true ) {
+        return 174
+      } else {return 100}
+    }
 },
 
   methods: {

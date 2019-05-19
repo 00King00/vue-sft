@@ -3,9 +3,9 @@ const qs = require('qs')
 function Request () {
   // TODO дописать зависимость baseURL от process.env.HOST & PORT
   // const baseURL = process.env.NODE_ENV === 'production' ? 'http://sft.sliceplanet.ml/api/public' : 'http://localhost:5000/api/public'
-  const baseURL = 'http://37.252.1.151:5000/api/public'
+  const baseURL = 'https://sft-dev.tk/api/public'
   return axios.create({ baseURL, withCredentials: true })
-}
+} //*
 
 let request = Request() //*
 export function Login (data) {
@@ -135,19 +135,35 @@ export function CreateNewDiscussion (data) {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
     }
-  }) //*
-}
-
+  })
+} //*
+export function CreateDiscussionArguments (data) {
+  return request.post(`/discussions`, data,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+    }
+  })
+} //*
+export function PutDiscussionImage({id, image}){
+  request.put(`/discussions/${id}/image`, image, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'multipart/form-data"',
+    }
+  })
+} //*
 export function GetDiscussions () {
   return request.get('/discussions')
-} //*
+} //* not ready
 
 export function GetDiscussion (id) {
   return request.get('/discussions/' + id)
 } //*
 
-export function GetAspects () {
-  return request.get(`/aspects`)
+export function GetAspects (payload) {
+  return request.get(`/aspects`, qs.stringify({ q: payload, page: 1 }))
 } //*
 
 export function GetArguments (id) {

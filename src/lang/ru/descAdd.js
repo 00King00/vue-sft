@@ -10,4 +10,6 @@ module.exports = {
   publish: 'Опубликовать тему',
   yes: 'Да',
   no: 'Нет',
+  searchAspects: 'Искать Аспекты',
+  nameAspects: "Название аспекта"
 }

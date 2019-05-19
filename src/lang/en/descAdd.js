@@ -10,4 +10,6 @@ module.exports = {
   publish: 'Post topic',
   yes: 'Yes',
   no: 'Not',
+  searchAspects: 'Choose Aspect',
+  nameAspects: "Name of Aspects"
 }

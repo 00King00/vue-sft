@@ -4,9 +4,9 @@ import {
   GetProfileRewards,
   GetProfileKnowledges,
   SavePrifileKnowledges,
-  EditPassword,
-  EditEmail,
-  ChangeAvatar,
+  EditPassword,//*
+  EditEmail,//*
+  ChangeAvatar,//
   //EditProfile,
   EditProfileEducation,
 

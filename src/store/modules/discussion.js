@@ -26,15 +26,12 @@ export default {
     setDiscussionsList (state, list) {
       state.discussions = list
     },
-
     setDiscussion (store, item) {
       store.discussion = item
     },
-
     setDiscussionAspects (store, aspects) {
       store.discussion_aspects = aspects
     },
-
     setDiscussionArguments (store, aspects) {
       store.discussion_arguments = aspects
     }
@@ -43,7 +40,7 @@ export default {
 
   actions: {
     createNewDiscussion (store, data) {
-      return CreateNewDiscussion(data)
+      return CreateNewDiscussion(data) //*0
     },
 
     getDiscussions (store) {

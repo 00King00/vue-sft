@@ -14,6 +14,7 @@ import Vuetify, {
 	VApp, // required
   VProgressCircular,
 	VBtn,
+	VIcon,
 	VCard,
 	VCardText
 } from 'vuetify/lib'
@@ -22,6 +23,7 @@ Vue.use(Vuetify, {
     VApp,
     VProgressCircular,
 		VBtn,
+		VIcon,
 		VCard,
 		VCardText
   }
@@ -34,10 +36,10 @@ Lang.requireAll(require.context('@/lang', true, /\.js$/))
 
 // init modules
 Vue.use(Lang, { default: 'ru' })
-const baseURL = 'http://37.252.1.151:5000/api/public';
+const baseURL = 'https://sft-dev.tk/api/public';
 Vue.prototype.$axios = axios.create({ baseURL, withCredentials: true })
 Vue.config.productionTip = false
-Vue.config.devtools = true
+
 
 new Vue({
   router,
