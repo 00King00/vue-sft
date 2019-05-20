@@ -67,11 +67,7 @@ export default {
     ...mapState('profile', ['profile', 'profile_knowledge']),
 
     balance () {
-<<<<<<< HEAD
-      return (this.maxBal - this.knowledge_list.reduce((acc, item) => acc + item.score, 0)) < 0
-=======
       return (this.maxBal - this.knowledge_list.reduce((acc, item) => acc + item.score, 0) < 0)
->>>>>>> 38ae8002eaac4064fec57bbaf9ac3e849efafaa5
     }
 
   },
