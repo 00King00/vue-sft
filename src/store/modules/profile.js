@@ -4,8 +4,10 @@ import {
   GetProfileRewards,
   GetProfileKnowledges,
   SavePrifileKnowledges,
-  EditPassword,
-  EditProfile,
+  EditPassword,//*
+  EditEmail,//*
+  ChangeAvatar,//
+  //EditProfile,
   EditProfileEducation,
 
   AddFavoritesDiscussion,
@@ -32,7 +34,7 @@ export default {
   namespaced: true,
 
   state: {
-    profile: false,
+    profile: null,
     profile_rewards: [],
     profile_knowledge: [],
     profile_education: false,
@@ -129,10 +131,15 @@ export default {
       }
     },
 
-    editUser (store, data) {
-      return EditPassword( data)
+    EditPassword(ctx, data){
+         return EditPassword( data)
     },
-
+    EditEmail(ctx, data){
+         return EditEmail( data)
+    },
+    ChangeAvatar(ctx, data){
+      return ChangeAvatar(data)
+    },
     editUserEducation (store, data) {
       return EditProfileEducation(data.id, data)
     },

@@ -15,7 +15,10 @@
         </router-link>
 
         <router-link :to="'/profile/' + auth.id" class="cab_top_prof">
-          <div class="cab_top_icon"><img :src="auth.avatar" :alt="auth.fullname" style="border-radius: 50%;"></div>
+          <div class="cab_top_icon">
+            <img v-if="auth.avatar_url" :src="'http://37.252.1.151:5000'+auth.avatar_url" :key="renderKeyAvatar" :alt="auth.fullname" style="border-radius: 50%;">
+            <span v-else class="icon-user"></span>
+          </div>
           <div class="cab_top_txt">
             <div class="cab_top_name">{{auth.fullname}}</div>
             <div class="cab_top_mail">{{auth.email}}</div>
@@ -50,9 +53,11 @@
       </div>
     </div>
     <div class="sidebar-themes m-hid">
-      <router-link class="add_link" to="/discussion/add">
+      <div class="add_link"  @click.prevent="toggle">
         <div class="circ_grad"><span class="icon-plus"></span></div>
-        <span>{{$lang.main.add}}</span></router-link>
+        <span v-if="discussionButton" >{{$lang.main.add}}</span>
+        <span v-else>cancle</span>
+      </div>
       <ul class="sidebar-themes_list">
         <li>
           <router-link to="/" v-scroll-to="'#theme-day'"><span class="icon-arrow_down"></span>{{$lang.main.dayTheme}}</router-link>
@@ -108,24 +113,37 @@ export default {
 
   data () {
     return {
-      userMenuOpened: false
     }
   },
 
   methods: {
     ...mapActions('modal', ['openLoginModal']),
+	...mapActions('modal', ['openLoginModal']),
     openUserMenu () {
-      this.userMenuOpened = !this.userMenuOpened
-    }
+      this.$store.commit('auth/toggleUserMenuOpened', null, { root: true })
+    },
+    toggle(){
+      if(this.discussionButton){
+        this.$store.commit('discussion/toggleDiscussionButton', false)
+        this.$router.push('/discussion/add')
+      } else {
+        this.$store.commit('discussion/toggleDiscussionButton', true)
+        this.$router.go(-1)
+      }
+    },
   },
 
   computed: {
-    ...mapState('auth', ['auth']),
+    ...mapState('auth', ['auth','userMenuOpened', 'renderKeyAvatar']),
+    ...mapState('discussion', ['discussionButton']),
 
     activePage () {
       return this.$route.name
     }
+  },
+  mounted(){  
   }
+
 }
 </script>
 

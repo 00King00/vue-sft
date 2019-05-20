@@ -64,21 +64,25 @@ export default {
     ...mapActions('modal', ['addModal', 'closeModal']),
     ...mapMutations('modal', ['closeAllModal']),
     ...mapMutations('profile', ['setUserData']),
-    ...mapActions('auth', ['register']),
+    ...mapActions('auth', ['register','login']),
 
     registerUser () {
       if (!this.terms) return false;
       if (this.password !== this.re_password) return false
-
       this.register({
         email: this.email,
         fullname: this.fullname,
         password: this.password
       })
-        .then((response) => {
-          this.closeAllModal()
+        .then(() => {
+          this.login({
+            email: this.email,
+            password: this.password
+          }).then(()=>{
+            this.closeAllModal()
+            this.$router.push('/')
+          })
         })
-
     }
   }
 }

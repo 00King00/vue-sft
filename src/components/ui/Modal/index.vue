@@ -6,7 +6,7 @@
     <MainRegister v-if="activeModal && activeModal.name === 'Register'" :modal="activeModal" />
     <MainForgotPassword v-if="activeModal && activeModal.name === 'ForgotPassword'" :modal="activeModal" />
     <RewardsInfo v-if="activeModal && activeModal.name === 'RewardsInfo'" :modal="activeModal" />
-    <DiscussionAdd v-if="activeModal && activeModal.name === 'DiscussionAdd'" :modal="activeModal" />
+    <DiscussionAddAspects v-if="activeModal && activeModal.name === 'DiscussionAddAspects'" :modal="activeModal" />
     <DiscussionArgument v-if="activeModal && activeModal.name === 'DiscussionArgument'" :modal="activeModal" />
     <DiscussionComplaints v-if="activeModal && activeModal.name === 'DiscussionComplaints'" :modal="activeModal" />
     <DiscussionGraph v-if="activeModal && activeModal.name === 'DiscussionGraph'" :modal="activeModal" />
@@ -21,7 +21,7 @@
 
   import RewardsInfo from './Rewards/Info'
 
-  import DiscussionAdd from './Discussion/Add'
+  import DiscussionAddAspects from './Discussion/Add'
   import Chart from './Chart/Main'
   import DiscussionArgument from './Discussion/Argument'
   import DiscussionComplaints from './Discussion/Complaints'
@@ -38,7 +38,7 @@
       MainForgotPassword,
       Chart,
       RewardsInfo,
-      DiscussionAdd,
+      DiscussionAddAspects,
       DiscussionArgument,
       DiscussionComplaints,
       DiscussionGraph,

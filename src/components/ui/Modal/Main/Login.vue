@@ -40,7 +40,7 @@ export default {
 
   data () {
     return {
-      email: 'mr.1bilous@gmail.com',
+      email: 'mr-bilous@yandex.ru',
       password: '123456'
     }
   },

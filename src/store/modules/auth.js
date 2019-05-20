@@ -1,15 +1,19 @@
-import { Login, Register } from '@/api'
+import { Login, Register, Logout } from '@/api'
 import router from '@/router'
 
 export default {
-  namespaced: true,
-  state: {
+	namespaced: true,
+	state: {
 		auth: {
-			token: false,
-			id: false,
-			fullname: false,
-			avatar: false
-		}
+			id: null,
+			fullname: null,
+			avatar_url: null,
+			is_confirmed: false,
+			total_likes: null,
+			i_like: false
+		},
+		userMenuOpened: false,
+		renderKeyAvatar: 1,
 
 	},
 
@@ -17,13 +21,22 @@ export default {
 		login (state, data) {
 			state.auth = data
 		},
+		toggleUserMenuOpened(state){
+			if (state.auth.id !== null) state.userMenuOpened = !state.userMenuOpened
+		},
 		logout(state){
 			state.auth = {
-				token: false,
-				id: false,
-				fullname: false,
-				avatar: false
+				id: null,
+				fullname: null,
+				avatar_url: null,
+				is_confirmed: false,
+				total_likes: null,
+				i_like: false
 			}
+			state.userMenuOpened = false
+		},
+		updateAvatar(state){
+			state.renderKeyAvatar += 1;
 		}
 	},
 
@@ -31,15 +44,8 @@ export default {
 		login (store, data) {
 			return Login(data)
 				.then(result => {
-					result.data.avatar = 'https://scontent.fiev4-1.fna.fbcdn.net/v/t1.0-1/p160x160/11224676_101791676862053_7182931719457094925_n.jpg?_nc_cat=102&_nc_ht=scontent.fiev4-1.fna&oh=a53c253398600a7d5e547d9748e2efcd&oe=5D68D749'
 					store.commit('login', result.data)
-					localStorage.setItem('auth', JSON.stringify(result.data))
 					return "success login"
-				})
-				.catch(() => {
-					if (localStorage.getItem('auth')) {
-						localStorage.removeItem('auth')
-					}
 				})
 		},
 		register (store, data) {
@@ -49,13 +55,11 @@ export default {
 						return res
 					})
 		},
-
-
-    logout ({commit}) {
-      localStorage.removeItem('auth')
-	  commit('logout')
-      //window.location = '/'
-      router.push('/')
-    }
+		logout ({commit}) {
+			Logout().then(()=>{
+				commit('logout')
+				router.push('/')
+			})
+		}
 	}
 }

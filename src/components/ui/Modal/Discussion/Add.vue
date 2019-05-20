@@ -26,7 +26,7 @@
 <script>
   import {mapMutations} from 'vuex'
   export default {
-    name: "Add",
+    name: "DiscussionAddAspects",
     data() {
       return {
         title: '',
@@ -49,7 +49,7 @@
 
         this.addCustomAspect({
           title: this.title,
-          image: this.image
+          image_url: this.image
         })
 
         this.closeAllModal()
