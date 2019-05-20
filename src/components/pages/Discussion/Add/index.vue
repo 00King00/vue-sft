@@ -81,7 +81,13 @@
               <div class="edu_block_wrap">
                 <div class="w_thesis">
                   <div class="w_thesis_title">{{$lang.descAdd.arg}}</div>
-                  <textarea v-model="form.thesis" :placeholder="$lang.descAdd.arg"></textarea>
+                  <div class="w_v_inp">
+                    <input class=" t-inp" v-model="form.argument" :placeholder="$lang.descAdd.arg"/>
+                  </div>
+                </div>
+                <div class="w_thesis">
+                  <div class="w_thesis_title">{{$lang.descAdd.theses}}</div>
+                  <textarea v-model="form.thesis" :placeholder="$lang.descAdd.theses"></textarea>
                 </div>
                 <div class="w_thesis_linksblock">
                   <input type="file" style="display: none;" ref="files" multiple="multiple" name="files" @change="selectFiles">
@@ -129,7 +135,7 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import Item from './Item'
-import {GetAspects, PutDiscussionImage } from '@/api'
+import {GetAspects, PutDiscussionImage, PostDiscussionArgements, AddThesisFile, AddThesisLink } from '@/api'
 export default {
   name: 'Discussion',
 
@@ -144,6 +150,7 @@ export default {
       searchAspects: "",
       form: {
         thesis: "",
+        argument: "",
         position: null,
         links: [],
         files: []
@@ -188,6 +195,8 @@ export default {
       this.discussionPoster = form
     },
     sendForm () {
+      if(this.index_active_aspect === null){ alert("Please check Aspects"); return false};
+      if(this.form.position === null){ alert("Please check Yes or No"); return false};
       this.newDiscussionForm.lang = this.$lang.current_lang;
       this.createNewDiscussion(this.newDiscussionForm)
       .then( res => {
@@ -198,14 +207,19 @@ export default {
           PutDiscussionImage({id, image: this.discussionPoster})
         }
         let form = {
-          "title": this.responseDiscussion.title,
+          "title": this.form.argument,
           "aspect_ids": [this.allAspects[this.index_active_aspect].id],
           "thesis": {
             "position": this.form.position,
             "message": this.form.thesis
           }
-        }
-        console.log(form);
+        };
+        PostDiscussionArgements({id, form}).then(res => {
+          const thesisId = res.data.thesis.id;
+          //let converFiles = Object.assign({}, this.form.files);
+          AddThesisFile({id: thesisId, file: this.form.files})
+          AddThesisLink({id: thesisId, link: this.form.links})
+        })
       })
     },
     submitSearchAspects(query){
@@ -235,8 +249,10 @@ export default {
     selectFiles (e) {
       if(this.form.files.length <= 1 && e.target.files.length == 1){
         this.form.files.push(e.target.files[0])
+
       }else{
         let files = e.target.files;
+        console.log(files);
         let filesArray = [];
         for (let i = 0; i < files.length; i++) {
             filesArray[i] = files.item(i);
@@ -248,7 +264,9 @@ export default {
           this.form.files = filesArray
         }
       }
+
     },
+
     setActiveAspect (index) {
       this.index_active_aspect = index
       this.form.aspect = this.favorite_aspects[index]

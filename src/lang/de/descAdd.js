@@ -6,10 +6,11 @@ module.exports = {
   position: 'Meine Position:',
   select: 'Aspekte auswählen:',
   arg: 'Argument:',
+  theses: 'Thesis', //*
   links: 'Referenzen:',
   publish: 'Thema verfassen',
   yes: 'Ja',
   no: 'Nein',
-  searchAspects: 'Choose Aspect',
-  nameAspects: "Name of Aspects"
+  searchAspects: 'Choose Aspect',//*
+  nameAspects: "Name of Aspects" //*
 }

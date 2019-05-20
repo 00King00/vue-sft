@@ -137,6 +137,14 @@ export function CreateNewDiscussion (data) {
     }
   })
 } //*
+export function PostDiscussionArgements({id, form}){
+  return request.post(`/discussions/${id}/arguments`, form, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  })
+}//*
 export function CreateDiscussionArguments (data) {
   return request.post(`/discussions`, data,
     {
@@ -157,13 +165,38 @@ export function PutDiscussionImage({id, image}){
 export function GetDiscussions () {
   return request.get('/discussions')
 } //* not ready
+export function GetCurrentDiscussions (id) {
+  return request.get(`/discussions/${id}`)
+} //*
+export function AddThesisFile({id, file}){
+  let form = new FormData();
+  console.log(file[0])
+  form.append("file", file[0]);
+  return request.post(`/theses/${id}/attachments/files`, form, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'multipart/form-data',
+    }
+  } )
 
+}//*
+export function AddThesisLink({id, link}){
+  let form = new FormData();
+  form.append("link", link);
+  return request.post(`/theses/${id}/attachments/links`, form, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'multipart/form-data',
+    }
+  } )
+
+}//*
 export function GetDiscussion (id) {
   return request.get('/discussions/' + id)
 } //*
 
 export function GetAspects (payload) {
-  return request.get(`/aspects`, qs.stringify({ q: payload, page: 1 }))
+  return request.get(`/aspects?q=${payload}&page=1`)
 } //*
 
 export function GetArguments (id) {

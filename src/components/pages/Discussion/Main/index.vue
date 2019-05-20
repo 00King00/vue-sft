@@ -31,7 +31,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-
+import {GetCurrentDiscussions} from '@/api'
 import Aspects from './Aspects'
 import Argument from './Argument'
 
@@ -40,13 +40,15 @@ export default {
 
   data () {
     return {
+      discussion: null,
     }
   },
 
   components: { Aspects, Argument },
 
   computed: {
-    ...mapState('discussion', ['discussion', 'discussion_aspects', 'discussion_arguments']),
+    //...mapState('discussion', ['discussion', 'discussion_aspects', 'discussion_arguments']),
+    ...mapState('discussion', ['discussion_aspects', 'discussion_arguments']),
     circleSizeTrue(){
       if(this.discussion.votes.true >= this.discussion.votes.true ){
         return 174
@@ -66,7 +68,8 @@ export default {
     async fetch () {
       await Promise.all([
         this.getDiscussionArguments(this.$route.params.id),
-        this.getDiscussion(this.$route.params.id),
+        //this.getDiscussion(this.$route.params.id),
+        GetCurrentDiscussions(this.$route.params.id).then(res => {this.discussion = res.data}),
         this.getDiscussionAspects(this.$route.params.id)])
     }
   },

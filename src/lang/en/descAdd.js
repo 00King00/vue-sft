@@ -6,6 +6,7 @@ module.exports = {
   position: 'My position:',
   select: 'select aspects:',
   arg: 'Argument:',
+  theses: 'Thesis',
   links: 'References:',
   publish: 'Post topic',
   yes: 'Yes',
