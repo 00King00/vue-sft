@@ -16,12 +16,12 @@
         </div>
       </div>
 
-      <Aspects :aspects="discussion_aspects.items"/>
+      <Aspects :aspects="discussion_aspects"/>
 
       <div class="country_wr">
         <div class="country_title">{{$lang.descAdd.arg}}:</div>
         <div class="disc">
-          <Argument :item="{}" />
+          <Argument v-for="(argument, index) in discussion_arguments" :title="argument.title" :key="`argument_${index}`"/>
           <div class="disc_line_plus" @click.prevent="addModal({name: 'DiscussionArgument'})"><a href="#"><span class="icon-plus"></span><span>Add</span></a></div>
         </div>
       </div>

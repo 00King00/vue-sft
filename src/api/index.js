@@ -194,6 +194,12 @@ export function AddThesisLink({id, link}){
 export function GetDiscussion (id) {
   return request.get('/discussions/' + id)
 } //*
+export function GetDiscussionArguments (id) {
+  return request.get('/discussions/' + id + '/arguments')
+} //*
+export function GetDiscussionAspects (id) {
+  return request.get('/aspects/' + id)
+} //*
 
 export function GetAspects (payload) {
   return request.get(`/aspects?q=${payload}&page=1`)
