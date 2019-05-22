@@ -2,7 +2,7 @@ import {
   CreateNewDiscussion,
   GetDiscussions,
   GetDiscussion,
-  GetDiscussionAspects, //*
+  //GetDiscussionAspects, // not necassery*
   GetDiscussionArguments, //*
   AddDiscussionArguments
 } from '@/api'
@@ -21,16 +21,16 @@ export default {
 
   mutations: {
     toggleDiscussionButton(state, payload){
-      payload ? state.discussionButton = payload : state.discussionButton = !state.discussionButton},
+      payload ? state.discussionButton = payload : state.discussionButton = !state.discussionButton}, //*
     setDiscussionsList (state, list) {
       state.discussions = list
     },
     setDiscussion (store, item) {
       store.discussion = item
     },
-    setDiscussionAspects (store, aspects) {
-      store.discussion_aspects.push(aspects)
-    },//*
+    // setDiscussionAspects (store, aspects) {
+    //   store.discussion_aspects.push(aspects)
+    // },// not necassery*
     setDiscussionArguments (store, payload) {
       store.discussion_arguments  =payload.items
       store.resDiscussionArguments = payload
@@ -58,13 +58,13 @@ export default {
         })
     },//*
 
-    getDiscussionAspects (store, id) {
-      return GetDiscussionAspects(id)
-        .then(response => {
-          store.commit('setDiscussionAspects', response.data)
-          return response
-        })
-    },//*
+    // getDiscussionAspects (store, id) {
+    //   return GetDiscussionAspects(id)
+    //     .then(response => {
+    //       store.commit('setDiscussionAspects', response.data)
+    //       return response
+    //     })
+    // },//*
 
     getDiscussionArguments (store, id) {
       return GetDiscussionArguments(id)
@@ -72,7 +72,7 @@ export default {
           store.commit('setDiscussionArguments', response.data)
           return response
         })
-    },//*
+    },//
 
     addDiscussionArguments (store, { id, data }) {
       return AddDiscussionArguments(id, data)
