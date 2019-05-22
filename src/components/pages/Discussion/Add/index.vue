@@ -195,8 +195,10 @@ export default {
       this.discussionPoster = form
     },
     sendForm () {
-      if(this.index_active_aspect === null){ alert("Please check Aspects"); return false};
-      if(this.form.position === null){ alert("Please check Yes or No"); return false};
+      if(this.newDiscussionForm.length<10){ alert("Please sign title discussion at least 10 characters long"); return false}
+      if(this.index_active_aspect === null){ alert("Please check Aspects"); return false}
+      if(this.form.position === null){ alert("Please check Yes or No"); return false}
+      if(this.form.thesis.length<10 && this.form.argument.length<10){ alert("Please check filds thesis and arguments the filds must have at least 10 characters long"); return false}
       this.newDiscussionForm.lang = this.$lang.current_lang;
       this.createNewDiscussion(this.newDiscussionForm)
       .then( res => {
@@ -216,9 +218,8 @@ export default {
         };
         PostDiscussionArgements({id, form}).then(res => {
           const thesisId = res.data.thesis.id;
-          //let converFiles = Object.assign({}, this.form.files);
-          AddThesisFile({id: thesisId, file: this.form.files})
-          AddThesisLink({id: thesisId, link: this.form.links})
+          if(this.form.files.length) AddThesisFile({id: thesisId, file: this.form.files})
+          if(this.form.links.length) AddThesisLink({id: thesisId, link: this.form.links})
         })
       })
     },
@@ -252,7 +253,6 @@ export default {
 
       }else{
         let files = e.target.files;
-        console.log(files);
         let filesArray = [];
         for (let i = 0; i < files.length; i++) {
             filesArray[i] = files.item(i);

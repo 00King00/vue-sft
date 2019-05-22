@@ -1,10 +1,10 @@
 <template>
   <div class="comm_item">
     <div class="comm_row comm_row_right">
-      <div class="comm_ava"><img src="@/assets/img/img9.jpg" alt=""></div>
+      <div class="comm_ava"><img v-if="comment.author.avatar_url" :src="$baseUrl+comment.author.avatar_url" alt="image"></div>
       <div class="comm_block">
         <div class="comm_block_bord">
-          <div class="comm_img"><img src="@/assets/img/sch.png" alt=""></div>
+          <div class="comm_img"><img src="@/assets/img/sch.png" alt="image"></div>
           <div class="comm_cont">
             <div class="comm_txt">{{comment.message}}.</div>
             <div  class="comm_adds" :class="{'open': toggle}">
@@ -27,7 +27,14 @@
             </div>
             <div class="comm_bot">
               <div class="comm_date">18:45</div>
-              <div class="comm_ans"><a href="#">Ответы <span >0</span></a></div>
+              <div class="comm_ans"><a href="#">Ответы
+                <span class="inline" v-if="responseThesisIdComments === null">0</span>
+                <span class="inline" v-else="responseThesisIdComments">
+                  <span class="inline" v-if="responseThesisIdComments.items.length == 0">0</span>
+                  <span class="inline" v-else>{{responseThesisIdComments.items[0].total_comments}}</span>
+                </span>
+              </a>
+            </div>
               <div class="comm_compl"><a href="#">Пожаловаться</a></div>
             </div>
           </div>
@@ -45,21 +52,23 @@ import {GetThesisIdComments} from '@/api'
         data: ()=>({
           toggle: false,
           responseThesisIdComments: null,
-          
+
         }),
         methods:{
           showMore(){
             this.toggle = !this.toggle
           }
         },
-        created(){
-          GetThesisIdComments(this.comment.id).then( res => {
+        async created(){
+          await GetThesisIdComments(this.comment.id).then( res => {
             this.responseThesisIdComments = res.data
           })
-        }
+        },
     }
 </script>
 
 <style scoped>
-
+.inline{
+  display: inline-block;
+}
 </style>
