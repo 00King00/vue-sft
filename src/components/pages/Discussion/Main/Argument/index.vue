@@ -3,11 +3,11 @@
     <div class="disc_line disc_line_header">
       <div class="disc_line_cont">
         <div class="disc_line_inf">
-          <div class="disc_line_name"><a href="#">{{item.title}}</a></div>
-          <div class="disc_line_athor"><span>Автор:</span> Бобель </div>
-          <div class="disc_line_date">19.07.2018 </div>
+          <div class="disc_line_name"><a href="#">{{argument.title}}</a></div>
+          <div class="disc_line_athor"><span>Автор:</span> {{argument.thesis.author.fullname}} </div>
+          <div class="disc_line_date">{{argument.thesis.created_at}}</div>
         </div>
-        <div class="truefalse"><span>80%</span><span>20%</span></div>
+        <div class="truefalse"><span>{{argument.opinion_ratio.true}}%</span><span>{{argument.opinion_ratio.false}}%</span></div>
         <a href="#" @click.prevent="show = !show" class="disc_line_opener"><span class="icon-arrow_down"></span></a>
       </div>
     </div>
@@ -20,9 +20,7 @@
         <b>Опровержение:</b>
       </div>
       <div class="comm">
-        <Comment />
-        <Comment />
-        <Comment />
+        <Comment :comment="argument.thesis"/>
       </div>
     </div>
   </div>
@@ -32,7 +30,7 @@
   import Comment from './Comment'
   export default {
     name: "Argument",
-    props: ['item'],
+    props: ['argument',],
     data() {
       return {
         show: false

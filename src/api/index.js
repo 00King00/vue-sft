@@ -168,10 +168,15 @@ export function GetDiscussions () {
 export function GetCurrentDiscussions (id) {
   return request.get(`/discussions/${id}`)
 } //*
+export function GetThesisIdComments(id){
+    return request.get(`/theses/${id}/comments?page=1`)
+}//*
 export function AddThesisFile({id, file}){
   let form = new FormData();
-  console.log(file[0])
-  form.append("file", file[0]);
+  console.log(file)
+  file.forEach(file => {form.append("files[]", file)})
+  console.log(form)
+
   return request.post(`/theses/${id}/attachments/files`, form, {
     headers: {
       'Accept': 'application/json',
@@ -182,7 +187,7 @@ export function AddThesisFile({id, file}){
 }//*
 export function AddThesisLink({id, link}){
   let form = new FormData();
-  form.append("link", link);
+  link.forEach(link => {form.append("links[]", link)})
   return request.post(`/theses/${id}/attachments/links`, form, {
     headers: {
       'Accept': 'application/json',
@@ -194,6 +199,12 @@ export function AddThesisLink({id, link}){
 export function GetDiscussion (id) {
   return request.get('/discussions/' + id)
 } //*
+export function GetDiscussionArguments (id) {
+  return request.get('/discussions/' + id + '/arguments')
+} //*
+// export function GetDiscussionAspects (id) {
+//   return request.get('/aspects/' + id)
+// } //*
 
 export function GetAspects (payload) {
   return request.get(`/aspects?q=${payload}&page=1`)

@@ -2,8 +2,8 @@ import {
   CreateNewDiscussion,
   GetDiscussions,
   GetDiscussion,
-  GetAspects,
-  GetArguments,
+  //GetDiscussionAspects, // not necassery*
+  GetDiscussionArguments, //*
   AddDiscussionArguments
 } from '@/api'
 
@@ -13,28 +13,28 @@ export default {
   state: {
     discussions: [],
     discussion: null,
-    discussion_aspects: {
-      items: []
-    },
+    discussion_aspects: [],
     discussion_arguments: [],
+    resDiscussionArguments: null,
     discussionButton: true
   },
 
   mutations: {
     toggleDiscussionButton(state, payload){
-      payload ? state.discussionButton = payload : state.discussionButton = !state.discussionButton},
+      payload ? state.discussionButton = payload : state.discussionButton = !state.discussionButton}, //*
     setDiscussionsList (state, list) {
       state.discussions = list
     },
     setDiscussion (store, item) {
       store.discussion = item
     },
-    setDiscussionAspects (store, aspects) {
-      store.discussion_aspects = aspects
-    },
-    setDiscussionArguments (store, aspects) {
-      store.discussion_arguments = aspects
-    }
+    // setDiscussionAspects (store, aspects) {
+    //   store.discussion_aspects.push(aspects)
+    // },// not necassery*
+    setDiscussionArguments (store, payload) {
+      store.discussion_arguments  =payload.items
+      store.resDiscussionArguments = payload
+    }//*
 
   },
 
@@ -58,21 +58,21 @@ export default {
         })
     },//*
 
-    getDiscussionAspects (store, id) {
-      return GetAspects(id)
-        .then(response => {
-          store.commit('setDiscussionAspects', response.data)
-          return response
-        })
-    },
+    // getDiscussionAspects (store, id) {
+    //   return GetDiscussionAspects(id)
+    //     .then(response => {
+    //       store.commit('setDiscussionAspects', response.data)
+    //       return response
+    //     })
+    // },//*
 
     getDiscussionArguments (store, id) {
-      return GetArguments(id)
+      return GetDiscussionArguments(id)
         .then(response => {
           store.commit('setDiscussionArguments', response.data)
           return response
         })
-    },
+    },//
 
     addDiscussionArguments (store, { id, data }) {
       return AddDiscussionArguments(id, data)
