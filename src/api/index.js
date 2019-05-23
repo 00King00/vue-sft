@@ -42,7 +42,7 @@ export function GetProfile (id) {
 
 export function GetProfileEducation (id) {
   return request.get(`/profile/${id}/education`)
-}
+}//*
 
 export function GetProfileRewards (id) {
   return request.get(`/profile/${id}/rewards`)
@@ -143,7 +143,9 @@ export function CreateAspectsImage ({id, image}) {
 export function DeleteFavoritesAspects (id, object_id) {
   return request.delete(`/profile/${id}/favorite/aspects`, { data: { object_id } })
 }
-
+export function GetFilteredDiscussion(query){
+  return request.get(`/discussions?q=${query}&location=all&sort=last&page=1`)
+}
 export function CreateNewDiscussion (data) {
   return request.post(`/discussions`, data,
     {

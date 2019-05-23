@@ -22,7 +22,7 @@
                   <div class="w_thesis_title">Добавить изображение:</div>
                   <div class="edu-inp-cont" style="text-align: center;">
                     <input v-show="false" ref="discussionImageUpload" type="file" @change="addDiscussionImage"  />
-                    <v-btn icon large color="#0560ce" dark @click="$refs.discussionImageUpload.click()">
+                    <v-btn icon large color="#0560ce" dark @click.prevent="$refs.discussionImageUpload.click()">
                         <v-icon>link</v-icon>
                     </v-btn>
                   </div>
@@ -163,9 +163,6 @@ export default {
 
   components: { Item },
 
-  mounted () {
-    //this.getUserFavoriteAspects(this.auth.id)
-  },
   beforeRouteLeave (to, from, next) {
     this.$store.commit('discussion/toggleDiscussionButton', true)
     next()
@@ -216,10 +213,13 @@ export default {
           }
         };
         PostDiscussionArgements({id, form}).then(res => {
-          const thesisId = res.data.thesis.id;
-          if(this.form.files.length) AddThesisFile({id: thesisId, file: this.form.files})
-          if(this.form.links.length) AddThesisLink({id: thesisId, link: this.form.links})
-        })
+            const thesisId = res.data.thesis.id;
+            if(this.form.files.length) AddThesisFile({id: thesisId, file: this.form.files})
+            if(this.form.links.length) AddThesisLink({id: thesisId, link: this.form.links})
+            console.log(id);
+            return id
+          })
+          .then(id => this.$router.push('/discussion/'+id))
       })
     },
     submitSearchAspects(query){

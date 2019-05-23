@@ -55,11 +55,16 @@ export default {
       }else{
         let arr = [];
         this.discussion_arguments.forEach(arg =>{
-          if(this.selected_aspects.some(i =>{
-            i == arg.id
-          })){
-            arr.push(arg)
-          }
+          let res;
+          let aspect_ids = arg.aspect_ids;
+          aspect_ids.some(item =>{
+            this.selected_aspects.forEach(selected_aspect =>{
+              if (selected_aspect == item) res = true
+            })
+          })
+
+          if(res) arr.push(arg)
+
         })
         return arr
       }
@@ -86,7 +91,7 @@ export default {
         //this.getDiscussion(this.$route.params.id),
         GetCurrentDiscussions(this.$route.params.id).then(res => {this.discussion = res.data}),
         //this.getDiscussionAspects(this.$route.params.id) //change not necessary
-      ]) 
+      ])
     }
   },
 

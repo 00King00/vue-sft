@@ -17,10 +17,14 @@ export default {
     selected_aspects: [],
     discussion_arguments: [],
     resDiscussionArguments: null,
-    discussionButton: true
+    discussionButton: true,
+    searchedDiscusion: [],
   },
 
   mutations: {
+    setFilteredDiscusion(state, payload){
+      state.searchedDiscusion = payload
+    },
     setSelectedAspects(state, payload){
       state.selected_aspects.push(payload)
     },
