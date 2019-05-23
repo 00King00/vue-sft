@@ -120,9 +120,25 @@ export function AddFavoritesAspects (id, object_id) {
   return request.post(`/profile/${id}/favorite/aspects`, { object_id })
 }
 
-export function FavoritesAspects (id) {
-  return request.get(`/profile/${id}/favorite/aspects`)
-}
+export function CreateAspects (payload) {
+  return request.post(`/aspects`, payload, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  })
+} //*
+export function CreateAspectsImage ({id, image}) {
+  let form = new FormData();
+  form.append("image", image)
+  return request.put(`/aspects/${id}/image`, form, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'multipart/form-data"',
+    }
+  })
+} //*
+
 
 export function DeleteFavoritesAspects (id, object_id) {
   return request.delete(`/profile/${id}/favorite/aspects`, { data: { object_id } })
@@ -212,6 +228,10 @@ export function GetAspects (payload) {
 
 export function GetArguments (id) {
   return request.get(`/arguments/${id}`)
+} //*
+
+export function GetArgumentThesis (id) {
+  return request.get(`/arguments/${id}/theses?page=1`)
 } //*
 
 export function AddDiscussionArguments (id, data) {

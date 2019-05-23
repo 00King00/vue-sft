@@ -1,7 +1,7 @@
 <template>
-  <div class="aspect_item " :class="{'active': active}" @click="active = !active">
+  <div class="aspect_item " :class="{'active': active}" @click="filter">
     <a href="#" class="aspect_item_img">
-      <div class="aspect_item_bg js-bg"><img :src="item.image" alt=""/></div>
+      <div class="aspect_item_bg js-bg"><img v-if="item.image_url" :src="$baseUrl + item.image_url" alt="foto"/></div>
       <div class="aspect_item_text">
         <span class="icon-check"></span>
         <p>{{item.title}}</p>
@@ -18,7 +18,17 @@
         active: false
       }
     },
-    props: ['item']
+    props: ['item'],
+    methods:{
+      filter(){
+        this.active = !this.active
+        if(this.active){
+          this.$store.commit('discussion/setSelectedAspects', this.item.id)  
+        }else{
+            this.$store.commit('discussion/deleteSelectedAspects', this.item.id)
+        }
+      }
+    }
   }
 </script>
 

@@ -21,7 +21,7 @@
       <div class="country_wr">
         <div class="country_title">{{$lang.descAdd.arg}}:</div>
         <div class="disc">
-          <Argument v-for="(argument, index) in discussion_arguments" :argument="argument" :key="`argument_${index}`"/>
+          <Argument v-for="(argument, index) in filterArgument" :argument="argument" :key="`argument_${index}`"/>
           <div class="disc_line_plus" @click.prevent="addModal({name: 'DiscussionArgument'})"><a href="#"><span class="icon-plus"></span><span>Add</span></a></div>
         </div>
       </div>
@@ -48,7 +48,22 @@ export default {
 
   computed: {
     //...mapState('discussion', ['discussion', 'discussion_aspects', 'discussion_arguments']),
-    ...mapState('discussion', ['discussion_arguments']),
+    ...mapState('discussion', ['discussion_arguments', 'selected_aspects']),
+    filterArgument(){
+      if(this.selected_aspects.length == 0){
+        return this.discussion_arguments
+      }else{
+        let arr = [];
+        this.discussion_arguments.forEach(arg =>{
+          if(this.selected_aspects.some(i =>{
+            i == arg.id
+          })){
+            arr.push(arg)
+          }
+        })
+        return arr
+      }
+    },
     circleSizeTrue(){
       if(this.discussion.votes.true >= this.discussion.votes.false ){
         return 174

@@ -1,7 +1,7 @@
 <template>
   <div class="aspect_item " :class="{'active': active}">
     <a class="aspect_item_img">
-      <div class="aspect_item_bg js-bg"><img :src="image" alt=""/></div>
+      <div class="aspect_item_bg js-bg"><img v-if="item.image_url" :src="$baseUrl + item.image_url" alt="foto"/></div>
       <div class="aspect_item_text"><span class="icon-check"></span><p>{{item.title}}</p></div>
     </a>
   </div>

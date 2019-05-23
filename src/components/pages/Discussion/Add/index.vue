@@ -16,7 +16,6 @@
                   <div class="w_thesis_title">{{$lang.descAdd.themeTitle}}</div>
                   <div class="w_v_inp">
                     <input type="text" class="t-inp" v-model="newDiscussionForm.title" :placeholder="$lang.descAdd.themeTitle" @change="nextStep(2)"/>
-                    <!-- <span class="check_span"></span> -->
                   </div>
                 </div>
                 <div class="edu-inp-wrap">
@@ -281,6 +280,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .t-inp{
+    height: 45px;
+    line-height: 1.1;
+  }
   .pb-30{
     padding-bottom: 30px !important;
   }
