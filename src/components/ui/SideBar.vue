@@ -54,7 +54,7 @@
     </div>
     <div class="sidebar-themes m-hid">
       <div class="add_link"  @click.prevent="toggle">
-        <div class="circ_grad"><span class="icon-plus"></span></div>
+        <div class="circ_grad"><span class="icon-plus" ></span></div>
         <span v-if="discussionButton" >{{$lang.main.add}}</span>
         <span v-else>cancle</span>
       </div>

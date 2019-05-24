@@ -6,27 +6,9 @@ import {
   SavePrifileKnowledges,
   EditPassword,//*
   EditEmail,//*
-  ChangeAvatar,//
-  //EditProfile,
-  EditProfileEducation,
-
-  AddFavoritesDiscussion,
-  FavoritesDiscussion,
-  DeleteFavoritesDiscussion,
-
-  GetProfileFavoriteAspects,
-  AddFavoritesAspects,
-  // FavoritesAspects,
-  DeleteFavoritesAspects,
-
-  UsersTop,
-  GetFavoriteUsers,
-  AddFavoriteUsers,
-  DeleteFavoriteUsers,
-
-  DeleteUser,
-
-  FilterFfavoriteDisquss
+  ChangeAvatar,//*
+  GetAllAspects,//*
+  ToggleAspects, //*
 
 } from '@/api'
 
@@ -38,6 +20,7 @@ export default {
     profile_rewards: [],
     profile_knowledge: [],
     profile_education: false,
+    all_aspects: [],
     favorite_aspects: [],
     favoritesDiscussion: [],
     favoritesDiscussions: [],
@@ -47,20 +30,14 @@ export default {
   },
 
   mutations: {
+    setAllAspects(state, payload){state.all_aspects = payload},//*
+    UpdateAspects(state, {i, payload}){state.all_aspects[i].is_favorite = payload.is_favorite},//*
     setUserProfile (state, profile) {
       state.profile = profile
-    },
+    },//*
 
     setUserEducation (state, education) {
       state.profile_education = education
-    },
-
-    setUserRewards (state, rewards) {
-      state.profile_rewards = rewards
-    },
-
-    setUserKnowledges (state, knowledges) {
-      state.profile_knowledge = knowledges
     },
 
     setUserFavoriteAspects (state, aspects) {
@@ -71,28 +48,18 @@ export default {
       state.favorite_aspects.push(aspect)
     },
 
-    addFavoritesDiscussions (state, payload) {
-      state.favoritesDiscussion = payload
-    },
-
-    favoritesDiscussions (state, payload) {
-      state.favoritesDiscussions = payload
-    },
-
-    addFavoritesAspects (state, payload) {
-      state.favoritesAspect = payload
-    },
-
-    favoriteUsers (state, payload) {
-      state.usersFavorite = payload
-    },
-
-    topUsers (state, payload) {
-      state.usersTop = payload
-    }
   },
 
   actions: {
+    GetAllAspects ({commit}){
+      return GetAllAspects().then( res => {
+        commit('setAllAspects', res.data.items)
+        return res
+      })
+    },//*
+    toggleAspects(context, id){
+      return ToggleAspects(id)
+    },
     getUserProfile (store, id) {
       return GetProfile(id)
         .then(response => {
@@ -140,72 +107,10 @@ export default {
     ChangeAvatar(ctx, data){
       return ChangeAvatar(data)
     },
-    editUserEducation (store, data) {
-      return EditProfileEducation(data.id, data)
-    },
+    
 
-    getUserFavoriteAspects (store, id) {
-      return GetProfileFavoriteAspects(id)
-        .then(response => {
-          store.commit('setUserFavoriteAspects', response.data.result)
-          return response
-        })
-    },
 
-    addFavoritesAspects ({ commit }, { id, object_id }) {
-      return AddFavoritesAspects(id, object_id)
-        .then(res => commit('addFavoritesAspects', res.data.result))
-    },
 
-    deleteFavoritesAspects ({ dispatch }, { id, object_id }) {
-      return DeleteFavoritesAspects(id, object_id)
-        .then(() => dispatch('getUserFavoriteAspects', id))
-    },
 
-    addFavoritesDiscussion ({ commit, dispatch }, { id, object_id }) {
-      return AddFavoritesDiscussion(id, object_id)
-        .then(res => commit('addFavoritesDiscussions', res.data.result))
-        .then(() => dispatch('favoritesDiscussion'))
-    },
-
-    favoritesDiscussion ({ commit }, id) {
-      return FavoritesDiscussion(id)
-        .then(res => commit('favoritesDiscussions', res.data.result))
-    },
-
-    deleteFavoritesDiscussion ({ dispatch }, { id, object_id }) {
-      return DeleteFavoritesDiscussion(id, object_id)
-        .then(() => dispatch('favoritesDiscussion', id))
-    },
-
-    getUsersTop (store) {
-      return UsersTop()
-        .then(res => store.commit('topUsers', res.data.top))
-    },
-
-    getFavoriteUsers ({ commit }, id) {
-      return GetFavoriteUsers(id)
-        .then(res => commit('favoriteUsers', res.data.result))
-    },
-
-    addFavoritesUsers ({ dispatch }, { id, object_id }) {
-      return AddFavoriteUsers(id, object_id)
-        .then(() => dispatch('getFavoriteUsers', id))
-    },
-
-    deleteFavoriteUsers ({ dispatch }, { id, object_id }) {
-      return DeleteFavoriteUsers(id, object_id)
-        .then(() => dispatch('getFavoriteUsers'))
-    },
-
-    deleteUser (cxt, id) {
-      return DeleteUser(id)
-        .then(res => res)
-    },
-
-    filterFavoriteDisquss ({ commit }, { id, data }) {
-      return FilterFfavoriteDisquss(id, data)
-        .then(res => commit('favoritesDiscussions', res.data.result))
-    }
   }
 }

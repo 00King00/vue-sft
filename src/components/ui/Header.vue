@@ -77,7 +77,7 @@
         </div>
       </div>
       <div class="mob-side_cont">
-        <div class="mob-side_btns">
+        <div class="mob-side_btns" @click.prevent="toggle">
           <div class="mob-side_add"><a href="#" class=""><span class="circ_grad"><span class="icon-plus"></span></span></a></div>
           <a href="#" class="btn btn-bord" @click="openModal">Войти</a>
         </div>
@@ -136,12 +136,23 @@ export default {
 
   computed: {
     ...mapState(['menu']),
-    ...mapState('auth', ['auth'])
+    ...mapState('auth', ['auth']),
+    ...mapState('discussion', ['discussionButton']),
   },
 
   methods: {
     ...mapActions('modal', ['openLoginModal']),
     ...mapMutations(['openMenu']),
+    toggle(){
+      if(this.discussionButton){
+        this.$store.commit('discussion/toggleDiscussionButton', false)
+        this.$router.push('/discussion/add')
+      } else {
+        this.$store.commit('discussion/toggleDiscussionButton', true)
+        this.$router.go(-1)
+      }
+      this.openMenu(false)
+    },
     search(){
       GetFilteredDiscussion(this.searchDiscussion).then(res =>{
           this.$store.commit('discussion/setFilteredDiscusion', res.data.items)
