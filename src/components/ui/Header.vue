@@ -29,10 +29,10 @@
         <nav class="header_nav">
           <ul>
             <li>
-              <a href="#">
+              <router-link to="/aspects">
                 <span class="icon-ico8"></span>
                 <div class="header_link_txt">{{$lang.header.aspects}}</div>
-              </a>
+              </router-link>
             </li>
             <li :class="{'disabled': !auth.id}">
               <router-link to="/profile/favorites">
@@ -40,12 +40,6 @@
                 <div class="header_link_txt">{{$lang.header.favorites}}</div>
               </router-link>
             </li>
-           <!-- <li :class="{'disabled': !token}">
-              <a href="#">
-                <span class="icon-mail"></span>
-                <div class="header_link_txt">{{$lang.header.messages}}</div>
-              </a>
-            </li>-->
             <li v-if="!auth.id">
               <a href="#" @click.prevent="openLoginModal()">
                 <span class="icon-user"></span>
@@ -65,8 +59,10 @@
         </nav>
         <div class="header_search m-hid">
           <div class="header_search_wr">
-            <input type="text" :placeholder="$lang.header.searchPlaceHolder" class="t-inp">
-            <button class="search-btn"><span class="icon-search"></span></button>
+            <form @submit.prevent="search">
+              <input type="text" :placeholder="$lang.header.searchPlaceHolder" class="t-inp" v-model="searchDiscussion">
+              <button class="search-btn"><span class="icon-search"></span></button>
+            </form>
           </div>
         </div>
       </div>
@@ -116,6 +112,7 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
+import {GetFilteredDiscussion} from '@/api'
 export default {
   name: 'Header',
   data () {
@@ -132,7 +129,8 @@ export default {
           name: 'Deu'
         }
       ],
-      activeLang: 'Рус'
+      activeLang: 'Рус',
+      searchDiscussion: '',
     }
   },
 
@@ -144,7 +142,12 @@ export default {
   methods: {
     ...mapActions('modal', ['openLoginModal']),
     ...mapMutations(['openMenu']),
-
+    search(){
+      GetFilteredDiscussion(this.searchDiscussion).then(res =>{
+          this.$store.commit('discussion/setFilteredDiscusion', res.data.items)
+          this.$router.push('/search')
+        })
+    },
     openModal () {
       this.openLoginModal()
     },

@@ -38,6 +38,7 @@ Lang.requireAll(require.context('@/lang', true, /\.js$/))
 Vue.use(Lang, { default: 'ru' })
 const baseURL = 'https://sft-dev.tk/api/public';
 Vue.prototype.$axios = axios.create({ baseURL, withCredentials: true })
+Vue.prototype.$baseUrl = "https://sft-dev.tk"
 Vue.config.productionTip = false
 
 

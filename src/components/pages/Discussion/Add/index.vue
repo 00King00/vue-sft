@@ -16,14 +16,13 @@
                   <div class="w_thesis_title">{{$lang.descAdd.themeTitle}}</div>
                   <div class="w_v_inp">
                     <input type="text" class="t-inp" v-model="newDiscussionForm.title" :placeholder="$lang.descAdd.themeTitle" @change="nextStep(2)"/>
-                    <!-- <span class="check_span"></span> -->
                   </div>
                 </div>
                 <div class="edu-inp-wrap">
                   <div class="w_thesis_title">Добавить изображение:</div>
                   <div class="edu-inp-cont" style="text-align: center;">
                     <input v-show="false" ref="discussionImageUpload" type="file" @change="addDiscussionImage"  />
-                    <v-btn icon large color="#0560ce" dark @click="$refs.discussionImageUpload.click()">
+                    <v-btn icon large color="#0560ce" dark @click.prevent="$refs.discussionImageUpload.click()">
                         <v-icon>link</v-icon>
                     </v-btn>
                   </div>
@@ -164,9 +163,6 @@ export default {
 
   components: { Item },
 
-  mounted () {
-    //this.getUserFavoriteAspects(this.auth.id)
-  },
   beforeRouteLeave (to, from, next) {
     this.$store.commit('discussion/toggleDiscussionButton', true)
     next()
@@ -195,8 +191,10 @@ export default {
       this.discussionPoster = form
     },
     sendForm () {
-      if(this.index_active_aspect === null){ alert("Please check Aspects"); return false};
-      if(this.form.position === null){ alert("Please check Yes or No"); return false};
+      if(this.newDiscussionForm.length<10){ alert("Please sign title discussion at least 10 characters long"); return false}
+      if(this.index_active_aspect === null){ alert("Please check Aspects"); return false}
+      if(this.form.position === null){ alert("Please check Yes or No"); return false}
+      if(this.form.thesis.length<10 && this.form.argument.length<10){ alert("Please check filds thesis and arguments the filds must have at least 10 characters long"); return false}
       this.newDiscussionForm.lang = this.$lang.current_lang;
       this.createNewDiscussion(this.newDiscussionForm)
       .then( res => {
@@ -215,11 +213,13 @@ export default {
           }
         };
         PostDiscussionArgements({id, form}).then(res => {
-          const thesisId = res.data.thesis.id;
-          //let converFiles = Object.assign({}, this.form.files);
-          AddThesisFile({id: thesisId, file: this.form.files})
-          AddThesisLink({id: thesisId, link: this.form.links})
-        })
+            const thesisId = res.data.thesis.id;
+            if(this.form.files.length) AddThesisFile({id: thesisId, file: this.form.files})
+            if(this.form.links.length) AddThesisLink({id: thesisId, link: this.form.links})
+            console.log(id);
+            return id
+          })
+          .then(id => this.$router.push('/discussion/'+id))
       })
     },
     submitSearchAspects(query){
@@ -252,7 +252,6 @@ export default {
 
       }else{
         let files = e.target.files;
-        console.log(files);
         let filesArray = [];
         for (let i = 0; i < files.length; i++) {
             filesArray[i] = files.item(i);
@@ -281,6 +280,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .t-inp{
+    height: 45px;
+    line-height: 1.1;
+  }
   .pb-30{
     padding-bottom: 30px !important;
   }

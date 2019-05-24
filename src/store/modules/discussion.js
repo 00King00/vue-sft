@@ -14,12 +14,25 @@ export default {
     discussions: [],
     discussion: null,
     discussion_aspects: [],
+    selected_aspects: [],
     discussion_arguments: [],
     resDiscussionArguments: null,
-    discussionButton: true
+    discussionButton: true,
+    searchedDiscusion: [],
   },
 
   mutations: {
+    setFilteredDiscusion(state, payload){
+      state.searchedDiscusion = payload
+    },
+    setSelectedAspects(state, payload){
+      state.selected_aspects.push(payload)
+    },
+    deleteSelectedAspects(state, payload){
+      state.selected_aspects = state.selected_aspects.filter(function(item) {
+        return item !== payload
+    })
+    },
     toggleDiscussionButton(state, payload){
       payload ? state.discussionButton = payload : state.discussionButton = !state.discussionButton}, //*
     setDiscussionsList (state, list) {

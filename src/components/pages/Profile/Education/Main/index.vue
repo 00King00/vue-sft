@@ -22,7 +22,7 @@
             <div class="ed_block_right">
               <div class="card_verif"><span class="icon-check" v-show="profile_education.verification"></span>{{profile_education.verification ? $lang.profile.confirm : $lang.profile.notConfirm}}:</div>
               <div class="add_file js-bg">
-                <img :src="profile_education.scan" alt=""/>
+                <img :src="profile_education.scan" alt="foto"/>
               </div>
             </div>
           </div>
@@ -48,8 +48,7 @@ export default {
   },
 
   mounted () {
-    console.log(this.auth.id);
-    return this.getUserEducation(this.auth.id)
+    return this.getUserEducation(this.auth.id).catch(err =>{alert(err.message)})
   }
 }
 </script>
