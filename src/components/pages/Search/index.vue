@@ -154,19 +154,21 @@
         <div class="slick-list">
           <div class="slick-track">
             <div class="posts_col" v-for="disc in searchedDiscusion" :key="disc.id">
-              <div class="posts_item"><router-link class="cover_link" :to="'/discussion/' + disc.id"></router-link>
-                <div class="posts_item_img"><img v-if="disc.image_url" :src="$baseUrl + disc.image_url" alt="foto"/>
-                  <div class="truefalse"><span>{{disc.votes.true}}%</span><span>{{disc.votes.false}}%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">{{disc.title}}</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>{{disc.author.fullname}}</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">{{disc.created_at}}</div>
+              <router-link  :to="'/discussion/' + disc.id">
+                <div class="posts_item">
+                  <div class="posts_item_img"><img v-if="disc.image_url" :src="$baseUrl + disc.image_url" alt="foto"/>
+                    <div class="truefalse"><span>{{disc.votes.true}}%</span><span>{{disc.votes.false}}%</span></div>
                   </div>
+                  <div class="posts_item_cont">
+                    <div class="posts_item_title">{{disc.title}}</div>
+                    <div class="posts_item_bot">
+                      <div class="posts_item_author">Автор: <b>{{disc.author.fullname}}</b></div>
+                      <a href="#" class="fav_link"><span class="icon-fav"></span></a>
+                      <div class="posts_item_date">{{disc.created_at}}</div>
+                    </div>
                 </div>
               </div>
+             </router-link>
             </div>
             <!-- <div class="posts_col">
               <div class="posts_item"><a href="#" class="cover_link"></a>
