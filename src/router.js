@@ -6,6 +6,7 @@ import Main from '@/components/pages/Main'
 import About from '@/components/pages/About'
 import Search from '@/components/pages/Search'
 import Archive from '@/components/pages/Archive'
+import Aspects from '@/components/pages/Aspects'
 import MainDiscussion from '@/components/pages/Discussion/Main'
 import AddDiscussion from '@/components/pages/Discussion/Add'
 import MainProfile from '@/components/pages/Profile/Main'
@@ -29,6 +30,7 @@ export default new Router({
     { path: '/', name: 'Main', component: Main },
     { path: '/about', name: 'About', component: About },
     { path: '/search', name: 'Search', component: Search },
+    { path: '/aspects', name: 'Aspects', component: Aspects },
     { path: '/archive', name: 'Archive', component: Archive },
     { path: '/discussion/add', name: 'DiscussionAdd', component: AddDiscussion },
     { path: '/discussion/:id', name: 'Discussion', component: MainDiscussion },

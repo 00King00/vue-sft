@@ -6,7 +6,6 @@ function Request () {
   const baseURL = 'https://sft-dev.tk/api/public'
   return axios.create({ baseURL, withCredentials: true })
 } //*
-
 let request = Request() //*
 export function Login (data) {
   let form = new FormData()
@@ -108,16 +107,10 @@ export function AddFavoritesDiscussion (id, object_id) {
   return request.post(`/profile/${id}/favorite/disquss`, { object_id })
 }
 
-export function FavoritesDiscussion (id) {
-  return request.get(`/profile/${id}/favorite/disquss`)
-}
 
-export function DeleteFavoritesDiscussion (id, object_id) {
-  return request.delete(`/profile/${id}/favorite/disquss`, { data: { object_id } })
-}
 
-export function AddFavoritesAspects (id, object_id) {
-  return request.post(`/profile/${id}/favorite/aspects`, { object_id })
+export function ToggleAspects (id) {
+  return request.post(`/aspects/${id}/favorite`)
 }
 
 export function CreateAspects (payload) {
@@ -145,7 +138,7 @@ export function DeleteFavoritesAspects (id, object_id) {
 }
 export function GetFilteredDiscussion(query){
   return request.get(`/discussions?q=${query}&location=all&sort=last&page=1`)
-}
+}//*
 export function CreateNewDiscussion (data) {
   return request.post(`/discussions`, data,
     {
@@ -223,7 +216,9 @@ export function GetDiscussionArguments (id) {
 // export function GetDiscussionAspects (id) {
 //   return request.get('/aspects/' + id)
 // } //*
-
+export function GetAllAspects () {
+  return request.get(`/aspects?&page=1`)
+} //*
 export function GetAspects (payload) {
   return request.get(`/aspects?q=${payload}&page=1`)
 } //*

@@ -12,13 +12,13 @@
     name: "Item",
     props: ['item', 'active'],
     computed: {
-      image () {
-        if (this.item.image_url && typeof this.item.image_url === 'string') {
-          return this.item.image
-        } else if(this.item.image_url === null) {
-          return false
-        }else{ return URL.createObjectURL(this.item.image_url) }
-      }
+      // image () {
+      //   if (this.item.image_url && typeof this.item.image_url === 'string') {
+      //     return this.item.image
+      //   } else if(this.item.image_url === null) {
+      //     return false
+      //   }else{ return URL.createObjectURL(this.item.image_url) }
+      // }
     }
   }
 </script>
