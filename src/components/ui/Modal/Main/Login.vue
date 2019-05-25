@@ -57,7 +57,6 @@ export default {
         password: this.password
       })
         .then(success => {
-			console.log("success login");
           if (success) {
             this.closeAllModal()
           }

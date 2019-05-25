@@ -95,7 +95,7 @@ export default {
           this.$router.push('/profile/areas-of-knowledge')
         })
         .catch(err => {
-          console.log(err)
+          return err
         })
     },
 
