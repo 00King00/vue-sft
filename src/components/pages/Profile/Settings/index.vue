@@ -108,7 +108,7 @@ export default {
       let form = new FormData();
         form.append("old_password", this.old_password)
         form.append("new_password", this.new_password)
-            this.$axios.post('/profiles/current/security/password', form ).then(res => console.log(res))
+            this.$axios.post('/profiles/current/security/password', form )
     },
     changeAvatar (e) {
       let avatar = e.target.files[0];

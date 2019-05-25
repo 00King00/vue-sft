@@ -43,11 +43,9 @@
                   <div class="w_thesis_title">{{$lang.descAdd.select}}</div>
                   <div class="aspect aspect-check">
                     <Item
-                      v-for="(item, index) in allAspects"
+                      v-for="(item) in allAspects"
                       :key="item.title"
-                      :item="item"
-                      :active="index === index_active_aspect"
-                      @click.native="setActiveAspect(index)"
+                      :item="item" @checkedAspect="checkedAspect" @checkOffAspect="checkOffAspect"
                       />
                     <div class="aspect_item aspect_item_plus">
                       <a href="#" @click.prevent="addModal({name: 'DiscussionAddAspects'})">
@@ -137,7 +135,6 @@ import Item from './Item'
 import {GetAspects, PutDiscussionImage, PostDiscussionArgements, AddThesisFile, AddThesisLink } from '@/api'
 export default {
   name: 'Discussion',
-
   data () {
     return {
       newDiscussionForm:{
@@ -154,6 +151,7 @@ export default {
         links: [],
         files: []
       },
+      aspectsCount: 0,
       index_active_aspect: null,
       arrayAspects: [],
       step_2: false,
@@ -175,12 +173,24 @@ export default {
       let fav_asp = this.favorite_aspects;
       let arrayAspects = this.arrayAspects;
       return fav_asp.concat(arrayAspects)
+    },
+    aspectsControler(){
+      if (this.aspectsCount > 3) {
+        alert("Only maximum three aspects can be chosen")
+        return false
+      } else {return true}
     }
+
   },
   methods: {
     ...mapActions('modal', ['addModal']),
-    ...mapActions('profile', ['getUserFavoriteAspects']),
     ...mapActions('discussion', ['createNewDiscussion']),
+    checkedAspect(){
+      this.aspectsCount = this.aspectsCount + 1;
+    },
+    checkOffAspect(){
+      this.aspectsCount = this.aspectsCount - 1;
+    },
     cansel(){
       this.$router.go(-1)
     },
@@ -192,7 +202,7 @@ export default {
     },
     sendForm () {
       if(this.newDiscussionForm.length<10){ alert("Please sign title discussion at least 10 characters long"); return false}
-      if(this.index_active_aspect === null){ alert("Please check Aspects"); return false}
+      if(this.index_active_aspect === null && this.aspectsCount > 3){ alert("Please check Aspects 'Only maximum three aspects can be chosen'"); return false}
       if(this.form.position === null){ alert("Please check Yes or No"); return false}
       if(this.form.thesis.length<10 && this.form.argument.length<10){ alert("Please check filds thesis and arguments the filds must have at least 10 characters long"); return false}
       this.newDiscussionForm.lang = this.$lang.current_lang;
@@ -216,7 +226,6 @@ export default {
             const thesisId = res.data.thesis.id;
             if(this.form.files.length) AddThesisFile({id: thesisId, file: this.form.files})
             if(this.form.links.length) AddThesisLink({id: thesisId, link: this.form.links})
-            console.log(id);
             return id
           })
           .then(id => this.$router.push('/discussion/'+id))
@@ -244,7 +253,7 @@ export default {
       this.$refs.files.click()
     },
     removeFile(key) {
-    this.form.files.splice(key, 1)
+      this.form.files.splice(key, 1)
     },
     selectFiles (e) {
       if(this.form.files.length <= 1 && e.target.files.length == 1){
@@ -265,7 +274,8 @@ export default {
       }
 
     },
-
+    //:active="index === index_active_aspect"
+    //@click.native="setActiveAspect(index)"
     setActiveAspect (index) {
       this.index_active_aspect = index
       this.form.aspect = this.favorite_aspects[index]

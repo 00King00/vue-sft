@@ -73,7 +73,6 @@ export function EditEmail(data){
   return request.post("/profiles/current/security/email", form)
 }//*
 export function ChangeAvatar({profile_id, avatar}){
-  console.log(avatar);
   let form = new FormData();
   form.append("avatar", avatar)
 
@@ -184,17 +183,14 @@ export function GetThesisIdComments(id){
 }//*
 export function AddThesisFile({id, file}){
   let form = new FormData();
-  console.log(file)
   file.forEach(file => {form.append("files[]", file)})
-  console.log(form)
-
-  return request.post(`/theses/${id}/attachments/files`, form, {
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'multipart/form-data',
-    }
-  } )
-
+  return request.post(`/theses/${id}/attachments/files`, form,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'multipart/form-data',
+      }
+    } )
 }//*
 export function AddThesisLink({id, link}){
   let form = new FormData();

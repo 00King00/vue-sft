@@ -50,15 +50,15 @@
         CreateAspects({"title": this.title}).then( res => {
           let id = res.data.id
           CreateAspectsImage({id, image: this.image}).then(()=>{
-            this.addCustomAspect({
-              title: this.title,
-              image_url: this.image,
-              id
+            this.$axios.get('/aspects/'+id).then(res =>{
+              console.log(res.data);
+              this.addCustomAspect(res.data)
+              this.closeAllModal()
             })
-            this.closeAllModal()
+
           })
         })
-      
+
       }
     },
   }
