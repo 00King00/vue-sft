@@ -174,12 +174,6 @@ export default {
       let arrayAspects = this.arrayAspects;
       return fav_asp.concat(arrayAspects)
     },
-    aspectsControler(){
-      if (this.aspectsCount > 3) {
-        alert("Only maximum three aspects can be chosen")
-        return false
-      } else {return true}
-    }
 
   },
   methods: {
@@ -201,10 +195,14 @@ export default {
       this.discussionPoster = form
     },
     sendForm () {
-      if(this.newDiscussionForm.length<10){ alert("Please sign title discussion at least 10 characters long"); return false}
-      if(this.index_active_aspect === null && this.aspectsCount > 3){ alert("Please check Aspects 'Only maximum three aspects can be chosen'"); return false}
-      if(this.form.position === null){ alert("Please check Yes or No"); return false}
-      if(this.form.thesis.length<10 && this.form.argument.length<10){ alert("Please check filds thesis and arguments the filds must have at least 10 characters long"); return false}
+      if(this.newDiscussionForm.length<10){
+        this.$store.commit('openDialog', "Please sign title discussion at least 10 characters long"); return false}
+      if(this.index_active_aspect === null && this.aspectsCount > 3){
+        this.$store.commit('openDialog', "Please check Aspects 'Only maximum three aspects can be chosen'"); return false}
+      if(this.form.position === null){
+          this.$store.commit('openDialog', "Please check Yes or No");return false}
+      if(this.form.thesis.length<10 && this.form.argument.length<10){
+          this.$store.commit('openDialog', "Please check filds thesis and arguments the filds must have at least 10 characters long"); return false}
       this.newDiscussionForm.lang = this.$lang.current_lang;
       this.createNewDiscussion(this.newDiscussionForm)
       .then( res => {
@@ -284,6 +282,11 @@ export default {
   watch: {
     index_active_aspect: function(val){
       if(typeof val === 'number') this.nextStep(3)
+    },
+    aspectsCount(num){
+      if(num>3){
+        this.$store.commit('openDialog', "Only maximum three aspects can be chosen")
+      }
     }
   }
 }

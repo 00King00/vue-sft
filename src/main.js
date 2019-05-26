@@ -16,7 +16,11 @@ import Vuetify, {
 	VBtn,
 	VIcon,
 	VCard,
-	VCardText
+	VCardText,
+	VCardActions,
+	VSpacer,
+	VDialog,
+	VAlert
 } from 'vuetify/lib'
 Vue.use(Vuetify, {
   components: {
@@ -25,7 +29,11 @@ Vue.use(Vuetify, {
 		VBtn,
 		VIcon,
 		VCard,
-		VCardText
+		VCardText,
+		VCardActions,
+		VSpacer,
+		VDialog,
+		VAlert
   }
 })
 Vue.use(VueCircleSlider)
