@@ -1,6 +1,8 @@
 import {
   GetProfile,
   GetProfileEducation,
+  EditProfileEducation,//*
+  EditProfileEducationScan,//*
   GetProfileRewards,
   GetProfileKnowledges,
   SavePrifileKnowledges,
@@ -19,7 +21,16 @@ export default {
     profile: null,
     profile_rewards: [],
     profile_knowledge: [],
-    profile_education: false,
+    profile_education: {
+      country: "",
+      city: "",
+      high_school: "",
+      faculty: "",
+      speciality: "",
+      graduation_date: "",
+      scan_url: "",
+      is_verified: false
+    },
     all_aspects: [],
     favorite_aspects: [],
     favoritesDiscussion: [],
@@ -38,7 +49,7 @@ export default {
 
     setUserEducation (state, education) {
       state.profile_education = education
-    },
+    },//*
 
     setUserFavoriteAspects (state, aspects) {
       state.favorite_aspects = aspects
@@ -46,7 +57,7 @@ export default {
 
     addCustomAspect (state, aspect) {
       state.favorite_aspects.push(aspect)
-    },
+    },//*
 
   },
 
@@ -59,20 +70,31 @@ export default {
     },//*
     toggleAspects(context, id){
       return ToggleAspects(id)
-    },
+    },//*
     getUserProfile (store, id) {
       return GetProfile(id)
         .then(response => {
           store.commit('setUserProfile', response.data)
           return response
         })
+    },//*
+    editUserEducation({commit}, {id, data}){
+      return EditProfileEducation({id, data}).then(res => {
+        commit('setUserEducation', res.data)
+        return res
+      })
     },
-
-    getUserEducation (store, id) {
+    editUserEducationScan(ctx, {id, scan}){
+      return EditProfileEducationScan({id, scan})
+    },
+    getUserEducation ({commit}, id) {
       return GetProfileEducation(id)
         .then(response => {
-          store.commit('setUserEducation', response.data)
-          return response
+          if(Object.keys(response.data).length > 1 ){
+            commit('setUserEducation', response.data)
+            return response
+          }
+
         })
     },
 
@@ -107,7 +129,7 @@ export default {
     ChangeAvatar(ctx, data){
       return ChangeAvatar(data)
     },
-    
+
 
 
 

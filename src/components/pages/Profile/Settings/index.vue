@@ -99,16 +99,26 @@ export default {
         new_email: this.new_email,
       })
         .then(response => {
-          if (response.status !== 200) return;
-          alert('Success!')
+          this.$store.commit('openDialog', {type: 'success', message: response.data})
+        })
+        .catch(err =>{
+          if (err.response){
+            this.$store.commit('openDialog', err.response.data)
+          }else { this.$store.commit('openDialog', err.message)}
         })
     },
     changePassword () {
-      if (this.new_password !== this.re_new_password) return alert('Пароли не идеинтичны')
+      if (this.new_password !== this.re_new_password) return this.$store.commit('openDialog', 'Пароли не идеинтичны')
       let form = new FormData();
         form.append("old_password", this.old_password)
         form.append("new_password", this.new_password)
-            this.$axios.post('/profiles/current/security/password', form )
+            this.$axios.post('/profiles/current/security/password', form ).then(()=>{
+              this.$store.commit('openDialog', {type: 'success', message: "Your Parol has been successfully chanhe"})
+            }).catch(err => {
+              if (err.response){
+                this.$store.commit('openDialog', err.response.data)
+              }else { this.$store.commit('openDialog', err.message)}
+            })
     },
     changeAvatar (e) {
       let avatar = e.target.files[0];
@@ -124,7 +134,6 @@ export default {
                   let auth = res.data;
                   this.login(auth);
                 }
-              alert('Avatar successfully changed')
             })
         })
     }

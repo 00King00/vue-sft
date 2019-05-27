@@ -44,7 +44,7 @@
                   <div class="aspect aspect-check">
                     <Item
                       v-for="(item) in allAspects"
-                      :key="item.title"
+                      :key="item.id"
                       :item="item" @checkedAspect="checkedAspect" @checkOffAspect="checkOffAspect"
                       />
                     <div class="aspect_item aspect_item_plus">
@@ -151,8 +151,10 @@ export default {
         links: [],
         files: []
       },
+      aspect_ids: [],
       aspectsCount: 0,
-      index_active_aspect: null,
+
+      //index_active_aspect: null,
       arrayAspects: [],
       step_2: false,
       step_3: false
@@ -174,22 +176,20 @@ export default {
       let arrayAspects = this.arrayAspects;
       return fav_asp.concat(arrayAspects)
     },
-    aspectsControler(){
-      if (this.aspectsCount > 3) {
-        alert("Only maximum three aspects can be chosen")
-        return false
-      } else {return true}
-    }
 
   },
   methods: {
     ...mapActions('modal', ['addModal']),
     ...mapActions('discussion', ['createNewDiscussion']),
-    checkedAspect(){
+    checkedAspect(id){
       this.aspectsCount = this.aspectsCount + 1;
+      this.aspect_ids.push(id);
     },
-    checkOffAspect(){
+    checkOffAspect(id){
       this.aspectsCount = this.aspectsCount - 1;
+      this.aspect_ids.find((item, index)=>{
+        if(item == id) this.aspect_ids.splice(index, 1)
+      })
     },
     cansel(){
       this.$router.go(-1)
@@ -201,10 +201,14 @@ export default {
       this.discussionPoster = form
     },
     sendForm () {
-      if(this.newDiscussionForm.length<10){ alert("Please sign title discussion at least 10 characters long"); return false}
-      if(this.index_active_aspect === null && this.aspectsCount > 3){ alert("Please check Aspects 'Only maximum three aspects can be chosen'"); return false}
-      if(this.form.position === null){ alert("Please check Yes or No"); return false}
-      if(this.form.thesis.length<10 && this.form.argument.length<10){ alert("Please check filds thesis and arguments the filds must have at least 10 characters long"); return false}
+      if(this.newDiscussionForm.length<10){
+        this.$store.commit('openDialog', "Please sign title discussion at least 10 characters long"); return false}
+      if(this.index_active_aspect === null && this.aspectsCount > 3){
+        this.$store.commit('openDialog', "Please check Aspects 'Only maximum three aspects can be chosen'"); return false}
+      if(this.form.position === null){
+          this.$store.commit('openDialog', "Please check Yes or No");return false}
+      if(this.form.thesis.length<10 && this.form.argument.length<10){
+          this.$store.commit('openDialog', "Please check filds thesis and arguments the filds must have at least 10 characters long"); return false}
       this.newDiscussionForm.lang = this.$lang.current_lang;
       this.createNewDiscussion(this.newDiscussionForm)
       .then( res => {
@@ -216,7 +220,7 @@ export default {
         }
         let form = {
           "title": this.form.argument,
-          "aspect_ids": [this.allAspects[this.index_active_aspect].id],
+          "aspect_ids": this.aspect_ids,
           "thesis": {
             "position": this.form.position,
             "message": this.form.thesis
@@ -284,6 +288,11 @@ export default {
   watch: {
     index_active_aspect: function(val){
       if(typeof val === 'number') this.nextStep(3)
+    },
+    aspectsCount(num){
+      if(num>3){
+        this.$store.commit('openDialog', "Only maximum three aspects can be chosen")
+      }
     }
   }
 }

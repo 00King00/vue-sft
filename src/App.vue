@@ -1,4 +1,5 @@
 <template>
+<v-app>
   <div class="main-wrapper">
     <div v-if="showPreloader" class="preloader">
       <div class="preloader_lays">
@@ -35,6 +36,7 @@
       <a href="#">Donate</a>
     </div> -->
   </div>
+</v-app>
 </template>
 
 <script>
