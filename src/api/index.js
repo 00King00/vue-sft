@@ -40,7 +40,7 @@ export function GetProfile (id) {
 }
 
 export function GetProfileEducation (id) {
-  return request.get(`/profile/${id}/education`)
+  return request.get(`/profiles/${id}/education`)
 }//*
 
 export function GetProfileRewards (id) {
@@ -85,18 +85,26 @@ export function ChangeAvatar({profile_id, avatar}){
   })
 }//*
 
-export function EditProfileEducation (id, data) {
-  let form = new FormData()
-
-  let keys = Object.keys(data)
-
-  keys.map(key => {
-    let item = data[key]
-    form.append(key, item)
-  })
-
-  return request.post(`/profile/${id}/education`, form)
-}
+export function EditProfileEducation ({id, data}){
+  return request.put(`/profiles/${id}/education`, data,
+    {
+      headers:{
+          'Content-Type': 'application/json',
+      }
+    })
+}//*
+export function EditProfileEducationScan ({id, scan}){
+  let form = new FormData();
+  form.append("scan", scan)
+  return request.put(`/profiles/${id}/education/scan`, form,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'multipart/form-data',
+      }
+    }
+  )
+}//*
 
 export function GetProfileFavoriteAspects (id) {
   return request.get(`/profile/${id}/favorite/aspects`)

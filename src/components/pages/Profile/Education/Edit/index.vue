@@ -2,7 +2,7 @@
   <div class="center">
     <section class="section-form">
       <div class="h2 m-hid"><h1>Образование</h1></div>
-      <div class="ed_block" v-if="education">
+      <div class="ed_block" >
         <div class="form_block_title block_title m-show"><span class="icon-cab1"></span>Образование</div>
         <form @submit.prevent="submitEducation">
           <div class="ed_block_cols">
@@ -24,13 +24,13 @@
                 <div class="form_row">
                   <label>ВУЗ:</label>
                   <div class="form_el">
-                    <input type="text" class="t-inp" v-model="education.hight_school">
+                    <input type="text" class="t-inp" v-model="education.high_school">
                   </div>
                 </div>
                 <div class="form_row">
                   <label>Дата:</label>
                   <div class="form_el">
-                    <input type="text" class="t-inp" v-model="education.date">
+                    <input type="text" class="t-inp" v-model="education.graduation_date">
                   </div>
                 </div>
                 <div class="form_row">
@@ -42,7 +42,7 @@
                 <div class="form_row">
                   <label>Специальность:</label>
                   <div class="form_el">
-                    <input type="text" class="t-inp" v-model="education.specialty">
+                    <input type="text" class="t-inp" v-model="education.speciality">
                   </div>
                 </div>
               </div>
@@ -72,38 +72,57 @@ export default {
 
   data () {
     return {
-      education: false
+      education: {
+        country: "",
+        city: "",
+        high_school: "",
+        faculty: "",
+        speciality: "",
+        graduation_date: "",
+        scan_url: "",
+        is_verified: false
+      },
+      scan: null,
     }
   },
 
   computed: {
     ...mapState('auth', ['auth']),
+    ...mapState('profile', ['profile_education']),
   },
 
   methods: {
-    ...mapActions('profile', ['getUserEducation', 'editUserEducation']),
+    ...mapActions('profile', ['editUserEducation', 'editUserEducationScan']),
 
     submitEducation () {
-      if (typeof this.education.scan === 'string') {
-        alert(1)
-        delete this.education.scan
+      if(this.scan){
+        this.editUserEducationScan({id: this.auth.id, scan: this.scan}).then(()=>{
+          this.editUserEducation({id: this.auth.id, data: this.education})
+          this.$router.push("/profile/education")
+        }).catch(err =>{
+          if (err.response){
+            this.$store.commit('openDialog', err.response.data)
+          }else { this.$store.commit('openDialog', err.message)}
+        })
+      }else{
+          this.editUserEducation({id: this.auth.id, data: this.education}).then(()=>{
+            this.$router.push("/profile/education")
+          }).catch(err =>{
+            if (err.response){
+              this.$store.commit('openDialog', err.response.data)
+            }else { this.$store.commit('openDialog', err.message)}
+          })
       }
-
-      this.editUserEducation({ ...this.education, id: this.auth.id })
     },
-
     uploadScan (e) {
       console.log(e.target.files[0])
-      this.education.scan = e.target.files[0]
+      this.scan = e.target.files[0]
     }
   },
-
-  mounted () {
-    this.getUserEducation()
-      .then(response => {
-        this.education = response.data.result
-      })
+  created(){
+    this.education = this.profile_education;
   }
+
 }
 </script>
 

@@ -20,8 +20,8 @@
       toggle(){
         this.active = !this.active
         if(this.active){
-          this.$emit('checkedAspect')
-        }else{this.$emit('checkOffAspect')}
+          this.$emit('checkedAspect', this.item.id)
+        }else{this.$emit('checkOffAspect', this.item.id)}
       }
     }
   }

@@ -23,7 +23,7 @@
           <v-btn color="primary" flat  @click="closeDialog"> Ok </v-btn>
         </v-card-actions>
       </v-card>
-    <v-dialog>
+    </v-dialog>
 
   </div>
 </template>

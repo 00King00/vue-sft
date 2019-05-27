@@ -44,7 +44,7 @@
                   <div class="aspect aspect-check">
                     <Item
                       v-for="(item) in allAspects"
-                      :key="item.title"
+                      :key="item.id"
                       :item="item" @checkedAspect="checkedAspect" @checkOffAspect="checkOffAspect"
                       />
                     <div class="aspect_item aspect_item_plus">
@@ -151,8 +151,10 @@ export default {
         links: [],
         files: []
       },
+      aspect_ids: [],
       aspectsCount: 0,
-      index_active_aspect: null,
+
+      //index_active_aspect: null,
       arrayAspects: [],
       step_2: false,
       step_3: false
@@ -179,11 +181,15 @@ export default {
   methods: {
     ...mapActions('modal', ['addModal']),
     ...mapActions('discussion', ['createNewDiscussion']),
-    checkedAspect(){
+    checkedAspect(id){
       this.aspectsCount = this.aspectsCount + 1;
+      this.aspect_ids.push(id);
     },
-    checkOffAspect(){
+    checkOffAspect(id){
       this.aspectsCount = this.aspectsCount - 1;
+      this.aspect_ids.find((item, index)=>{
+        if(item == id) this.aspect_ids.splice(index, 1)
+      })
     },
     cansel(){
       this.$router.go(-1)
@@ -214,7 +220,7 @@ export default {
         }
         let form = {
           "title": this.form.argument,
-          "aspect_ids": [this.allAspects[this.index_active_aspect].id],
+          "aspect_ids": this.aspect_ids,
           "thesis": {
             "position": this.form.position,
             "message": this.form.thesis
