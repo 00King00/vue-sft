@@ -74,7 +74,7 @@ export default {
         auth = res.data;
         this.login(auth)
       }
-    }).catch(err => console.log(err.message))
+    }).catch(err => alert(err.message))
     if(this.$route.path == "/discussion/add"){
       this.$store.commit('discussion/toggleDiscussionButton', false)
     }else{this.$store.commit('discussion/toggleDiscussionButton', true)}
