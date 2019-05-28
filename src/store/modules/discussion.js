@@ -1,6 +1,7 @@
 import {
-  CreateNewDiscussion,
-  GetDiscussions,
+  CreateNewDiscussion,//*
+  GetDiscussions,//*
+  GetDiscussionsTop, //*
   GetDiscussion,
   //GetDiscussionAspects, // not necassery*
   GetDiscussionArguments, //*
@@ -19,15 +20,16 @@ export default {
     resDiscussionArguments: null,
     discussionButton: true,
     searchedDiscusion: [],
+    discussionsTop: [],
   },
 
   mutations: {
     setFilteredDiscusion(state, payload){
       state.searchedDiscusion = payload
-    },
+    },//*
     setSelectedAspects(state, payload){
       state.selected_aspects.push(payload)
-    },
+    },//*
     deleteSelectedAspects(state, payload){
       state.selected_aspects = state.selected_aspects.filter(function(item) {
         return item !== payload
@@ -37,10 +39,13 @@ export default {
       payload ? state.discussionButton = payload : state.discussionButton = !state.discussionButton}, //*
     setDiscussionsList (state, list) {
       state.discussions = list
-    },
+    },//*
     setDiscussion (store, item) {
       store.discussion = item
     },
+    setDiscussionsTop(store, payload){
+      store.discussionsTop = payload.items
+    },//*
     // setDiscussionAspects (store, aspects) {
     //   store.discussion_aspects.push(aspects)
     // },// not necassery*
@@ -69,6 +74,11 @@ export default {
           store.commit('setDiscussion', response.data)
           return response
         })
+    },//*
+    getDiscussionsTop({commit}, page){
+      return GetDiscussionsTop(page).then(res =>{
+        commit('setDiscussionsTop', res.data)
+      })
     },//*
 
     // getDiscussionAspects (store, id) {

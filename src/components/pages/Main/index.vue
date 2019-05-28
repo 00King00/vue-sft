@@ -8,7 +8,7 @@
         :options="postsSlickOptions">
         <PostItem
           :key="item.id"
-          v-for="item in discussions"
+          v-for="item in discussionsTop"
           :item="item"
           />
       </Slick>
@@ -20,7 +20,7 @@
         class="posts posts-sm"
         :options="themesSlickOptions">
         <ThemeItem
-          v-for="item in discussions" :key="item.id"
+          v-for="item in discussionsTop" :key="item.id"
           :item="item"
           />
       </Slick>
@@ -176,9 +176,9 @@ export default {
       feedbackMessage: "",
       feedbackName: "",
       postsSlickOptions: {
-        infinity: true,
+        infinity: false,
         dots: true,
-        slidesToShow: 2,
+        slidesToShow: 2.2,
         slidesToScroll: 2,
         prevArrow: '<button class="slick-prev slick-arrow"><span class="icon-arrow"></span></button>',
         nextArrow: '<button class="slick-next slick-arrow"><span class="icon-arrow"></span></button>'
@@ -243,12 +243,12 @@ export default {
   components: { Slick, PostItem, ThemeItem, UserItem, ReviewItem, VueRecaptcha },
 
   computed: {
-    ...mapState('discussion', ['discussions']),
+    ...mapState('discussion', ['discussionsTop']),
     ...mapState('profile', ['usersTop'])
   },
 
   methods: {
-    ...mapActions('discussion', ['getDiscussions']),
+    ...mapActions('discussion', ['getDiscussionsTop']),
     ...mapActions('profile', ['getUsersTop']),
     SubmitFeedback(){
       let data = new FormData();
@@ -273,7 +273,7 @@ export default {
   },
 
   mounted () {
-    //if (this.discussions.length <= 0) { this.getDiscussions() }
+    if (this.discussionsTop.length == 0) { this.getDiscussionsTop(1) }
     //if (this.usersTop.length <= 0) { this.getUsersTop() }
   }
 
@@ -293,9 +293,6 @@ export default {
     height: 270px;
   }
 
-  .section-discuss .posts_item_cont{
-    margin-top: -35px;
-  }
    @media screen and (max-width: 1024px){
      .section-discuss .posts_item{
        height: 230px;
@@ -304,6 +301,9 @@ export default {
 </style>
 
 <style scoped>
+.section-discuss .posts_item_cont{
+  margin-top: -35px;
+}
   section {
     text-align: center;
   }
