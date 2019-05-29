@@ -24,7 +24,7 @@
     &:focus {
         outline: none;
     }
-   
+
     &.dragging {
         cursor: pointer;
         cursor: hand;
@@ -96,26 +96,26 @@
         border: 1px solid transparent;
     }
 }
-.slick-arrow.slick-hidden {      
-    display: none;    
-}  
+.slick-arrow.slick-hidden {
+    display: none;
+}
 
 .slick-arrow{position: absolute; font-size: 0px; line-height:0; border: 1px solid #0560CE; color:#0560CE; padding: 0; bottom: 0px; width: 27px; z-index: 30; cursor: pointer; height:27px; border-radius: 50%; background-color: rgb(255, 255, 255);
     span {display: inline-block; vertical-align: middle;font-size: 10px;}
-} 
-.slick-prev{   left: 0px;          
-    span { transform: rotate(180deg);}   
+}
+.slick-prev{   left: 0px;
+    span { transform: rotate(180deg);}
 }
 .slick-next{   right:0px;}
 
 .slick-dots{text-align:center; bottom: 0px; left:0; right:0;font-size:0;
-    li{list-style: none;display:inline-block;  list-style:none; padding:2px 3px;  
-        button{border:none; display:block;padding: 0; font-size: 0; background:transparent; border-radius:50%; 
+    li{list-style: none;display:inline-block;  list-style:none; padding:2px 3px;
+        button{border:none; display:block;padding: 0; font-size: 0; background:transparent; border-radius:50%;
             width: 9px; height: 9px; border: 1px solid #CFD9E4;
             &:hover{border:2px solid #065eca;}
         }
     }
     .slick-active{
-        button {border:2px solid #065eca;}  
+        button {border:2px solid #065eca;}
     }
 }

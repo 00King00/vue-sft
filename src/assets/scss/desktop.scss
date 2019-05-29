@@ -104,11 +104,31 @@ h3 {font-size: 18px;}
 }
 .cab_drop {    padding: 4px 57px 0px;}
 
-.center { background: #fff; flex-grow: 1; padding:32px 41px;}
+.center {
+	background: #fff; flex-grow: 1; padding:32px 41px;
+	position: relative;
+	&.center_main-page{
+		&:before, &:after{
+			background: #fff;
+	    height: 100%;
+	    position: absolute;
+	    content: "";
+	    top: 0;
+	    z-index: 3;
+	    width: 41px;
+		}
+		&:after{
+			right: -4px;
+		}
+		&:before{
+			left: -5px;
+		}
+	}
+}
 
-.slider-posts:before {background: #fff; height: 100%; position: absolute; content:''; top:0;left:-41px; z-index: 3; width: 30px;}
+//.slider-posts:before, .posts-sm:before {background: #fff; height: 100%; position: absolute; content:''; top:0;left:-41px; z-index: 3; width: 41px;}
 .posts {    margin-bottom: 35px;}
-.posts_item {    height: 368px;    width: 282px;    margin: 8px 15px 20px;
+.posts_item {    height: 410px;    width: 282px;    //margin: 0px 15px 15px;
 	.fav_link {opacity: 0;}
 	.fav_link.active {opacity: 1;}
 	&:hover {
@@ -121,7 +141,10 @@ h3 {font-size: 18px;}
 .truefalse {   top: 7px;    left: -3px;    width: 158px;    height: 84px;    line-height: 78px;    font-size: 18px;}
 
 .posts-sm {    margin-bottom: 40px;}
-.posts-sm .slick-list {overflow: hidden;}
+.posts-sm .slick-list {
+	overflow: hidden;
+	margin-left: -18px;
+}
 .posts_col {    margin-top: 12px; width: 218px;
 	.posts_item {   margin: 0 0px 19px 0;}
 	.truefalse {    font-size: 14px;    width: 103px;    height: 54px;    line-height: 50px;    top: 10px;    left: 4px;}
@@ -131,9 +154,8 @@ h3 {font-size: 18px;}
 	.posts_item_cont {    padding: 11px 14px 10px 14px;}
 }
 .slider-posts {
-	.slick-list {margin-left:-15px;}
+	.slick-list {margin-left:-24px;}
 }
-
 /* */
 .sort {    margin: 16px 1px 15px 0;}
 .authors {    margin: 19px -9px 28px;}

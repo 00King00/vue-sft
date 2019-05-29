@@ -1,5 +1,5 @@
 <template>
-  <div class="center">
+  <div class="center center_main-page">
     <section class="section-themes" id="theme-day">
       <div class="h2"><h2>{{$lang.main.dayTheme}}</h2></div>
       <Slick
@@ -178,17 +178,40 @@ export default {
       postsSlickOptions: {
         infinity: false,
         dots: true,
-        slidesToShow: 2.2,
+        slidesToShow: 2,
         slidesToScroll: 2,
         prevArrow: '<button class="slick-prev slick-arrow"><span class="icon-arrow"></span></button>',
-        nextArrow: '<button class="slick-next slick-arrow"><span class="icon-arrow"></span></button>'
+        nextArrow: '<button class="slick-next slick-arrow"><span class="icon-arrow"></span></button>',
+        responsive: [
+          {
+            breakpoint: 1024,
+            settings: {
+              slidesToShow: 4,
+              slidesToScroll: 4
+            }
+          },
+          {
+            breakpoint: 924,
+            settings: {
+              slidesToShow: 3,
+              slidesToScroll: 3
+            }
+          },
+          {
+            breakpoint: 724,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 2
+            }
+          },
+        ]
       },
 
       usersSlickOptions: {
         infinity: true,
         dots: true,
-        slidesToShow: 4,
-        slidesToScroll: 4,
+        slidesToShow: 3,
+        slidesToScroll: 3,
         prevArrow: '<button class="slick-prev slick-arrow"><span class="icon-arrow"></span></button>',
         nextArrow: '<button class="slick-next slick-arrow"><span class="icon-arrow"></span></button>',
         responsive: [
@@ -215,7 +238,7 @@ export default {
             breakpoint: 1024,
             settings: {
               slidesToShow: 2,
-              slidesToScroll: 1
+              slidesToScroll: 2
             }
           }
         ]
@@ -257,17 +280,15 @@ export default {
       data.append("topic", this.feedbackTopic)
       data.append("message", this.feedbackMessage)
       if( feedbackFile !== null) {data.append("file", feedbackFile)}
-      console.log(data);
       this.$axios.post('/feedback', data,{
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'multipart/form-data',
         }
-      }).then(res => console.log(res))
+      })
     },
     processFile(e) {
       feedbackFile = e.target.files[0]
-      console.log(feedbackFile);
    }
 
   },
@@ -282,20 +303,23 @@ export default {
 
 <style>
   .slick-slide {
-    margin: 8px 7px 8px;
-    max-width: 282px;
+    margin: 8px 12px 8px;
+    //max-width: 282px;
+  }
+  .section-discuss .slick-slide{
+      margin: 8px 7px 8px
   }
   .posts_item {
     text-align: left;
   }
 
   .section-discuss .posts_item{
-    height: 270px;
+    height: 310px;
   }
 
    @media screen and (max-width: 1024px){
      .section-discuss .posts_item{
-       height: 230px;
+       height: 310px;
      }
    }
 </style>
