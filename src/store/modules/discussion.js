@@ -2,6 +2,7 @@ import {
   CreateNewDiscussion,//*
   GetDiscussions,//*
   GetDiscussionsTop, //*
+  GetDiscussionsLast, //*
   GetDiscussion,
   //GetDiscussionAspects, // not necassery*
   GetDiscussionArguments, //*
@@ -21,6 +22,7 @@ export default {
     discussionButton: true,
     searchedDiscusion: [],
     discussionsTop: [],
+    discussionsLast: [],
   },
 
   mutations: {
@@ -45,6 +47,9 @@ export default {
     },
     setDiscussionsTop(store, payload){
       store.discussionsTop = payload.items
+    },//*
+    setDiscussionsLast(store, payload){
+      store.discussionsLast = payload.items
     },//*
     // setDiscussionAspects (store, aspects) {
     //   store.discussion_aspects.push(aspects)
@@ -75,9 +80,14 @@ export default {
           return response
         })
     },//*
-    getDiscussionsTop({commit}, page){
-      return GetDiscussionsTop(page).then(res =>{
+    getDiscussionsTop({commit}){
+      return GetDiscussionsTop().then(res =>{
         commit('setDiscussionsTop', res.data)
+      })
+    },//*
+    getDiscussionsLast({commit}){
+      return GetDiscussionsLast().then(res =>{
+        commit('setDiscussionsLast', res.data)
       })
     },//*
 

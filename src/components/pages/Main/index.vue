@@ -8,7 +8,7 @@
         :options="postsSlickOptions">
         <PostItem
           :key="item.id"
-          v-for="item in discussionsTop"
+          v-for="item in discussionsLast"
           :item="item"
           />
       </Slick>
@@ -243,12 +243,12 @@ export default {
   components: { Slick, PostItem, ThemeItem, UserItem, ReviewItem, VueRecaptcha },
 
   computed: {
-    ...mapState('discussion', ['discussionsTop']),
+    ...mapState('discussion', ['discussionsTop', 'discussionsLast']),
     ...mapState('profile', ['usersTop'])
   },
 
   methods: {
-    ...mapActions('discussion', ['getDiscussionsTop']),
+    ...mapActions('discussion', ['getDiscussionsTop', 'getDiscussionsLast']),
     ...mapActions('profile', ['getUsersTop']),
     SubmitFeedback(){
       let data = new FormData();
@@ -273,8 +273,8 @@ export default {
   },
 
   mounted () {
-    if (this.discussionsTop.length == 0) { this.getDiscussionsTop(1) }
-    //if (this.usersTop.length <= 0) { this.getUsersTop() }
+    if (this.discussionsTop.length == 0) { this.getDiscussionsLast() }
+    if (this.discussionsTop.length == 0) { this.getDiscussionsTop() }
   }
 
 }

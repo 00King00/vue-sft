@@ -183,9 +183,12 @@ export function PutDiscussionImage({id, image}){
 export function GetDiscussions () {
   return request.get('/discussions')
 } //* not ready
-export function GetDiscussionsTop (page) {
-  return request.get(`/discussions?location=all&sort=popular&page=${page}`)
+export function GetDiscussionsTop () {
+  return request.get(`/discussions?location=all&sort=popular&page=1`)
 } //*
+export function GetDiscussionsLast () {
+  return request.get(`/discussions?location=all&sort=last&page=1`)
+}
 export function GetCurrentDiscussions (id) {
   return request.get(`/discussions/${id}`)
 } //*
