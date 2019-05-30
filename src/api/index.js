@@ -34,10 +34,9 @@ export function Register (data) {
 
 }//*
 
-export function GetProfile (id) {
+export function GetProfileId (id) {
   return request.get(`/profiles/${id}`)
-
-}
+}//*
 
 export function GetProfileEducation (id) {
   return request.get(`/profiles/${id}/education`)
@@ -118,8 +117,13 @@ export function AddFavoritesDiscussion (id, object_id) {
 
 export function ToggleAspects (id) {
   return request.post(`/aspects/${id}/favorite`)
-}
-
+}//*
+export function ToggleDiscusionFav(id){
+    return request.post(`/discussions/${id}/favorite`)
+}//*
+export function ToggleDiscusionAuthorFav(id){
+  //return request.post(`/discussions/${id}/favorite`)
+}// not ready API*
 export function CreateAspects (payload) {
   return request.post(`/aspects`, payload, {
     headers: {
@@ -245,9 +249,9 @@ export function AddDiscussionArguments (id, data) {
   return request.post(`/discussions/${id}/arguments`, data)
 } //*
 
-export function UsersTop () {
-  return request.get(`/users/top`)
-}
+export function GetUsersTop () {
+  return request.get(`/profiles/top_rated`)
+}//*
 
 export function GetFavoriteUsers (id) {
   return request.get(`/profile/favorite/users`, { user_id: id })

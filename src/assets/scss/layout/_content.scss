@@ -279,7 +279,7 @@ textarea {border: 1px solid #E3E3E3; background:#fff; border-radius: 6px; height
 .authors { margin: 0 -4.5px; padding-bottom: 3px;
 	&:after {content:'';display: block; clear: both;}
 }
-.authors_item {    transition: all 0.3s linear; position: relative; padding: 7px 5px; width:94px; height:168px; margin:4.5px 4.5px 6px; text-align: center; overflow: hidden; position: relative; float: left;background: #FFFFFF;box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.12);border-radius: 8px;
+.authors_item {    transition: all 0.3s linear; position: relative; padding: 7px 5px; width:94px; height:168px; text-align: center; overflow: hidden; position: relative; float: left;background: #FFFFFF;box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.12);border-radius: 8px;
 	.fav_link {position: absolute; right: 7px; top:7px; font-size: 10px;}
 	&:hover {background: linear-gradient(271.03deg, #FFFFFF 0.77%, #F2F9FF 100.7%); box-sizing: border-box; box-shadow: 0 0 0 1px #488DE0 inset;}
 }

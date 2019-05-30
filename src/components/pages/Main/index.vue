@@ -206,7 +206,6 @@ export default {
           },
         ]
       },
-
       usersSlickOptions: {
         infinity: true,
         dots: true,
@@ -218,13 +217,26 @@ export default {
           {
             breakpoint: 1024,
             settings: {
+              slidesToShow: 4,
+              slidesToScroll: 4
+            }
+          },
+          {
+            breakpoint: 724,
+            settings: {
+              slidesToShow: 3,
+              slidesToScroll: 3
+            }
+          },
+          {
+            breakpoint: 600,
+            settings: {
               slidesToShow: 2,
               slidesToScroll: 2
             }
-          }
+          },
         ]
       },
-
       themesSlickOptions: {
         infinity: true,
         dots: true,
@@ -257,7 +269,6 @@ export default {
           },
         ]
       },
-
       reviewsSlickOption: {
         slidesToShow: 3,
         slicesToScroll: 1,
@@ -280,7 +291,7 @@ export default {
   components: { Slick, PostItem, ThemeItem, UserItem, ReviewItem, VueRecaptcha },
 
   computed: {
-    ...mapState('discussion', ['discussionsTop', 'discussionsLast']),
+    ...mapState('discussion', ['discussionsTop', 'discussionsLast',]),
     ...mapState('profile', ['usersTop'])
   },
 
@@ -299,6 +310,12 @@ export default {
           'Accept': 'application/json',
           'Content-Type': 'multipart/form-data',
         }
+      }).then(res => {
+          this.$store.commit('openDialog', {type: 'success', message: res.data})
+      }).catch(err =>{
+        if (err.response){
+          this.$store.commit('openDialog', err.response.data)
+        }else { this.$store.commit('openDialog', err.message)}
       })
     },
     processFile(e) {
@@ -310,6 +327,7 @@ export default {
   mounted () {
     if (this.discussionsTop.length == 0) { this.getDiscussionsLast() }
     if (this.discussionsTop.length == 0) { this.getDiscussionsTop() }
+    if (this.usersTop.length == 0) { this.getUsersTop() }
   }
 
 }
@@ -318,7 +336,6 @@ export default {
 <style>
   .slick-slide {
     margin: 8px 12px 8px;
-    //max-width: 282px;
   }
   .section-discuss .slick-slide{
       margin: 8px 7px 8px

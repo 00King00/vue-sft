@@ -1,13 +1,13 @@
 <template>
   <div class="authors_item">
     <a href="#" class="fav_link"
-       :class="{'active': isFavorite}"
+       :class="{'active': author.is_favorite}"
       @click.prevent="addFavorites">
       <span class="icon-fav"></span>
     </a>
-    <div class="authors_item_img"><img :src="author.avatar" alt=""/></div>
+    <div class="authors_item_img"><img v-if="author.avatar_url" :src="$baseUrl+author.avatar_url" alt="avatar"/></div>
     <div class="authors_item_name">{{author.fullname}}</div>
-    <div class="authors_item_likes"><span class="icon-like"></span>48k</div>
+    <div class="authors_item_likes"><span class="icon-like"></span>{{author.total_likes}}</div>
     <div class="authors_item_info">
       <div class="authors_item_info_in">
         <div class="authors_info_circ"><span class="icon-i3"></span></div>
@@ -28,7 +28,6 @@ export default {
   props: {
     author: {
       type: Object,
-      default: () => {}
     }
   },
 
@@ -56,7 +55,7 @@ export default {
   },
 
   created () {
-    if (this.usersFavorite.length <= 0) { this.getFavoriteUsers(this.auth.id) }
+    //if (this.usersFavorite.length <= 0) { this.getFavoriteUsers(this.auth.id) }
   }
 }
 </script>

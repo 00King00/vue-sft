@@ -3,6 +3,7 @@ import {
   GetDiscussions,//*
   GetDiscussionsTop, //*
   GetDiscussionsLast, //*
+  ToggleDiscusionFav,//*
   GetDiscussion,
   //GetDiscussionAspects, // not necassery*
   GetDiscussionArguments, //*
@@ -48,6 +49,20 @@ export default {
     setDiscussionsTop(store, payload){
       store.discussionsTop = payload.items
     },//*
+    replaceDiscussionLast(store, {id, is_favorite}){
+      store.discussionsLast.find((disc, index) =>{
+        if(disc.id == id){
+          store.discussionsLast[index].is_favorite = is_favorite
+        }
+      })
+    },
+    replaceDiscussionTop(store, {id, is_favorite}){
+      store.discussionsTop.find((disc, index) =>{
+        if(disc.id == id){
+          store.discussionsTop[index].is_favorite = is_favorite
+        }
+      })
+    },
     setDiscussionsLast(store, payload){
       store.discussionsLast = payload.items
     },//*
@@ -63,9 +78,13 @@ export default {
 
   actions: {
     createNewDiscussion (store, data) {
-      return CreateNewDiscussion(data) //*0
+      return CreateNewDiscussion(data) //*
     },
-
+    toggleDiscusionFav(ctx, id){
+      return ToggleDiscusionFav(id).then(res =>{
+        return res.data
+      })
+    },
     getDiscussions (store) {
       return GetDiscussions()
         .then(response => {
