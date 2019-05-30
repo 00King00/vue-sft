@@ -196,9 +196,9 @@ textarea {border: 1px solid #E3E3E3; background:#fff; border-radius: 6px; height
 	&:after {content:'';display: block; clear: both;}
 }
 .posts_item {    transition: all 0.3s linear;overflow: hidden;float: left; height:322px; position: relative;width:248px;
-  margin: 8px 7px 8px;
+  margin: 8px 0 8px;
   background-color: rgb(255, 255, 255); box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.12);border-radius: 8px;
-	&:hover {background: linear-gradient(271.03deg, #FFFFFF 0.77%, #F2F9FF 100.7%); box-sizing: border-box; box-shadow: 0px 10px 16px rgba(14, 31, 85, 0.22), 0 0 0 1px #488DE0 inset; border: 1px solid #488de0;}
+	&:hover {background: linear-gradient(271.03deg, #FFFFFF 0.77%, #F2F9FF 100.7%); box-sizing: border-box; box-shadow: 0px 10px 16px rgba(14, 31, 85, 0.22), 0 0 0 1px #488DE0 inset; }
 }
 .posts_item_img {overflow: hidden; position: relative;
 	&:before {content:'';display: block; padding-bottom: 91%;}
