@@ -38,7 +38,6 @@ export default {
     favoritesDiscussion: [],
     favoritesDiscussions: [],
     favoritesAspect: [],
-    usersFavorite: [],
     usersTop: []
   },
 
@@ -48,7 +47,6 @@ export default {
     setUserProfile (state, profile) {
       state.profile = profile
     },//*
-
     setUserEducation (state, education) {
       state.profile_education = education
     },//*
@@ -63,6 +61,13 @@ export default {
     addCustomAspect (state, aspect) {
       state.favorite_aspects.push(aspect)
     },//*
+    replaceDiscusionAuthorFav(store, {id, is_favorite}){
+      store.usersTop.find((disc, index) =>{
+        if(disc.id == id){
+          store.usersTop[index].is_favorite = is_favorite
+        }
+      })
+    },
 
   },
 
@@ -71,7 +76,7 @@ export default {
       return ToggleDiscusionAuthorFav(id).then(res =>{
         return res.data
       })
-    },// not ready API*
+    },//*
     GetAllAspects ({commit}){
       return GetAllAspects().then( res => {
         commit('setAllAspects', res.data.items)

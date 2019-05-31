@@ -122,8 +122,8 @@ export function ToggleDiscusionFav(id){
     return request.post(`/discussions/${id}/favorite`)
 }//*
 export function ToggleDiscusionAuthorFav(id){
-  //return request.post(`/discussions/${id}/favorite`)
-}// not ready API*
+  return request.post(`/profiles/${id}/favorite`)
+}// *
 export function CreateAspects (payload) {
   return request.post(`/aspects`, payload, {
     headers: {

@@ -21,7 +21,6 @@ export default {
   methods: {
     cardEvent($event){
       if($event.target.className == "icon-fav"){
-        console.log(this.item.id)
         this.$store.dispatch('discussion/toggleDiscusionFav',this.item.id).then(disc =>{
           this.$store.commit('discussion/replaceDiscussionTop', {id : disc.id, is_favorite: disc.is_favorite})
         })

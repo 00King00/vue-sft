@@ -1,8 +1,7 @@
 <template>
-  <div class="authors_item">
+  <div class="authors_item" @click.prevent="cardEvent">
     <a href="#" class="fav_link"
-       :class="{'active': author.is_favorite}"
-      @click.prevent="addFavorites">
+       :class="{'active': author.is_favorite}">
       <span class="icon-fav"></span>
     </a>
     <div class="authors_item_img"><img v-if="author.avatar_url" :src="$baseUrl+author.avatar_url" alt="avatar"/></div>
@@ -19,9 +18,6 @@
 </template>
 
 <script>
-
-
-import { mapActions, mapState } from 'vuex'
 export default {
   name: 'UserItem',
 
@@ -30,33 +26,17 @@ export default {
       type: Object,
     }
   },
-
-
-
-
-
-  computed: {
-    ...mapState('auth', ['auth']),
-    ...mapState('profile', ['usersFavorite']),
-    isFavorite () {
-      return this.usersFavorite.find(item => item.id === this.author.id)
-    }
-  },
-
   methods: {
-    ...mapActions('profile', ['addFavoritesUsers', 'getFavoriteUsers']),
-
-    addFavorites () {
-      this.addFavoritesUsers({
-        id: this.auth.id,
-        object_id: this.author.id
-      })
+    cardEvent($event){
+      if($event.target.className == "icon-fav"){
+        this.$store.dispatch('profile/toggleDiscusionAuthorFav',this.author.id).then(disc =>{
+          this.$store.commit('profile/replaceDiscusionAuthorFav', {id : disc.id, is_favorite: disc.is_favorite})
+        })
+      }else{
+        //this.$router.push('/discussion/' + this.item.id)
+      }
     }
   },
-
-  created () {
-    //if (this.usersFavorite.length <= 0) { this.getFavoriteUsers(this.auth.id) }
-  }
 }
 </script>
 
