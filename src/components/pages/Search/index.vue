@@ -149,7 +149,7 @@
         <p>По вашему запросу ничего не <br/>найдено.</p>
       </div>
 
-      <div class="posts posts-sm slick-initialized slick-slider">
+      <!-- <div class="posts posts-sm slick-initialized slick-slider">
         <button type="button" class="slick-prev slick-arrow"><span class="icon-arrow"></span></button>
         <div class="slick-list">
           <div class="slick-track">
@@ -186,7 +186,16 @@
             </li>
           </ul>
         </div>
-      </div>
+      </div> -->
+      <Slick
+        ref="slick2"
+        class="posts posts-sm"
+        :options="themesSlickOptions">
+        <ThemeItem
+          v-for="item in searchedDiscusion" :key="item.id"
+          :item="item"
+          />
+      </Slick>
     </section>
     <section class="section-discuss">
       <div class="h2"><h2>Похожие темы</h2></div>
@@ -489,12 +498,50 @@
 </template>
 
 <script>
+  import slick from '@/components/mixins/slick'
+  import ThemeItem from '../Main/ThemeItem'
   export default {
-    name: "index",
+    name: "Search",
+    mixins: [slick],
     data() {
       return {
         showFilter: false,
+        themesSlickOptions: {
+          infinity: true,
+          dots: true,
+          rows: 2,
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          prevArrow: '<button class="slick-prev slick-arrow"><span class="icon-arrow"></span></button>',
+          nextArrow: '<button class="slick-next slick-arrow"><span class="icon-arrow"></span></button>',
+          responsive: [
+            {
+              breakpoint: 1024,
+              settings: {
+                slidesToShow: 4,
+                slidesToScroll: 4
+              }
+            },
+            {
+              breakpoint: 724,
+              settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3
+              }
+            },
+            {
+              breakpoint: 600,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2
+              }
+            },
+          ]
+        },
       }
+    },
+    components:{
+      ThemeItem
     },
     computed:{
       result(){

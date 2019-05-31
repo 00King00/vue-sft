@@ -740,10 +740,10 @@ display:flex; align-items: center; justify-content: center; background: #E1E3EB;
 	&:hover {color:#fff;}
 }
 .disc_line_body {display: none; padding: 23px 0; background: rgba(225, 236, 248, 0.3); position:relative;z-index: 0; border-radius: 0 0 8px 8px; margin-top: -8px;}
-.disc_left_bg, .disc_right_bg { left:28px; position: absolute; z-index: 0; top:0;bottom: 0;font-weight: bold; font-size: 10px;color: #0560CE;width: 6px;	background: linear-gradient(top, #e3edf9 0%, #aacaf0 100%);
+.disc_left_bg, .disc_right_bg { left:28px; position: absolute; z-index: 0; top:0;bottom: 0;font-weight: bold; font-size: 10px;color: #0560CE;width: 6px;	background: linear-gradient(to bottom, #e3edf9 0%, #aacaf0 100%);
 	b {position: absolute; left: -9px; top:18px; padding-left: 33px; line-height: 24px; background: url(../img/poly1.png) no-repeat left 0;}
 }
-.disc_right_bg {left:auto; right:28px; color: #FF441D; background: linear-gradient(top, #e3edf9 0%, #f1cfcd 100%);
+.disc_right_bg {left:auto; right:28px; color: #FF441D; background: linear-gradient(to bottom, #e3edf9 0%, #f1cfcd 100%);
 	b {left:auto; right:-11px; padding: 0 36px 0 0; background: url(../img/poly2.png) no-repeat right 0;}
 }
 
