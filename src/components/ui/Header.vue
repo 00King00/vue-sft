@@ -29,10 +29,10 @@
         <nav class="header_nav">
           <ul>
             <li>
-              <a href="#">
+              <router-link to="/aspects">
                 <span class="icon-ico8"></span>
                 <div class="header_link_txt">{{$lang.header.aspects}}</div>
-              </a>
+              </router-link>
             </li>
             <li :class="{'disabled': !auth.id}">
               <router-link to="/profile/favorites">
@@ -40,12 +40,6 @@
                 <div class="header_link_txt">{{$lang.header.favorites}}</div>
               </router-link>
             </li>
-           <!-- <li :class="{'disabled': !token}">
-              <a href="#">
-                <span class="icon-mail"></span>
-                <div class="header_link_txt">{{$lang.header.messages}}</div>
-              </a>
-            </li>-->
             <li v-if="!auth.id">
               <a href="#" @click.prevent="openLoginModal()">
                 <span class="icon-user"></span>
@@ -65,8 +59,10 @@
         </nav>
         <div class="header_search m-hid">
           <div class="header_search_wr">
-            <input type="text" :placeholder="$lang.header.searchPlaceHolder" class="t-inp">
-            <button class="search-btn"><span class="icon-search"></span></button>
+            <form @submit.prevent="search">
+              <input type="text" :placeholder="$lang.header.searchPlaceHolder" class="t-inp" v-model="searchDiscussion">
+              <button class="search-btn"><span class="icon-search"></span></button>
+            </form>
           </div>
         </div>
       </div>
@@ -81,9 +77,10 @@
         </div>
       </div>
       <div class="mob-side_cont">
-        <div class="mob-side_btns">
+        <div class="mob-side_btns" @click.prevent="toggle">
           <div class="mob-side_add"><a href="#" class=""><span class="circ_grad"><span class="icon-plus"></span></span></a></div>
-          <a href="#" class="btn btn-bord" @click="openModal">Войти</a>
+          <a href="#" class="btn btn-bord" @click.prevent="openModal" v-if="auth.id == null">Войти</a>
+          <a href="#" class="btn btn-bord" @click.prevent="logout" v-else>Выход</a>
         </div>
         <ul class="mob-side_nav sidebar-themes_list">
           <li><router-link to="/"><span class="icon-arrow_down"></span>Тема дня</router-link></li>
@@ -116,6 +113,7 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
+import {GetFilteredDiscussion} from '@/api'
 export default {
   name: 'Header',
   data () {
@@ -132,19 +130,37 @@ export default {
           name: 'Deu'
         }
       ],
-      activeLang: 'Рус'
+      activeLang: 'Рус',
+      searchDiscussion: '',
     }
   },
 
   computed: {
     ...mapState(['menu']),
-    ...mapState('auth', ['auth'])
+    ...mapState('auth', ['auth']),
+    ...mapState('discussion', ['discussionButton']),
   },
 
   methods: {
     ...mapActions('modal', ['openLoginModal']),
     ...mapMutations(['openMenu']),
-
+    ...mapActions('auth', ['logout']),
+    toggle(){
+      if(this.discussionButton){
+        this.$store.commit('discussion/toggleDiscussionButton', false)
+        this.$router.push('/discussion/add')
+      } else {
+        this.$store.commit('discussion/toggleDiscussionButton', true)
+        this.$router.go(-1)
+      }
+      this.openMenu(false)
+    },
+    search(){
+      GetFilteredDiscussion(this.searchDiscussion).then(res =>{
+          this.$store.commit('discussion/setFilteredDiscusion', res.data.items)
+          this.$router.push('/search')
+        })
+    },
     openModal () {
       this.openLoginModal()
     },

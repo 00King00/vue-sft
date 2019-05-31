@@ -25,8 +25,9 @@
 
 <script>
   import {mapMutations} from 'vuex'
+  import {CreateAspects, CreateAspectsImage} from '@/api'
   export default {
-    name: "Add",
+    name: "DiscussionAddAspects",
     data() {
       return {
         title: '',
@@ -46,13 +47,18 @@
         if (!this.image) {
           return alert('Please select aspect image!')
         }
+        CreateAspects({"title": this.title}).then( res => {
+          let id = res.data.id
+          CreateAspectsImage({id, image: this.image}).then(()=>{
+            this.$axios.get('/aspects/'+id).then(res =>{
+              console.log(res.data);
+              this.addCustomAspect(res.data)
+              this.closeAllModal()
+            })
 
-        this.addCustomAspect({
-          title: this.title,
-          image: this.image
+          })
         })
 
-        this.closeAllModal()
       }
     },
   }

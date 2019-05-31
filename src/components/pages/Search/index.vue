@@ -144,8 +144,8 @@
           </div>
         </div>
       </div>
-      <div v-if="false" class="empty-res">
-        <img src="@/assets/img/search.png" alt=""/>
+      <div v-if="result" class="empty-res">
+        <img src="@/assets/img/search.png" alt="foto"/>
         <p>По вашему запросу ничего не <br/>найдено.</p>
       </div>
 
@@ -153,329 +153,22 @@
         <button type="button" class="slick-prev slick-arrow"><span class="icon-arrow"></span></button>
         <div class="slick-list">
           <div class="slick-track">
-            <div class="posts_col">
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img4.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
+            <div class="posts_col" v-for="disc in searchedDiscusion" :key="disc.id">
+              <router-link  :to="'/discussion/' + disc.id">
+                <div class="posts_item">
+                  <div class="posts_item_img"><img v-if="disc.image_url" :src="$baseUrl + disc.image_url" alt="foto"/>
+                    <div class="truefalse"><span>{{disc.votes.true}}%</span><span>{{disc.votes.false}}%</span></div>
                   </div>
+                  <div class="posts_item_cont">
+                    <div class="posts_item_title">{{disc.title}}</div>
+                    <div class="posts_item_bot">
+                      <div class="posts_item_author">Автор: <b>{{disc.author.fullname}}</b></div>
+                      <a href="#" class="fav_link"><span class="icon-fav"></span></a>
+                      <div class="posts_item_date">{{disc.created_at}}</div>
+                    </div>
                 </div>
               </div>
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img7.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
-                  </div>
-                </div>
-              </div>
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img4.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
-                  </div>
-                </div>
-              </div>
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img7.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="posts_col">
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img5.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
-                  </div>
-                </div>
-              </div>
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img8.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
-                  </div>
-                </div>
-              </div>
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img5.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
-                  </div>
-                </div>
-              </div>
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img8.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="posts_col">
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img6.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
-                  </div>
-                </div>
-              </div>
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img9.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
-                  </div>
-                </div>
-              </div>
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img6.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
-                  </div>
-                </div>
-              </div>
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img9.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="posts_col">
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img4.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
-                  </div>
-                </div>
-              </div>
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img7.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
-                  </div>
-                </div>
-              </div>
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img4.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
-                  </div>
-                </div>
-              </div>
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img7.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="posts_col">
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img5.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
-                  </div>
-                </div>
-              </div>
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img8.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
-                  </div>
-                </div>
-              </div>
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img5.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
-                  </div>
-                </div>
-              </div>
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img8.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="posts_col">
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img6.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
-                  </div>
-                </div>
-              </div>
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img9.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
-                  </div>
-                </div>
-              </div>
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img6.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
-                  </div>
-                </div>
-              </div>
-              <div class="posts_item"><a href="#" class="cover_link"></a>
-                <div class="posts_item_img"><img src="@/assets/img/img9.png" alt=""/>
-                  <div class="truefalse"><span>80%</span><span>20%</span></div>
-                </div>
-                <div class="posts_item_cont">
-                  <div class="posts_item_title">Были ли американцы на луне?</div>
-                  <div class="posts_item_bot">
-                    <div class="posts_item_author">Автор: <b>Бобель</b></div>
-                    <a href="#" class="fav_link"><span class="icon-fav"></span></a>
-                    <div class="posts_item_date">19.07.2018</div>
-                  </div>
-                </div>
-              </div>
+             </router-link>
             </div>
           </div>
         </div>
@@ -800,9 +493,18 @@
     name: "index",
     data() {
       return {
-        showFilter: false
+        showFilter: false,
       }
     },
+    computed:{
+      result(){
+        return this.searchedDiscusion.length == 0
+      },
+      searchedDiscusion(){
+        return this.$store.state.discussion.searchedDiscusion
+      }
+
+    }
   }
 </script>
 

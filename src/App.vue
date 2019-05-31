@@ -1,4 +1,5 @@
 <template>
+<v-app>
   <div class="main-wrapper">
     <div v-if="showPreloader" class="preloader">
       <div class="preloader_lays">
@@ -35,6 +36,7 @@
       <a href="#">Donate</a>
     </div> -->
   </div>
+</v-app>
 </template>
 
 <script>
@@ -73,6 +75,10 @@ export default {
         this.login(auth)
       }
     }).catch(err => console.log(err.message))
+    if(this.$route.path == "/discussion/add"){
+      this.$store.commit('discussion/toggleDiscussionButton', false)
+    }else{this.$store.commit('discussion/toggleDiscussionButton', true)}
+
   //   this.$nextTick(function() {
   //     let self = this;
   //     setTimeout(() => {
