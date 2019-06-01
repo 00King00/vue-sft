@@ -29,7 +29,7 @@
               <div class="comm_date">18:45</div>
               <div class="comm_ans"><a href="#">Ответы
                 <span class="inline" v-if="responseThesisIdComments === null">0</span>
-                <span class="inline" v-else="responseThesisIdComments">
+                <span class="inline" v-else>
                   <span class="inline" v-if="responseThesisIdComments.items.length == 0">0</span>
                   <span class="inline" v-else>{{responseThesisIdComments.items[0].total_comments}}</span>
                 </span>

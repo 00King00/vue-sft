@@ -1,4 +1,3 @@
-import {CreateAspects} from '@/api'
 export default {
   namespaced: true,
 
