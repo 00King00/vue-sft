@@ -79,7 +79,8 @@
       <div class="mob-side_cont">
         <div class="mob-side_btns" @click.prevent="toggle">
           <div class="mob-side_add"><a href="#" class=""><span class="circ_grad"><span class="icon-plus"></span></span></a></div>
-          <a href="#" class="btn btn-bord" @click="openModal">Войти</a>
+          <a href="#" class="btn btn-bord" @click.prevent="openModal" v-if="auth.id == null">Войти</a>
+          <a href="#" class="btn btn-bord" @click.prevent="logout" v-else>Выход</a>
         </div>
         <ul class="mob-side_nav sidebar-themes_list">
           <li><router-link to="/"><span class="icon-arrow_down"></span>Тема дня</router-link></li>
@@ -143,6 +144,7 @@ export default {
   methods: {
     ...mapActions('modal', ['openLoginModal']),
     ...mapMutations(['openMenu']),
+    ...mapActions('auth', ['logout']),
     toggle(){
       if(this.discussionButton){
         this.$store.commit('discussion/toggleDiscussionButton', false)

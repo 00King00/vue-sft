@@ -1,5 +1,5 @@
 <template>
-  <div class="center">
+  <div class="center center_main-page">
     <section class="section-themes" id="theme-day">
       <div class="h2"><h2>{{$lang.main.dayTheme}}</h2></div>
       <Slick
@@ -8,7 +8,7 @@
         :options="postsSlickOptions">
         <PostItem
           :key="item.id"
-          v-for="item in discussions"
+          v-for="item in discussionsLast"
           :item="item"
           />
       </Slick>
@@ -20,7 +20,7 @@
         class="posts posts-sm"
         :options="themesSlickOptions">
         <ThemeItem
-          v-for="item in discussions" :key="item.id"
+          v-for="item in discussionsTop" :key="item.id"
           :item="item"
           />
       </Slick>
@@ -176,32 +176,67 @@ export default {
       feedbackMessage: "",
       feedbackName: "",
       postsSlickOptions: {
-        infinity: true,
+        infinity: false,
         dots: true,
         slidesToShow: 2,
         slidesToScroll: 2,
-        prevArrow: '<button class="slick-prev slick-arrow"><span class="icon-arrow"></span></button>',
-        nextArrow: '<button class="slick-next slick-arrow"><span class="icon-arrow"></span></button>'
-      },
-
-      usersSlickOptions: {
-        infinity: true,
-        dots: true,
-        slidesToShow: 4,
-        slidesToScroll: 4,
         prevArrow: '<button class="slick-prev slick-arrow"><span class="icon-arrow"></span></button>',
         nextArrow: '<button class="slick-next slick-arrow"><span class="icon-arrow"></span></button>',
         responsive: [
           {
             breakpoint: 1024,
             settings: {
+              slidesToShow: 4,
+              slidesToScroll: 4
+            }
+          },
+          {
+            breakpoint: 724,
+            settings: {
+              slidesToShow: 3,
+              slidesToScroll: 3
+            }
+          },
+          {
+            breakpoint: 524,
+            settings: {
               slidesToShow: 2,
               slidesToScroll: 2
             }
-          }
+          },
         ]
       },
-
+      usersSlickOptions: {
+        infinity: true,
+        dots: true,
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        prevArrow: '<button class="slick-prev slick-arrow"><span class="icon-arrow"></span></button>',
+        nextArrow: '<button class="slick-next slick-arrow"><span class="icon-arrow"></span></button>',
+        responsive: [
+          {
+            breakpoint: 1024,
+            settings: {
+              slidesToShow: 4,
+              slidesToScroll: 4
+            }
+          },
+          {
+            breakpoint: 724,
+            settings: {
+              slidesToShow: 3,
+              slidesToScroll: 3
+            }
+          },
+          {
+            breakpoint: 600,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 2
+            }
+          },
+        ]
+      },
       themesSlickOptions: {
         infinity: true,
         dots: true,
@@ -214,13 +249,26 @@ export default {
           {
             breakpoint: 1024,
             settings: {
-              slidesToShow: 2,
-              slidesToScroll: 1
+              slidesToShow: 4,
+              slidesToScroll: 4
             }
-          }
+          },
+          {
+            breakpoint: 724,
+            settings: {
+              slidesToShow: 3,
+              slidesToScroll: 3
+            }
+          },
+          {
+            breakpoint: 600,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 2
+            }
+          },
         ]
       },
-
       reviewsSlickOption: {
         slidesToShow: 3,
         slicesToScroll: 1,
@@ -243,12 +291,12 @@ export default {
   components: { Slick, PostItem, ThemeItem, UserItem, ReviewItem, VueRecaptcha },
 
   computed: {
-    ...mapState('discussion', ['discussions']),
+    ...mapState('discussion', ['discussionsTop', 'discussionsLast',]),
     ...mapState('profile', ['usersTop'])
   },
 
   methods: {
-    ...mapActions('discussion', ['getDiscussions']),
+    ...mapActions('discussion', ['getDiscussionsTop', 'getDiscussionsLast']),
     ...mapActions('profile', ['getUsersTop']),
     SubmitFeedback(){
       let data = new FormData();
@@ -257,24 +305,29 @@ export default {
       data.append("topic", this.feedbackTopic)
       data.append("message", this.feedbackMessage)
       if( feedbackFile !== null) {data.append("file", feedbackFile)}
-      console.log(data);
       this.$axios.post('/feedback', data,{
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'multipart/form-data',
         }
-      }).then(res => console.log(res))
+      }).then(res => {
+          this.$store.commit('openDialog', {type: 'success', message: res.data})
+      }).catch(err =>{
+        if (err.response){
+          this.$store.commit('openDialog', err.response.data)
+        }else { this.$store.commit('openDialog', err.message)}
+      })
     },
     processFile(e) {
       feedbackFile = e.target.files[0]
-      console.log(feedbackFile);
    }
 
   },
 
   mounted () {
-    //if (this.discussions.length <= 0) { this.getDiscussions() }
-    //if (this.usersTop.length <= 0) { this.getUsersTop() }
+    if (this.discussionsLast.length == 0) { this.getDiscussionsLast() }
+    if (this.discussionsTop.length == 0) { this.getDiscussionsTop() }
+    if (this.usersTop.length == 0) { this.getUsersTop() }
   }
 
 }
@@ -282,37 +335,39 @@ export default {
 
 <style>
   .slick-slide {
-    margin: 8px 7px 8px;
-    max-width: 282px;
+    margin: 8px 12px 8px;
+  }
+  .section-discuss .slick-slide{
+      margin: 8px 7px 8px
   }
   .posts_item {
     text-align: left;
   }
 
   .section-discuss .posts_item{
-    height: 270px;
+    height: 310px;
   }
 
-  .section-discuss .posts_item_cont{
-    margin-top: -35px;
-  }
    @media screen and (max-width: 1024px){
      .section-discuss .posts_item{
-       height: 230px;
+       height: 310px;
      }
    }
 </style>
 
 <style scoped>
-  section {
-    text-align: center;
+  .section-discuss .posts_item_cont{
+    margin-top: -35px;
   }
-  .form_capt {
-    margin-top: -105px;
-  }
+    section {
+      text-align: center;
+    }
+    .form_capt {
+      margin-top: -105px;
+    }
 
-  .form_row {
-    margin-bottom: 66px;
-  }
+    .form_row {
+      margin-bottom: 66px;
+    }
 
 </style>

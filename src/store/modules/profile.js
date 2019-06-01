@@ -1,8 +1,10 @@
 import {
-  GetProfile,
-  GetProfileEducation,
+  GetProfileId,//*
+  GetProfileEducation,//*
   EditProfileEducation,//*
   EditProfileEducationScan,//*
+  GetUsersTop,//*
+  ToggleDiscusionAuthorFav,//*
   GetProfileRewards,
   GetProfileKnowledges,
   SavePrifileKnowledges,
@@ -36,7 +38,6 @@ export default {
     favoritesDiscussion: [],
     favoritesDiscussions: [],
     favoritesAspect: [],
-    usersFavorite: [],
     usersTop: []
   },
 
@@ -46,10 +47,12 @@ export default {
     setUserProfile (state, profile) {
       state.profile = profile
     },//*
-
     setUserEducation (state, education) {
       state.profile_education = education
     },//*
+    setUserTop(state, payload){
+      state.usersTop = payload
+    },
 
     setUserFavoriteAspects (state, aspects) {
       state.favorite_aspects = aspects
@@ -58,10 +61,22 @@ export default {
     addCustomAspect (state, aspect) {
       state.favorite_aspects.push(aspect)
     },//*
+    replaceDiscusionAuthorFav(store, {id, is_favorite}){
+      store.usersTop.find((disc, index) =>{
+        if(disc.id == id){
+          store.usersTop[index].is_favorite = is_favorite
+        }
+      })
+    },
 
   },
 
   actions: {
+    toggleDiscusionAuthorFav(ctx, id){
+      return ToggleDiscusionAuthorFav(id).then(res =>{
+        return res.data
+      })
+    },//*
     GetAllAspects ({commit}){
       return GetAllAspects().then( res => {
         commit('setAllAspects', res.data.items)
@@ -72,7 +87,7 @@ export default {
       return ToggleAspects(id)
     },//*
     getUserProfile (store, id) {
-      return GetProfile(id)
+      return GetProfileId(id)
         .then(response => {
           store.commit('setUserProfile', response.data)
           return response
@@ -83,10 +98,10 @@ export default {
         commit('setUserEducation', res.data)
         return res
       })
-    },
+    },//*
     editUserEducationScan(ctx, {id, scan}){
       return EditProfileEducationScan({id, scan})
-    },
+    },//*
     getUserEducation ({commit}, id) {
       return GetProfileEducation(id)
         .then(response => {
@@ -96,8 +111,12 @@ export default {
           }
 
         })
-    },
-
+    },//*
+    getUsersTop({commit}){
+      return GetUsersTop().then(res =>{
+        commit('setUserTop', res.data.items)
+      })
+    },//*
     getUserRewards (store, id) {
       return GetProfileRewards(id)
         .then(response => {
@@ -122,13 +141,13 @@ export default {
 
     EditPassword(ctx, data){
          return EditPassword( data)
-    },
+    },//*
     EditEmail(ctx, data){
          return EditEmail( data)
-    },
+    },//*
     ChangeAvatar(ctx, data){
       return ChangeAvatar(data)
-    },
+    },//*
 
 
 

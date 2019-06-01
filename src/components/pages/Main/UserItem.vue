@@ -1,13 +1,12 @@
 <template>
-  <div class="authors_item">
+  <div class="authors_item" @click.prevent="cardEvent">
     <a href="#" class="fav_link"
-       :class="{'active': isFavorite}"
-      @click.prevent="addFavorites">
+       :class="{'active': author.is_favorite}">
       <span class="icon-fav"></span>
     </a>
-    <div class="authors_item_img"><img :src="author.avatar" alt=""/></div>
+    <div class="authors_item_img"><img v-if="author.avatar_url" :src="$baseUrl+author.avatar_url" alt="avatar"/></div>
     <div class="authors_item_name">{{author.fullname}}</div>
-    <div class="authors_item_likes"><span class="icon-like"></span>48k</div>
+    <div class="authors_item_likes"><span class="icon-like"></span>{{author.total_likes}}</div>
     <div class="authors_item_info">
       <div class="authors_item_info_in">
         <div class="authors_info_circ"><span class="icon-i3"></span></div>
@@ -19,45 +18,25 @@
 </template>
 
 <script>
-
-
-import { mapActions, mapState } from 'vuex'
 export default {
   name: 'UserItem',
 
   props: {
     author: {
       type: Object,
-      default: () => {}
     }
   },
-
-
-
-
-
-  computed: {
-    ...mapState('auth', ['auth']),
-    ...mapState('profile', ['usersFavorite']),
-    isFavorite () {
-      return this.usersFavorite.find(item => item.id === this.author.id)
-    }
-  },
-
   methods: {
-    ...mapActions('profile', ['addFavoritesUsers', 'getFavoriteUsers']),
-
-    addFavorites () {
-      this.addFavoritesUsers({
-        id: this.auth.id,
-        object_id: this.author.id
-      })
+    cardEvent($event){
+      if($event.target.className == "icon-fav"){
+        this.$store.dispatch('profile/toggleDiscusionAuthorFav',this.author.id).then(disc =>{
+          this.$store.commit('profile/replaceDiscusionAuthorFav', {id : disc.id, is_favorite: disc.is_favorite})
+        })
+      }else{
+        //this.$router.push('/discussion/' + this.item.id)
+      }
     }
   },
-
-  created () {
-    if (this.usersFavorite.length <= 0) { this.getFavoriteUsers(this.auth.id) }
-  }
 }
 </script>
 
