@@ -325,7 +325,7 @@ export default {
   },
 
   mounted () {
-    if (this.discussionsTop.length == 0) { this.getDiscussionsLast() }
+    if (this.discussionsLast.length == 0) { this.getDiscussionsLast() }
     if (this.discussionsTop.length == 0) { this.getDiscussionsTop() }
     if (this.usersTop.length == 0) { this.getUsersTop() }
   }
@@ -356,18 +356,18 @@ export default {
 </style>
 
 <style scoped>
-.section-discuss .posts_item_cont{
-  margin-top: -35px;
-}
-  section {
-    text-align: center;
+  .section-discuss .posts_item_cont{
+    margin-top: -35px;
   }
-  .form_capt {
-    margin-top: -105px;
-  }
+    section {
+      text-align: center;
+    }
+    .form_capt {
+      margin-top: -105px;
+    }
 
-  .form_row {
-    margin-bottom: 66px;
-  }
+    .form_row {
+      margin-bottom: 66px;
+    }
 
 </style>
