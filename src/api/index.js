@@ -150,6 +150,9 @@ export function DeleteFavoritesAspects (id, object_id) {
 export function GetFilteredDiscussion(query){
   return request.get(`/discussions?q=${query}&location=all&sort=last&page=1`)
 }//*
+export function GetAllDiscussion(page){
+  return request.get(`/discussions?location=all&sort=last&page=${page}`)
+}//*
 export function CreateNewDiscussion (data) {
   return request.post(`/discussions`, data,
     {

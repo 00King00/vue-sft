@@ -5,7 +5,7 @@
       <div class="form_block">
         <div class="form_block_title block_title"><span class="icon-cab8"></span>{{$lang.profile.logoutDesc}}</div>
         <div class="form_btn">
-          <a href="#" class="btn" @click.prevent="logout">{{$lang.profile.accept}}</a>
+          <a href="#" class="btn" @click.prevent="Logout">{{$lang.profile.accept}}</a>
           <a href="#" class="btn btn-gray" @click.prevent="$router.go(-1)">{{$lang.profile.cancel}}</a>
         </div>
       </div>
@@ -20,6 +20,9 @@
 
     methods: {
       ...mapActions('auth', ['logout']),
+      Logout(){
+        this.logout()
+      }
     }
   }
 </script>

@@ -1,6 +1,7 @@
 import {
   CreateNewDiscussion,//*
   GetDiscussions,//*
+  GetAllDiscussion,//*
   GetDiscussionsTop, //*
   GetDiscussionsLast, //*
   ToggleDiscusionFav,//*
@@ -24,9 +25,18 @@ export default {
     searchedDiscusion: [],
     discussionsTop: [],
     discussionsLast: [],
+    discussionsAll: [],
   },
 
   mutations: {
+    setAllDiscusion(state, payload){
+      state.discussionsAll[150] = true,
+      state.discussionsAll.splice(0,20, ...payload)
+    },//*
+    pushAllDiscusionPage(state, {page, items_per_page, items}){
+      let curItem = page*items_per_page - items_per_page;
+      //state.discussionsAll.splice(curItem, items_per_page, ...items)
+    },//*
     setFilteredDiscusion(state, payload){
       state.searchedDiscusion = payload
     },//*
@@ -109,7 +119,12 @@ export default {
         commit('setDiscussionsLast', res.data)
       })
     },//*
-
+    getDiscussionsAll({commit}, page){
+      return GetAllDiscussion(page).then(res =>{
+        commit('setAllDiscusion', res.data.items)
+        return res.data
+      })
+    },
     // getDiscussionAspects (store, id) {
     //   return GetDiscussionAspects(id)
     //     .then(response => {

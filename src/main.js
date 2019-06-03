@@ -11,7 +11,11 @@ import '@/assets/scss/style.scss'
 //import 'vuetify/lib/src/stylus/components/_progress-circular.styl'
 import 'vuetify/src/stylus/app.styl'
 import Vuetify, {
-	VApp, // required
+	VApp,  // required
+	VLayout,
+	VFlex,
+	VContainer,
+	VPagination,
   VProgressCircular,
 	VBtn,
 	VIcon,
@@ -25,6 +29,10 @@ import Vuetify, {
 Vue.use(Vuetify, {
   components: {
     VApp,
+		VLayout,
+		VFlex,
+		VContainer,
+		VPagination,
     VProgressCircular,
 		VBtn,
 		VIcon,
