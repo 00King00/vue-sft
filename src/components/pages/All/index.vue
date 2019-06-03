@@ -139,7 +139,7 @@
     <section>
       <v-container grid-list-lg class="pa-0">
         <v-layout row wrap >
-          <v-flex xs6 sm3 md4 v-for="item in disc" :key="item.id">
+          <v-flex xs6 sm3 md4 v-for="item in itemsPerPage" :key="item.id">
               <ThemeItem :item="item"/>
           </v-flex>
           <v-flex xs12>
@@ -162,7 +162,8 @@
         page: 1,
         total_pages: null,
         total_items: null,
-        items_per_page: null
+        items_per_page: null,
+        itemsPerPage: []
       }
     },
     components:{ ThemeItem },
@@ -170,29 +171,29 @@
       ...mapActions('discussion', ['getDiscussionsAll']),
       ...mapMutations('discussion', ['pushAllDiscusionPage']),
       fetchDiscussions(){
-        if(this.page !==1){
-          let items = this.discussionsAll.splice(0,20);
-          console.log(items)
-          this.pushAllDiscusionPage({page: this.page, items_per_page: this.items_per_page, items })
-        }
-        console.log(this.page)
+        this.getDiscussionsAll(this.page).then(()=>{
+          let item = this.discussionsAll.find(item => item.page === this.page);
+          this.itemsPerPage = item.items
+          console.log(item.items)
+        })
       }
     },
     computed:{
       ...mapState('discussion', ['discussionsAll',]),
-      disc(){
-        let arr = this.discussionsAll;
-        return arr.splice(0,20)
-      }
     },
     mounted () {
       if (this.discussionsAll.length == 0) {
-        this.getDiscussionsAll(1).then(res =>{
+        this.getDiscussionsAll(this.page).then(res =>{
           this.total_pages = res.total_pages
           this.total_items = res.total_items
           this.items_per_page = res.items_per_page
-
+          this.itemsPerPage = this.discussionsAll[0].items
         })
+      }else{
+        this.total_pages = 8
+        this.total_items = 150
+        this.items_per_page = 20
+        this.itemsPerPage = this.discussionsAll[0].items
       }
     }
   }

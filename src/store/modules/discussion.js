@@ -27,15 +27,9 @@ export default {
     discussionsLast: [],
     discussionsAll: [],
   },
-
   mutations: {
-    setAllDiscusion(state, payload){
-      state.discussionsAll[150] = true,
-      state.discussionsAll.splice(0,20, ...payload)
-    },//*
-    pushAllDiscusionPage(state, {page, items_per_page, items}){
-      let curItem = page*items_per_page - items_per_page;
-      //state.discussionsAll.splice(curItem, items_per_page, ...items)
+    setAllDiscusion(state, {page, items}){
+      state.discussionsAll.push({page, items})
     },//*
     setFilteredDiscusion(state, payload){
       state.searchedDiscusion = payload
@@ -119,11 +113,19 @@ export default {
         commit('setDiscussionsLast', res.data)
       })
     },//*
-    getDiscussionsAll({commit}, page){
-      return GetAllDiscussion(page).then(res =>{
-        commit('setAllDiscusion', res.data.items)
-        return res.data
-      })
+    getDiscussionsAll({commit, state}, page){
+      if(state.discussionsAll.length == 0){
+        return GetAllDiscussion(page).then(res =>{
+          commit('setAllDiscusion', {items: res.data.items, page})
+          return res.data
+        })
+      }else if(!state.discussionsAll.some(item =>{ return item.page == page})){
+        return GetAllDiscussion(page).then(res =>{
+          commit('setAllDiscusion', {items: res.data.items, page})
+          return true
+        })
+      }
+
     },
     // getDiscussionAspects (store, id) {
     //   return GetDiscussionAspects(id)
