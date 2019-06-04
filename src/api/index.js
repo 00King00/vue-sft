@@ -1,5 +1,5 @@
 import axios from 'axios'
-const qs = require('qs')
+//const qs = require('qs')
 function Request () {
   // TODO дописать зависимость baseURL от process.env.HOST & PORT
   // const baseURL = process.env.NODE_ENV === 'production' ? 'http://sft.sliceplanet.ml/api/public' : 'http://localhost:5000/api/public'
@@ -33,27 +33,12 @@ export function Register (data) {
   return request.post('/access/registration', form)
 
 }//*
-
 export function GetProfileId (id) {
   return request.get(`/profiles/${id}`)
 }//*
-
 export function GetProfileEducation (id) {
   return request.get(`/profiles/${id}/education`)
 }//*
-
-export function GetProfileRewards (id) {
-  return request.get(`/profile/${id}/rewards`)
-}
-
-export function GetProfileKnowledges (id) {
-  return request.get(`/profile/${id}/knowledges`)
-}
-
-export function SavePrifileKnowledges (userId, id, score) {
-  return request.post(`/profile/${userId}/knowledges`, { object_id: id, score })
-}
-
 export function EditPassword(data){
   const baseURL = 'http://37.252.1.151:5000/api/public';
   return request.post(`/profiles/current/security/password`, data,
@@ -83,7 +68,6 @@ export function ChangeAvatar({profile_id, avatar}){
     }
   })
 }//*
-
 export function EditProfileEducation ({id, data}){
   return request.put(`/profiles/${id}/education`, data,
     {
@@ -104,19 +88,11 @@ export function EditProfileEducationScan ({id, scan}){
     }
   )
 }//*
-
-export function GetProfileFavoriteAspects (id) {
-  return request.get(`/profile/${id}/favorite/aspects`)
-}
-
-export function AddFavoritesDiscussion (id, object_id) {
-  return request.post(`/profile/${id}/favorite/disquss`, { object_id })
-}
-
-
-
 export function ToggleAspects (id) {
   return request.post(`/aspects/${id}/favorite`)
+}//*
+export function GetFavoritesAuthors(page){
+  return request.get(`/profiles?location=favorites&page=${page}`)
 }//*
 export function ToggleDiscusionFav(id){
     return request.post(`/discussions/${id}/favorite`)
@@ -142,11 +118,6 @@ export function CreateAspectsImage ({id, image}) {
     }
   })
 } //*
-
-
-export function DeleteFavoritesAspects (id, object_id) {
-  return request.delete(`/profile/${id}/favorite/aspects`, { data: { object_id } })
-}
 export function GetFilteredDiscussion(query){
   return request.get(`/discussions?q=${query}&location=all&sort=last&page=1`)
 }//*
@@ -190,12 +161,18 @@ export function PutDiscussionImage({id, image}){
 export function GetDiscussions () {
   return request.get('/discussions')
 } //* not ready
+export function GetDiscussion (id) {
+  return request.get('/discussions/' + id)
+} //*
 export function GetDiscussionsTop () {
   return request.get(`/discussions?location=all&sort=popular&page=1`)
 } //*
 export function GetDiscussionsLast () {
   return request.get(`/discussions?location=all&sort=last&page=1`)
-}
+}//*
+export function GetDiscussionsFav (page) {
+  return request.get(`/discussions?location=favorites&sort=last&page=${page}`)
+}//*
 export function GetCurrentDiscussions (id) {
   return request.get(`/discussions/${id}`)
 } //*
@@ -224,9 +201,7 @@ export function AddThesisLink({id, link}){
   } )
 
 }//*
-export function GetDiscussion (id) {
-  return request.get('/discussions/' + id)
-} //*
+
 export function GetDiscussionArguments (id) {
   return request.get('/discussions/' + id + '/arguments')
 } //*
@@ -256,25 +231,6 @@ export function GetUsersTop () {
   return request.get(`/profiles/top_rated`)
 }//*
 
-export function GetFavoriteUsers (id) {
-  return request.get(`/profile/favorite/users`, { user_id: id })
-}
-
-export function AddFavoriteUsers (id, object_id) {
-  return request.post(`/profile/favorite/users`, { user_id: id, object_id })
-}
-
-export function DeleteFavoriteUsers (id, object_id) {
-  return request.delete(`/profile/favorite/users`, { data: { user_id: id, object_id } })
-}
-
 export function DeleteUser (id) {
   return request.delete(`/profiles/${id}`)
 }//*
-
-export function FilterFfavoriteDisquss (id, data) {
-  return request.get(`/profile/${id}/favorite/disquss`, {
-    params: data,
-    paramsSerializer: params => qs.stringify(params, { arrayFormat: 'repeat' })
-  })
-}

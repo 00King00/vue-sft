@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import store from '@/store/store.js'
 export default {
   name: 'Favorites',
   components: {
@@ -25,14 +24,10 @@ export default {
   },
   data() {
     return {
-      index: 1
+      index: 3
     }
   },
-  beforeRouteEnter (to, from, next){
-    if(store.state.auth.auth.id === null){
-      next(false)
-    } else {next()}
-  }
+
 }
 </script>
 

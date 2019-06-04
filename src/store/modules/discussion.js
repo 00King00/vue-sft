@@ -26,8 +26,16 @@ export default {
     discussionsTop: [],
     discussionsLast: [],
     discussionsAll: [],
+    paginationSetting:{
+      total_pages: null,
+      total_items: null,
+      items_per_page: null,
+    }
   },
   mutations: {
+    setPaginationSetting(state, {total_pages, total_items, items_per_page}){
+      state.paginationSetting = {total_pages, total_items, items_per_page}
+    },//*
     setAllDiscusion(state, {page, items}){
       state.discussionsAll.push({page, items})
     },//*
@@ -59,14 +67,25 @@ export default {
           store.discussionsLast[index].is_favorite = is_favorite
         }
       })
-    },
+    },//*
     replaceDiscussionTop(store, {id, is_favorite}){
       store.discussionsTop.find((disc, index) =>{
         if(disc.id == id){
           store.discussionsTop[index].is_favorite = is_favorite
         }
       })
-    },
+    },//*
+    replaceDiscussionAll(store, {id, is_favorite, page}){
+      console.log({id, is_favorite, page})
+      store.discussionsAll.find((disc, index) =>{
+        if(disc.page == page){
+          console.log(store.discussionsAll[index])
+          store.discussionsAll[index].items.find((d, i)=>{
+            if(d.id == id){ store.discussionsAll[index].items[i].is_favorite = is_favorite}
+          })
+        }
+      })
+    },//*
     setDiscussionsLast(store, payload){
       store.discussionsLast = payload.items
     },//*
@@ -117,6 +136,12 @@ export default {
       if(state.discussionsAll.length == 0){
         return GetAllDiscussion(page).then(res =>{
           commit('setAllDiscusion', {items: res.data.items, page})
+          commit('setPaginationSetting', {
+            total_pages: res.data.total_pages,
+            total_items: res.data.total_items,
+            items_per_page: res.data.items_per_page,
+            itemsPerPage: 1
+          })
           return res.data
         })
       }else if(!state.discussionsAll.some(item =>{ return item.page == page})){

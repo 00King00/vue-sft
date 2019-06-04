@@ -17,13 +17,17 @@
 <script>
 export default {
   name: 'ThemeItem',
-  props: ['item'],
+  props: ['item', 'eventModel'],
   methods: {
     cardEvent($event){
       if($event.target.className == "icon-fav"){
-        this.$store.dispatch('discussion/toggleDiscusionFav',this.item.id).then(disc =>{
-          this.$store.commit('discussion/replaceDiscussionTop', {id : disc.id, is_favorite: disc.is_favorite})
-        })
+        if(this.eventModel){
+            this.$emit("fav-toggle", this.item.id)
+        }else{
+          this.$store.dispatch('discussion/toggleDiscusionFav',this.item.id).then(disc =>{
+            this.$store.commit('discussion/replaceDiscussionTop', {id : disc.id, is_favorite: disc.is_favorite})
+          })
+        }
       }else{
         this.$router.push('/discussion/' + this.item.id)
       }

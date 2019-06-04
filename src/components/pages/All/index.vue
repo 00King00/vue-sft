@@ -139,11 +139,14 @@
     <section>
       <v-container grid-list-lg class="pa-0">
         <v-layout row wrap >
-          <v-flex xs6 sm3 md4 v-for="item in itemsPerPage" :key="item.id">
-              <ThemeItem :item="item"/>
+          <v-flex xs12 class="text-xs-center">
+            <v-pagination circle v-if="discussionsAll.length > 0" v-model="page" :length="total_pages" @click.native="fetchDiscussions"></v-pagination>
           </v-flex>
-          <v-flex xs12>
-            <v-pagination v-if="discussionsAll.length > 0" v-model="page" :length="total_pages" @click.native="fetchDiscussions"></v-pagination>
+          <v-flex xs6 sm3 md4 v-for="item in itemsPerPage" :key="item.id">
+              <ThemeItem :eventModel="true" :item="item" @fav-toggle="toggleFavorite"/>
+          </v-flex>
+          <v-flex xs12 class="text-xs-center">
+            <v-pagination circle v-if="discussionsAll.length > 0" v-model="page" :length="total_pages" @click.native="fetchDiscussions"></v-pagination>
           </v-flex>
         </v-layout>
       </v-container>
@@ -152,6 +155,7 @@
 </template>
 
 <script>
+  import {ToggleDiscusionFav} from '@/api'
   import { mapState, mapActions, mapMutations } from 'vuex'
   import ThemeItem from '@/components/pages/Main/ThemeItem'
   export default {
@@ -169,17 +173,23 @@
     components:{ ThemeItem },
     methods:{
       ...mapActions('discussion', ['getDiscussionsAll']),
-      ...mapMutations('discussion', ['pushAllDiscusionPage']),
+      ...mapMutations('discussion', ['pushAllDiscusionPage', 'replaceDiscussionAll']),
       fetchDiscussions(){
         this.getDiscussionsAll(this.page).then(()=>{
           let item = this.discussionsAll.find(item => item.page === this.page);
           this.itemsPerPage = item.items
-          console.log(item.items)
         })
+      },
+      toggleFavorite(id){
+        ToggleDiscusionFav(id).then(res =>{
+          console.log(res.data)
+          this.replaceDiscussionAll({page: this.page, id, is_favorite: res.data.is_favorite})
+        })
+        console.log(id)
       }
     },
     computed:{
-      ...mapState('discussion', ['discussionsAll',]),
+      ...mapState('discussion', ['discussionsAll','paginationSetting']),
     },
     mounted () {
       if (this.discussionsAll.length == 0) {
@@ -190,9 +200,9 @@
           this.itemsPerPage = this.discussionsAll[0].items
         })
       }else{
-        this.total_pages = 8
-        this.total_items = 150
-        this.items_per_page = 20
+        this.total_pages = this.paginationSetting.total_pages
+        this.total_items = this.paginationSetting.total_items
+        this.items_per_page = this.paginationSetting.items_per_page
         this.itemsPerPage = this.discussionsAll[0].items
       }
     }
