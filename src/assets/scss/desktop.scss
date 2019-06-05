@@ -161,7 +161,7 @@ h3 {font-size: 18px;}
 .slider-authors {margin: 13px 0px 32px;
 	.slick-list {margin: 0 -9px 9px;}
 }
-.authors_item { padding: 13px 5px; height: 286px; width: 159px;
+.authors_item { padding: 13px 5px; height: 286px; width: 100%;
 	.fav_link {opacity: 0;}
 	.fav_link.active {opacity: 1;}
 	&:hover {

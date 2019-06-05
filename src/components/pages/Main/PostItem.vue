@@ -8,7 +8,7 @@
       <div class="posts_item_title">{{ item.title }}</div>
       <div class="posts_item_bot">
         <div class="posts_item_author">{{$lang.main.authorWrap}}: <b>{{ item.author.fullname }}</b></div>
-        <a href="#" :class="{'active': item.is_favorite}" class="fav_link"><span class="icon-fav"></span></a>
+        <a href="#" v-if="$store.state.auth.auth.id !== null" :class="{'active': item.is_favorite}" class="fav_link"><span class="icon-fav"></span></a>
         <div class="posts_item_date">{{item.created_at}}</div>
       </div>
     </div>
@@ -22,7 +22,6 @@ export default {
   methods:{
     cardEvent($event){
       if($event.target.className == "icon-fav"){
-        console.log(this.item.id)
         this.$store.dispatch('discussion/toggleDiscusionFav',this.item.id).then(disc =>{
           this.$store.commit('discussion/replaceDiscussionLast', {id : disc.id, is_favorite: disc.is_favorite})
         })

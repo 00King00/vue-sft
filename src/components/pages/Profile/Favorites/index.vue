@@ -8,14 +8,14 @@
         <li :class="{'active': index === 3}"><a href="#" @click.prevent="index = 3">{{$lang.profile.favAvt}}</a></li>
       </ul>
       <Aspects v-if="index === 1" />
-      <Discuss v-if="index === 2" />
-      <Authors v-if="index === 3" />
+      <Discuss v-if="index === 2" @removeDisc="removeDisc"/>
+      <Authors v-if="index === 3" @removeAuthor="removeAuthor"/>
     </section>
   </div>
 </template>
 
 <script>
-import store from '@/store/store.js'
+import { mapMutations } from 'vuex'
 export default {
   name: 'Favorites',
   components: {
@@ -25,14 +25,32 @@ export default {
   },
   data() {
     return {
-      index: 1
+      index: 3,
+      removedAuthors:[],
+      removedDiscussions:[],
     }
   },
-  beforeRouteEnter (to, from, next){
-    if(store.state.auth.auth.id === null){
-      next(false)
-    } else {next()}
+  methods:{
+    ...mapMutations('profile', ['cleareFavoritesDiscussions', 'cleareFavoritesDiscussionAuthors']),
+    ...mapMutations('discussion', ['setRemovedFavDisc', 'setRemovedFavAuthor']),
+    removeAuthor(id){
+      this.removedAuthors.push(id)
+    },
+    removeDisc(id){
+      this.removedDiscussions.push(id)
+    },
+  },
+  beforeDestroy(){
+    this.cleareFavoritesDiscussions()
+    this.cleareFavoritesDiscussionAuthors()
+    this.setRemovedFavDisc(this.removedDiscussions)
+    this.setRemovedFavAuthor(this.removedAuthors)
+  },
+  created(){
+    this.setRemovedFavDisc(this.removedDiscussions)
+    this.setRemovedFavAuthor(this.removedAuthors)
   }
+
 }
 </script>
 

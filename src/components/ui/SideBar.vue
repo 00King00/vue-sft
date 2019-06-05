@@ -98,7 +98,7 @@
         <a href="#" class="cloud_link"><span class="icon-point"></span>Кулинария</a>
         <a href="#" class="cloud_link"><span class="icon-point"></span>Животные</a>
         <a href="#" class="cloud_link"><span class="icon-point"></span>Кант</a>
-        <a href="#" class="cloud_link" @click.prevent="allDiscusion" ><span class="icon-point"></span>Все</a>
+        <a href="#" class="cloud_link" @click.prevent="allDiscusion()" ><span class="icon-point"></span>Все</a>
       </div>
     </section>
   </aside>
@@ -107,7 +107,7 @@
 <script>
 
 import { mapState, mapActions } from 'vuex'
-import {GetFilteredDiscussion} from '@/api'
+//import {GetAllDiscussion} from '@/api'
 export default {
   name: 'SideBar',
 
@@ -132,10 +132,11 @@ export default {
       }
     },
     allDiscusion(){
-      GetFilteredDiscussion('').then(res =>{
-          this.$store.commit('discussion/setFilteredDiscusion', res.data.items)
-          this.$router.push('/search')
-        })
+      this.$router.push('/all')
+      // GetAllDiscussion(page).then(res =>{
+      //     this.$store.commit('discussion/setAllDiscusion', res.data.items)
+      //     this.$router.push('/all')
+      //   })
     }
   },
 
