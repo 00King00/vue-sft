@@ -47,7 +47,8 @@ export default {
   ...mapActions('profile', ['getFavoritesDiscussionAuthors', 'toggleDiscusionAuthorFav']),
     deleteFavorites (id) {
       this.toggleDiscusionAuthorFav(id).then((res) =>{
-        this.$store.commit('profile/cleareFavoritesDiscussionAuthors', res.id)
+        this.$emit('removeAuthor', id)
+        this.$store.commit('profile/removeFavoritesDiscussionAuthors', res.id)
       })
     }
   },

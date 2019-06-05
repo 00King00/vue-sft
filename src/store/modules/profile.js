@@ -78,7 +78,10 @@ export default {
     cleareFavoritesDiscussions(state){
       state.favoritesDiscussions = []
     }, //*
-    cleareFavoritesDiscussionAuthors(state, id){
+    cleareFavoritesDiscussionAuthors(state){
+      state.favoritesAuthors = []
+    }, //*
+    removeFavoritesDiscussionAuthors(state, id){
       state.favoritesAuthors.find((author, i)=>{
         if (author.id == id){state.favoritesAuthors.splice(i,1)}
       })
@@ -155,7 +158,7 @@ export default {
     deleteFavoritesDiscussion({commit}, id){
       return ToggleDiscusionFav(id).then(res =>{
         commit('deleteFavoritesDiscussion', res.data.id)
-        return res.data
+        return res.data.id
       })
     }, //*
 

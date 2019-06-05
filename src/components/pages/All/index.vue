@@ -182,14 +182,13 @@
       },
       toggleFavorite(id){
         ToggleDiscusionFav(id).then(res =>{
-          console.log(res.data)
           this.replaceDiscussionAll({page: this.page, id, is_favorite: res.data.is_favorite})
         })
-        console.log(id)
+        
       }
     },
     computed:{
-      ...mapState('discussion', ['discussionsAll','paginationSetting']),
+      ...mapState('discussion', ['discussionsAll','paginationSetting', 'removedFavDisc']),
     },
     mounted () {
       if (this.discussionsAll.length == 0) {
@@ -205,7 +204,20 @@
         this.items_per_page = this.paginationSetting.items_per_page
         this.itemsPerPage = this.discussionsAll[0].items
       }
+
+      this.removedFavDisc.forEach(id =>{
+          this.replaceDiscussionAll({page: this.page, id, is_favorite: false})
+      })
+    },
+    watch: {
+      page(page){
+        this.removedFavDisc.forEach(id =>{
+            this.replaceDiscussionAll({page, id, is_favorite: false})
+        })
+
+      }
     }
+
   }
 </script>
 

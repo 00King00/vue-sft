@@ -26,6 +26,8 @@ export default {
     discussionsTop: [],
     discussionsLast: [],
     discussionsAll: [],
+    removedFavDisc: [],
+    removedFavAuthorDisc: [],
     paginationSetting:{
       total_pages: null,
       total_items: null,
@@ -33,6 +35,12 @@ export default {
     }
   },
   mutations: {
+    setRemovedFavDisc(state, payload){
+      state.removedFavDisc = payload
+    },//*
+    setRemovedFavAuthor(state, payload){
+      state.removedFavAuthorDisc = payload
+    },//*
     setPaginationSetting(state, {total_pages, total_items, items_per_page}){
       state.paginationSetting = {total_pages, total_items, items_per_page}
     },//*
@@ -76,10 +84,8 @@ export default {
       })
     },//*
     replaceDiscussionAll(store, {id, is_favorite, page}){
-      console.log({id, is_favorite, page})
       store.discussionsAll.find((disc, index) =>{
         if(disc.page == page){
-          console.log(store.discussionsAll[index])
           store.discussionsAll[index].items.find((d, i)=>{
             if(d.id == id){ store.discussionsAll[index].items[i].is_favorite = is_favorite}
           })

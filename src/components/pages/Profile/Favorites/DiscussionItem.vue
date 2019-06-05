@@ -29,6 +29,7 @@ export default {
   methods: {
     ...mapActions('profile', ['deleteFavoritesDiscussion']),
     deleteDiscussion () {
+      this.$emit('remove', this.discussion.id)
       this.deleteFavoritesDiscussion(this.discussion.id)
     }
   }

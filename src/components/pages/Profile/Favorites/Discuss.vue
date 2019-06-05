@@ -96,7 +96,7 @@
       </div>
 
       <div class="disc disc-fav">
-        <discussionItem
+        <discussionItem @remove="remove"
           v-for="discussion in favoritesDiscussions"
           :discussion="discussion"
           :key="discussion.id"/>
@@ -106,7 +106,7 @@
 </template>
 
 <script>
-import { mapActions, mapState, mapMutations } from 'vuex'
+import { mapActions, mapState} from 'vuex'
 import DiscussionItem from './DiscussionItem'
 export default {
   name: 'Discuss',
@@ -122,7 +122,8 @@ export default {
         lang: 'ru',
         aspect: [],
         q: ''
-      }
+      },
+
     }
   },
 
@@ -133,15 +134,14 @@ export default {
 
   methods: {
     ...mapActions('profile', ['getFavoritesDiscussion']),
-    ...mapMutations('profile', ['cleareFavoritesDiscussions']),
+    remove(id){
+      this.$emit("removeDisc", id)
+    }
   },
 
   created () {
     if (this.favoritesDiscussions.length == 0) { this.getFavoritesDiscussion(1) }
   },
-  beforeDestroy(){
-    this.cleareFavoritesDiscussions()
-  }
 }
 </script>
 
