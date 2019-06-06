@@ -163,11 +163,12 @@ import UserItem from './UserItem'
 import ReviewItem from './ReviewItem'
 import VueRecaptcha from 'vue-recaptcha'
 import slick from '@/components/mixins/slick'
+import checkFavorites from '@/components/mixins/checkFavorites'
 let   feedbackFile = null;
 export default {
   name: 'Main',
 
-  mixins: [slick],
+  mixins: [slick, checkFavorites],
 
   data () {
     return {
@@ -291,7 +292,7 @@ export default {
   components: { Slick, PostItem, ThemeItem, UserItem, ReviewItem, VueRecaptcha },
 
   computed: {
-    ...mapState('discussion', ['discussionsTop', 'discussionsLast',]),
+    ...mapState('discussion', ['discussionsTop', 'discussionsLast', 'removedFavDisc', 'removedFavAuthorDisc']),
     ...mapState('profile', ['usersTop'])
   },
 
@@ -328,6 +329,7 @@ export default {
     if (this.discussionsLast.length == 0) { this.getDiscussionsLast() }
     if (this.discussionsTop.length == 0) { this.getDiscussionsTop() }
     if (this.usersTop.length == 0) { this.getUsersTop() }
+
   }
 
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="authors_item" @click.prevent="cardEvent">
-    <a href="#" class="fav_link"
+    <a href="#" class="fav_link" v-if="$store.state.auth.auth.id !== null"
        :class="{'active': author.is_favorite}">
       <span class="icon-fav"></span>
     </a>

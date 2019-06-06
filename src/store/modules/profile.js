@@ -5,14 +5,14 @@ import {
   EditProfileEducationScan,//*
   GetUsersTop,//*
   ToggleDiscusionAuthorFav,//*
-  GetProfileRewards,
-  GetProfileKnowledges,
-  SavePrifileKnowledges,
   EditPassword,//*
   EditEmail,//*
   ChangeAvatar,//*
   GetAllAspects,//*
   ToggleAspects, //*
+  GetDiscussionsFav, //*
+  ToggleDiscusionFav, //*
+  GetFavoritesAuthors, //*
 
 } from '@/api'
 
@@ -38,10 +38,14 @@ export default {
     favoritesDiscussion: [],
     favoritesDiscussions: [],
     favoritesAspect: [],
-    usersTop: []
+    usersTop: [],
+    favoritesAuthors: [],
   },
 
   mutations: {
+    setFavoritesDiscussionAuthors(state, items){
+      state.favoritesAuthors = items
+    },//*
     setAllAspects(state, payload){state.all_aspects = payload},//*
     UpdateAspects(state, {i, payload}){state.all_aspects[i].is_favorite = payload.is_favorite},//*
     setUserProfile (state, profile) {
@@ -53,21 +57,35 @@ export default {
     setUserTop(state, payload){
       state.usersTop = payload
     },
-
-    setUserFavoriteAspects (state, aspects) {
-      state.favorite_aspects = aspects
-    },
-
+    setFavoritesDiscussion(state, disc){
+      state.favoritesDiscussions = disc
+    }, //*
     addCustomAspect (state, aspect) {
       state.favorite_aspects.push(aspect)
     },//*
-    replaceDiscusionAuthorFav(store, {id, is_favorite}){
-      store.usersTop.find((disc, index) =>{
+    replaceDiscusionAuthorFav(state, {id, is_favorite}){
+      state.usersTop.find((disc, index) =>{
         if(disc.id == id){
-          store.usersTop[index].is_favorite = is_favorite
+          state.usersTop[index].is_favorite = is_favorite
         }
       })
-    },
+    },//*
+    deleteFavoritesDiscussion(state, id){
+      state.favoritesDiscussions.find((disc, index)=>{
+        if(disc.id == id){ state.favoritesDiscussions.splice(index, 1)}
+      })
+    }, //*
+    cleareFavoritesDiscussions(state){
+      state.favoritesDiscussions = []
+    }, //*
+    cleareFavoritesDiscussionAuthors(state){
+      state.favoritesAuthors = []
+    }, //*
+    removeFavoritesDiscussionAuthors(state, id){
+      state.favoritesAuthors.find((author, i)=>{
+        if (author.id == id){state.favoritesAuthors.splice(i,1)}
+      })
+    }
 
   },
 
@@ -117,28 +135,6 @@ export default {
         commit('setUserTop', res.data.items)
       })
     },//*
-    getUserRewards (store, id) {
-      return GetProfileRewards(id)
-        .then(response => {
-          store.commit('setUserRewards', response.data)
-          return response
-        })
-    },
-
-    getUserKnowledges (store, id) {
-      return GetProfileKnowledges(id)
-        .then(response => {
-          store.commit('setUserKnowledges', response.data)
-          return response
-        })
-    },
-
-    async savePrifileKnowledges (store, { id, knowledges }) {
-      for (let item of knowledges) {
-        await SavePrifileKnowledges(id, item.knowledge.id, item.score)
-      }
-    },
-
     EditPassword(ctx, data){
          return EditPassword( data)
     },//*
@@ -148,6 +144,24 @@ export default {
     ChangeAvatar(ctx, data){
       return ChangeAvatar(data)
     },//*
+    getFavoritesDiscussion({commit}, page){
+      GetDiscussionsFav(page).then( res => {
+        commit('setFavoritesDiscussion', res.data.items )
+      })
+    },//*
+    getFavoritesDiscussionAuthors({commit}, page){
+      return GetFavoritesAuthors(page).then(res=>{
+        commit('setFavoritesDiscussionAuthors', res.data.items)
+        return res.data
+      })
+    },//*
+    deleteFavoritesDiscussion({commit}, id){
+      return ToggleDiscusionFav(id).then(res =>{
+        commit('deleteFavoritesDiscussion', res.data.id)
+        return res.data.id
+      })
+    }, //*
+
 
 
 

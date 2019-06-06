@@ -8,7 +8,7 @@
       <div class="posts_item_title">{{ item.title }}</div>
       <div class="posts_item_bot">
         <div class="posts_item_author">{{$lang.main.authorWrap}}: <b>{{ item.author.fullname }}</b></div>
-        <a href="#" :class="{'active': item.is_favorite}" class="fav_link" @click.prevent="addDiscussion"><span class="icon-fav"></span></a>
+        <a href="#" v-if="$store.state.auth.auth.id !== null" :class="{'active': item.is_favorite}" class="fav_link"><span class="icon-fav"></span></a>
         <div class="posts_item_date">{{item.created_at}}</div>
       </div>
     </div>
@@ -17,13 +17,17 @@
 <script>
 export default {
   name: 'ThemeItem',
-  props: ['item'],
+  props: ['item', 'eventModel'],
   methods: {
     cardEvent($event){
       if($event.target.className == "icon-fav"){
-        this.$store.dispatch('discussion/toggleDiscusionFav',this.item.id).then(disc =>{
-          this.$store.commit('discussion/replaceDiscussionTop', {id : disc.id, is_favorite: disc.is_favorite})
-        })
+        if(this.eventModel){
+            this.$emit("fav-toggle", this.item.id)
+        }else{
+          this.$store.dispatch('discussion/toggleDiscusionFav',this.item.id).then(disc =>{
+            this.$store.commit('discussion/replaceDiscussionTop', {id : disc.id, is_favorite: disc.is_favorite})
+          })
+        }
       }else{
         this.$router.push('/discussion/' + this.item.id)
       }
