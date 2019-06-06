@@ -47,7 +47,6 @@ export default {
   components: { Aspects, Argument },
 
   computed: {
-    //...mapState('discussion', ['discussion', 'discussion_aspects', 'discussion_arguments']),
     ...mapState('discussion', ['discussion_arguments', 'selected_aspects']),
     filterArgument(){
       if(this.selected_aspects.length == 0){
@@ -83,14 +82,12 @@ export default {
 
   methods: {
     ...mapActions('modal', ['addModal']),
-    ...mapActions('discussion', ['getDiscussion', 'getDiscussionArguments']),
+    ...mapActions('discussion', ['getDiscussionArguments']),
 
     async fetch () {
       await Promise.all([
         this.getDiscussionArguments(this.$route.params.id),
-        //this.getDiscussion(this.$route.params.id),
         GetCurrentDiscussions(this.$route.params.id).then(res => {this.discussion = res.data}),
-        //this.getDiscussionAspects(this.$route.params.id) //change not necessary
       ])
     }
   },

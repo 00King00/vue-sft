@@ -11,7 +11,7 @@
         <div class="schedule_n schedule_n52">5</div>
         <div class="schedule_n schedule_n102">10</div>
       </div>
-      
+
       <div class="schedule_block_bottom">
         <div class="schedule_left">
           <div class="schedule_rline">Рейтинг убедительности: <span>5</span> </div>
@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-    <a href="#" class="win_close"><span class="icon-cab7"></span></a>
+    <a href="#" class="win_close" @click.prevent="$store.commit('modal/closeAllModal')" ><span class="icon-cab7"></span></a>
   </div>
 </template>
 
