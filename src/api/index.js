@@ -222,6 +222,14 @@ export function GetArguments (id) {
 export function GetArgumentThesis (id) {
   return request.get(`/arguments/${id}/theses?page=1`)
 } //*
+export function PatchtThesisVotes (id, data) {
+  return request.patch(`/theses/${id}/votes`, data,
+    {
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    })
+} //*
 
 export function AddDiscussionArguments (id, data) {
   return request.post(`/discussions/${id}/arguments`, data)
