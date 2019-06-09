@@ -15,6 +15,7 @@ export default {
   namespaced: true,
 
   state: {
+    thesisId: null,
     discussions: [],
     discussion: null,
     discussion_aspects: [],
@@ -35,6 +36,9 @@ export default {
     }
   },
   mutations: {
+    setThesisId(state, payload){
+      state.thesisId = payload
+    },//*
     setRemovedFavDisc(state, payload){
       state.removedFavDisc = payload
     },//*

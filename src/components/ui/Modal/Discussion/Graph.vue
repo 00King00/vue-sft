@@ -14,11 +14,11 @@
 
       <div class="schedule_block_bottom">
         <div class="schedule_left">
-          <div class="schedule_rline">Рейтинг убедительности: <span>5</span> </div>
-          <div class="schedule_rline">Рейтинг достоверности: <span>2</span> </div>
+          <div class="schedule_rline">Рейтинг убедительности: <span>{{x}}</span> </div>
+          <div class="schedule_rline">Рейтинг достоверности: <span>{{y}}</span> </div>
         </div>
         <div class="schedule_right">
-          <a href="#" class="btn">Подтвердить</a>
+          <a href="#" class="btn" @click.prevent="submit">Подтвердить</a>
         </div>
       </div>
     </div>
@@ -27,50 +27,53 @@
 </template>
 
 <script>
+import {PatchtThesisVotes} from '@/api'
 export default {
   name: "Graph",
   data(){
     return{
-
+      top: 5,
+      left: 5
+    }
+  },
+  computed:{
+    x(){
+      return this.left <= 0 ? 0 : this.left>10 ? 10 : this.left
+    },
+    y(){
+      return this.top <= 0 ? 0 : this.top>10 ? 10 : this.top
     }
   },
   methods:{
     getCoords(elem) {
       let box = elem.getBoundingClientRect();
-      console.log(box)
       return {
         top: box.top,
-        left: box.left
+        left: box.left,
+        h: box.height,
+        w: box.width
       };
     },
-    // getCoords(el){
-    //   //let box = elem.getBoundingClientRect();
-    //     return {
-    //       top: el.top,
-    //       left: el.left
-    //     };
-    // },
     setScale(e){
       let ball = this.$refs.ball;
       let box = this.$refs.box;
       let coordsBox = this.getCoords(box);
-      let coordsBall = this.getCoords(ball);
-      let shiftX = coordsBox.left+21.5;
-      let shiftY = coordsBox.top+21.5;
-      console.log(shiftX)
-      console.log(shiftY)
-      //ball.style.position = 'absolute';
-      //document.body.appendChild(ball);
+      let halfBall = 21.5;
+      let shiftX = coordsBox.left+halfBall;
+      let shiftY = coordsBox.top+halfBall;
+      let self = this;
       box.appendChild(ball);
 
       function moveAt(e) {
-        ball.style.left = e.clientX - shiftX + 'px';
-        ball.style.top = e.clientY - shiftY + 'px';
-
+        let left = e.clientX - shiftX;
+        let top = e.clientY - shiftY;
+        ball.style.left = left + 'px';
+        ball.style.top = top + 'px';
+        self.top = 10 - Math.round((top + halfBall)/coordsBox.h*10);
+        self.left =Math.round((left + halfBall)/coordsBox.w*10);
       }
 
       moveAt(e);
-      //ball.style.zIndex = 1000; // над другими элементами
 
       document.onmousemove = function(e) {
         moveAt(e);
@@ -80,10 +83,19 @@ export default {
         document.onmousemove = null;
         ball.onmouseup = null;
       }
-    ////
+
       ball.ondragstart = function() {
         return false;
       };
+    },
+    submit(){
+      let id = this.$store.state.discussion.thesisId;
+      PatchtThesisVotes(id, {
+        x: this.x,
+        y: this.y
+      }).then( () =>{
+        this.$store.commit('modal/closeAllModal')
+      })
     }
   }
 }

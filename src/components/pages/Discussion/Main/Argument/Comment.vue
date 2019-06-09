@@ -6,7 +6,7 @@
         <div class="comm_block_bord">
           <div class="comm_img">
             <!-- <img src="@/assets/img/sch.png" alt="image" @click.prevent="addModal({name: 'DiscussionGraph'})"> -->
-            <scale :x="comment.votes.mean_x" :y="comment.votes.mean_y" @click.native="addModal({name: 'DiscussionGraph'})" />
+            <scale :x="comment.votes.mean_x" :y="comment.votes.mean_y"  @click.native="setScale" />
           </div>
           <div class="comm_cont">
             <div class="comm_txt">{{comment.message}}.</div>
@@ -62,6 +62,10 @@ export default {
   components:{scale},
   methods:{
     ...mapActions('modal', ['addModal']),
+    setScale(){
+      this.addModal({name: 'DiscussionGraph'})
+      this.$store.commit('discussion/setThesisId', this.comment.id)
+    },
     showMore(){
       this.toggle = !this.toggle
     }
