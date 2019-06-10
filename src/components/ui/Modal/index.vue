@@ -37,7 +37,7 @@
 
   import DiscussionAddAspects from './Discussion/Add'
   import Chart from './Chart/Main'
-  import DiscussionArgument from './Discussion/Argument'
+  import DiscussionArgument from './Discussion/ModalArgument'
   import DiscussionComplaints from './Discussion/Complaints'
   import DiscussionGraph from './Discussion/Graph'
 

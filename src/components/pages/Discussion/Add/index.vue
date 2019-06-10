@@ -278,8 +278,6 @@ export default {
       }
 
     },
-    //:active="index === index_active_aspect"
-    //@click.native="setActiveAspect(index)"
     setActiveAspect (index) {
       this.index_active_aspect = index
       this.form.aspect = this.favorite_aspects[index]

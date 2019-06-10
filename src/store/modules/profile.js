@@ -101,6 +101,12 @@ export default {
         return res
       })
     },//*
+    getFavoriteAspects({commit}){
+      return GetAllAspects().then( res => {
+        commit('setAllAspects', res.data.items)
+        return res
+      })
+    },//*
     toggleAspects(context, id){
       return ToggleAspects(id)
     },//*

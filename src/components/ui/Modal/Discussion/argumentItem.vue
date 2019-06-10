@@ -6,7 +6,7 @@
 
       <div class="aspect_item_bg js-bg">
 
-        <img :src="urlImg" :alt="title"/>
+        <img v-if="item.image_url" :src="$baseUrl+item.image_url" :alt="item.title"/>
 
       </div>
 
@@ -14,7 +14,7 @@
 
         <span class="icon-check"></span>
 
-        <p>{{ title }}</p>
+        <p>{{ item.title }}</p>
 
       </div>
 
@@ -28,20 +28,7 @@
 export default {
   name: 'argumentItem',
 
-  props: {
-    id: {
-      type: String,
-      default: ''
-    },
-    title: {
-      type: String,
-      default: ''
-    },
-    urlImg: {
-      type: String,
-      default: ''
-    }
-  },
+  props: ['item'],
 
   data () {
     return {
