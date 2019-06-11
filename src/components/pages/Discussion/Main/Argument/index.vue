@@ -20,18 +20,27 @@
         <b>Опровержение:</b>
       </div>
       <div class="comm">
-        <Comment :comment="argument.thesis"/>
+        <!-- <Comment :comment="argument.thesis"/> -->
         <div  v-if="resAllArgumentsThesis.length">
           <Comment v-for="item in resAllArgumentsThesis" :comment="item" :key="item.id"/>
         </div>
+        <div class="text-xs-center" >
+          <v-btn outline color="info" @click="addModal({name: 'ModalArgument', data:argument.id})">
+          <!-- <v-btn outline color="info" @click="test"> -->
+            <v-icon>add</v-icon>
+            Add Thesis
+          </v-btn>
+        </div>
       </div>
     </div>
+
   </div>
 </template>
 
 <script>
   import {GetArgumentThesis} from '@/api'
   import Comment from './Comment'
+  import { mapActions } from 'vuex'
   export default {
     name: "Argument",
     props: ['argument'],
@@ -43,12 +52,14 @@
     },
     components: { Comment },
     methods: {
+      test(){console.log(1)},
+      ...mapActions('modal', ['addModal']),
       showArgumentThesis(){
         this.show = !this.show
         if(this.resAllArgumentsThesis.length == 0){
           GetArgumentThesis(this.argument.id).then(res => {
             this.resAllArgumentsThesis = res.data.items
-            if(this.resAllArgumentsThesis.length > 0) this.resAllArgumentsThesis.splice(0, 1)
+            // if(this.resAllArgumentsThesis.length > 1) this.resAllArgumentsThesis.splice(0, 1)
           })
         }
       }

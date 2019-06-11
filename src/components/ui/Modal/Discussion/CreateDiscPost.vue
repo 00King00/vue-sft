@@ -1,6 +1,7 @@
 <template>
   <div class="edu_block_wrap">
-    <div class="w_thesis">
+    <aspectItem v-for="item in all_aspects" @selected="addAspectId" :item="item" :key="item.id"/>
+    <div class="w_thesis" v-if="!thesis">
       <div class="w_thesis_title">{{$lang.descAdd.arg}}</div>
       <div class="w_v_inp">
         <input class=" t-inp" v-model="form.argument" :placeholder="$lang.descAdd.arg"/>
@@ -48,13 +49,18 @@
 </template>
 
 <script>
-import item from './argumentItem'
+import aspectItem from './aspectItem'
 import { mapMutations, mapState, mapActions } from 'vuex'
-
+import {PostDiscussionArgements, PostDiscussionThesis, AddThesisFile, AddThesisLink} from '@/api'
+//import checkDiscForm from '@/components/mixins/checkDiscForm'
 export default {
   name: 'Argument',
-
-  components: { item },
+  //mixins: [checkDiscForm],
+  components: { aspectItem },
+  props:{
+    thesis: Boolean,
+    id: null
+  },
 
   data () {
     return {
@@ -65,6 +71,8 @@ export default {
         links: [],
         files: []
       },
+      aspect_ids: []
+
     }
   },
 
@@ -79,17 +87,37 @@ export default {
 
   methods: {
     ...mapMutations('modal', ['closeAllModal']),
+    ...mapMutations('discussion', ['pushDiscussionArgument']),
     ...mapActions('discussion', ['addDiscussionArguments']),
     ...mapActions('profile', ['getFavoriteAspects']),
-    // selectedAspects (aspectId) {
-    //   if (!this.form.aspect_id.includes(aspectId)) {
-    //     this.form.aspect_id = [...this.form.aspect_id, aspectId]
-    //   } else {
-    //     this.form.aspect_id = this.form.aspect_id.filter(id => id !== aspectId)
-    //   }
-    // },
+    addAspectId(id){
+      this.aspect_ids.push(id)
+    },
     sendForm(){
-      console.log(this.$route.params.id)
+      let form = {
+          "title": this.form.argument,
+          "aspect_ids": this.aspect_ids,
+          "thesis": {
+            "position": this.form.position,
+            "message": this.form.thesis
+          }
+        }
+      if(this.thesis){
+        PostDiscussionThesis({id: this.id, form:{position: this.form.position, message: this.form.thesis}})
+      }else{
+        PostDiscussionArgements({id: this.$route.params.id, form }).then((res)=>{
+            let myArg = res.data;
+            if(this.form.files.length){
+              AddThesisFile({id: myArg.thesis.id, file: this.form.files})
+            }
+            if(this.form.links.length){
+              AddThesisLink({id: myArg.thesis.id, link: this.form.links})
+            }
+            this.pushDiscussionArgument(myArg)
+            this.closeAllModal()
+
+          })
+      }
     },
     selectFiles (e) {
       if(this.form.files.length <= 1 && e.target.files.length == 1){

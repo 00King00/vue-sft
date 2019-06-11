@@ -7,7 +7,7 @@
     <MainForgotPassword v-if="activeModal && activeModal.name === 'ForgotPassword'" :modal="activeModal" />
     <RewardsInfo v-if="activeModal && activeModal.name === 'RewardsInfo'" :modal="activeModal" />
     <DiscussionAddAspects v-if="activeModal && activeModal.name === 'DiscussionAddAspects'" :modal="activeModal" />
-    <DiscussionArgument v-if="activeModal && activeModal.name === 'DiscussionArgument'" :modal="activeModal" />
+    <ModalArgument v-if="activeModal && activeModal.name === 'ModalArgument'" :modal="activeModal" :id="modals[0].data"/>
     <DiscussionComplaints v-if="activeModal && activeModal.name === 'DiscussionComplaints'" :modal="activeModal" />
     <DiscussionGraph v-if="activeModal && activeModal.name === 'DiscussionGraph'" :modal="activeModal" />
     <Chart v-if="activeModal && activeModal.name === 'Chart'" :modal="activeModal" />
@@ -37,7 +37,7 @@
 
   import DiscussionAddAspects from './Discussion/Add'
   import Chart from './Chart/Main'
-  import DiscussionArgument from './Discussion/ModalArgument'
+  import ModalArgument from './Discussion/ModalArgument'
   import DiscussionComplaints from './Discussion/Complaints'
   import DiscussionGraph from './Discussion/Graph'
 
@@ -53,7 +53,7 @@
       Chart,
       RewardsInfo,
       DiscussionAddAspects,
-      DiscussionArgument,
+      ModalArgument,
       DiscussionComplaints,
       DiscussionGraph,
     },

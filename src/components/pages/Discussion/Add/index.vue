@@ -133,8 +133,10 @@
 import { mapActions, mapState } from 'vuex'
 import Item from './Item'
 import {GetAspects, PutDiscussionImage, PostDiscussionArgements, AddThesisFile, AddThesisLink } from '@/api'
+//import checkDiscForm from '@/components/mixins/checkDiscForm'
 export default {
   name: 'Discussion',
+  //mixins: [checkDiscForm],
   data () {
     return {
       newDiscussionForm:{

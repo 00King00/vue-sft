@@ -5,7 +5,6 @@
       <div class="comm_block">
         <div class="comm_block_bord">
           <div class="comm_img">
-            <!-- <img src="@/assets/img/sch.png" alt="image" @click.prevent="addModal({name: 'DiscussionGraph'})"> -->
             <scale :x="comment.votes.mean_x" :y="comment.votes.mean_y"  @click.native="setScale" />
           </div>
           <div class="comm_cont">

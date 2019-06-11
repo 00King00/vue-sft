@@ -141,6 +141,14 @@ export function PostDiscussionArgements({id, form}){
     }
   })
 }//*
+export function PostDiscussionThesis({id, form}){
+  return request.post(`/discussions/${id}/theses`, form, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  })
+}//*
 export function CreateDiscussionArguments (data) {
   return request.post(`/discussions`, data,
     {

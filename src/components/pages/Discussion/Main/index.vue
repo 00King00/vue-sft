@@ -22,7 +22,7 @@
         <div class="country_title">{{$lang.descAdd.arg}}:</div>
         <div class="disc">
           <Argument v-for="(argument, index) in filterArgument" :argument="argument" :key="`argument_${index}`"/>
-          <div class="disc_line_plus" @click.prevent="addModal({name: 'DiscussionArgument'})"><a href="#"><span class="icon-plus"></span><span>Add</span></a></div>
+          <div class="disc_line_plus" @click.prevent="addModal({name: 'ModalArgument'})"><a href="#"><span class="icon-plus"></span><span>Add</span></a></div>
         </div>
       </div>
     </section>
