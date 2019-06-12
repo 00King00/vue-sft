@@ -142,7 +142,7 @@ export function PostDiscussionArgements({id, form}){
   })
 }//*
 export function PostDiscussionThesis({id, form}){
-  return request.post(`/discussions/${id}/theses`, form, {
+  return request.post(`/arguments/${id}/theses`, form, {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',

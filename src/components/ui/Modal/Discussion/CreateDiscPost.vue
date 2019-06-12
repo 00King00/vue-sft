@@ -1,6 +1,8 @@
 <template>
   <div class="edu_block_wrap">
-    <aspectItem v-for="item in all_aspects" @selected="addAspectId" :item="item" :key="item.id"/>
+    <div v-if="!thesis">
+      <aspectItem  v-for="item in favorite_aspects" @selected="addAspectId" :item="item" :key="item.id"/>
+    </div>
     <div class="w_thesis" v-if="!thesis">
       <div class="w_thesis_title">{{$lang.descAdd.arg}}</div>
       <div class="w_v_inp">
@@ -87,7 +89,7 @@ export default {
 
   methods: {
     ...mapMutations('modal', ['closeAllModal']),
-    ...mapMutations('discussion', ['pushDiscussionArgument']),
+    ...mapMutations('discussion', ['pushDiscussionArgument', 'pushDiscussionThesis']),
     ...mapActions('discussion', ['addDiscussionArguments']),
     ...mapActions('profile', ['getFavoriteAspects']),
     addAspectId(id){
@@ -104,6 +106,19 @@ export default {
         }
       if(this.thesis){
         PostDiscussionThesis({id: this.id, form:{position: this.form.position, message: this.form.thesis}})
+          .then(res =>{
+            let myThesis = res.data;
+            if(this.form.files.length){
+              AddThesisFile({id: myThesis.id, file: this.form.files}).then(res =>{
+                console.log(res.data)
+              })
+            }
+            if(this.form.links.length){
+              AddThesisLink({id: myThesis.id, link: this.form.links}).then(res =>{console.log(res.data)})
+            }
+            this.pushDiscussionThesis({thesis: myThesis, id: this.id})
+            this.closeAllModal()
+          })
       }else{
         PostDiscussionArgements({id: this.$route.params.id, form }).then((res)=>{
             let myArg = res.data;

@@ -21,6 +21,7 @@ export default {
     discussion_aspects: [],
     selected_aspects: [],
     discussion_arguments: [],
+    argument_thesis: null,
     resDiscussionArguments: null,
     discussionButton: true,
     searchedDiscusion: [],
@@ -105,10 +106,17 @@ export default {
     setDiscussionArguments (state, payload) {
       state.discussion_arguments  =payload.items
       state.resDiscussionArguments = payload
-    },//*
+    }, //*
     pushDiscussionArgument(state, payload){
       state.discussion_arguments.push(payload)
-    }//*
+    }, //*
+    pushDiscussionThesis(state, payload){
+      state.argument_thesis = null
+      state.argument_thesis = payload
+    }, //*
+
+
+
 
 
   },
