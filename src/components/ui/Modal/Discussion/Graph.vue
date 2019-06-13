@@ -2,7 +2,7 @@
   <div class="win win-schedule" id="win-schedule">
     <div class="win_cont">
       <div class="schedule_block">
-        <div class="schedule_block_in" ref="box"><div class="schedule_block_c" @mousedown="setScale" ref="ball"></div></div>
+        <div class="schedule_block_in" ref="box" @mousedown="setScale"><div class="schedule_block_c"  ref="ball"></div></div>
         <div class="schedule_txt">Достоверность</div>
         <div class="schedule_txt2">Убедительность</div>
         <div class="schedule_n schedule_n0">0</div>

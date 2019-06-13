@@ -54,7 +54,7 @@
 <script>
 import aspectItem from './aspectItem'
 import { mapMutations, mapState, mapActions } from 'vuex'
-import {PostDiscussionArgements, PostDiscussionThesis, AddThesisFile, AddThesisLink} from '@/api'
+import {PostDiscussionArgements, PostDiscussionThesis, AddThesisFile, AddThesisLink, GetAllAspects} from '@/api'
 //import checkDiscForm from '@/components/mixins/checkDiscForm'
 export default {
   name: 'Argument',
@@ -74,7 +74,8 @@ export default {
         links: [],
         files: []
       },
-      aspect_ids: []
+      aspect_ids: [],
+      localAspects: []
 
     }
   },
@@ -83,8 +84,15 @@ export default {
     ...mapState('auth', ['auth']),
     ...mapState('profile', ['all_aspects']),
     favorite_aspects(){
-      let arr = this.all_aspects;
-      return arr.filter(aspect=>{ return aspect.is_favorite === true})
+      let arr =[];
+      if(this.all_aspects.length){
+        arr = this.all_aspects;
+        return arr.filter(aspect=>{ return aspect.is_favorite === true})
+      }else{
+        arr = this.localAspects;
+        return arr.filter(aspect=>{ return aspect.is_favorite === true})
+      }
+
     }
   },
 
@@ -92,7 +100,6 @@ export default {
     ...mapMutations('modal', ['closeAllModal']),
     ...mapMutations('discussion', ['pushDiscussionArgument', 'pushDiscussionThesis']),
     ...mapActions('discussion', ['addDiscussionArguments']),
-    ...mapActions('profile', ['getFavoriteAspects']),
     addAspectId(id){
       this.aspect_ids.push(id)
     },
@@ -171,7 +178,9 @@ export default {
   },
 
   created () {
-    if (this.all_aspects.length == 0) this.getFavoriteAspects()
+    if (this.all_aspects.length == 0 && !this.thesis) GetAllAspects().then(res =>{
+      this.localAspects = res.data.items
+    })
   }
 }
 </script>
