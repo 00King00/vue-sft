@@ -1,46 +1,35 @@
 <template>
   <div class="aspect aspect-fav">
-    <div
-      class="aspect_item"
-      v-for="aspect in favorite_aspects"
-      :key="aspect.id">
-      <div class="aspect_item_img">
-        <div class="aspect_item_bg js-bg"><img :src="aspect.image" :alt="aspect.title"/></div>
-        <div class="aspect_item_text"><span class="icon-check"></span><p>{{ aspect.title }}</p></div>
-      </div>
-      <a href="#" class="fav_link active" @click.prevent="removeAspect(aspect.id)"><span class="icon-fav"></span></a>
-    </div>
+    <aspect v-for="item in favorite_aspects" :key="item.id" :item="item" :disable="true"/>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
-
+import aspect from '@/components/pages/Discussion/Main/Aspects/Item'
 export default {
   name: 'FavoriteAspects',
 
   computed: {
-    ...mapState('profile', ['favorite_aspects']),
-    ...mapState('auth', ['auth'])
-  },
+    ...mapState('auth', ['auth']),
+    ...mapState('profile', ['all_aspects']),
+    favorite_aspects(){
+      if(this.all_aspects.length){
+        let arr = [];
+        this.all_aspects.forEach(page=>{
+          arr = arr.concat(page.items)
+        });
+        return arr.filter(aspect=>{ return aspect.is_favorite === true})
+      }else{return []}
 
-  methods: {
-    ...mapActions('profile', ['getUserFavoriteAspects', 'deleteFavoritesAspects']),
-
-    removeAspect (id) {
-      this.deleteFavoritesAspects({
-        id: this.auth.id,
-        object_id: id
-      })
     }
   },
-
+  components:{aspect},
+  methods: {
+    ...mapActions('profile', ['GetAllAspects']),
+  },
   mounted () {
-    if (this.favorite_aspects.length <= 0) { this.getUserFavoriteAspects(this.auth.id) }
+    if (this.all_aspects.length == 0) { this.GetAllAspects()}
   }
 }
 </script>
-
-<style scoped>
-
-</style>

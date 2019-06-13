@@ -1,6 +1,7 @@
 <template>
   <div class="edu_block_wrap">
     <div v-if="!thesis">
+      <div class="w_thesis_title">Мои аспекты</div>
       <aspectItem  v-for="item in favorite_aspects" @selected="addAspectId" :item="item" :key="item.id"/>
     </div>
     <div class="w_thesis" v-if="!thesis">
@@ -83,7 +84,7 @@ export default {
     ...mapState('profile', ['all_aspects']),
     favorite_aspects(){
       let arr = this.all_aspects;
-      return arr.splice(0,5)
+      return arr.filter(aspect=>{ return aspect.is_favorite === true})
     }
   },
 
@@ -109,12 +110,10 @@ export default {
           .then(res =>{
             let myThesis = res.data;
             if(this.form.files.length){
-              AddThesisFile({id: myThesis.id, file: this.form.files}).then(res =>{
-                console.log(res.data)
-              })
+              AddThesisFile({id: myThesis.id, file: this.form.files})
             }
             if(this.form.links.length){
-              AddThesisLink({id: myThesis.id, link: this.form.links}).then(res =>{console.log(res.data)})
+              AddThesisLink({id: myThesis.id, link: this.form.links})
             }
             this.pushDiscussionThesis({thesis: myThesis, id: this.id})
             this.closeAllModal()
@@ -178,6 +177,10 @@ export default {
 </script>
 
 <style scoped lang='scss'>
+  .aspect_item{
+    float: none;
+    display: inline-block;
+  }
   .btn-holder {
     display: block;
     position: absolute;

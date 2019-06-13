@@ -216,8 +216,8 @@ export function GetDiscussionArguments (id) {
 // export function GetDiscussionAspects (id) {
 //   return request.get('/aspects/' + id)
 // } //*
-export function GetAllAspects () {
-  return request.get(`/aspects?&page=1`)
+export function GetAllAspects (page=1) {
+  return request.get(`/aspects?&page=${page}`)
 } //*
 export function GetAspects (payload) {
   return request.get(`/aspects?q=${payload}&page=1`)

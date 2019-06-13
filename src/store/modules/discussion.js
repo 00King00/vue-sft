@@ -188,7 +188,7 @@ export default {
           store.commit('setDiscussionArguments', response.data)
           return response
         })
-    },//
+    },//*
 
     addDiscussionArguments (store, { id, data }) {
       return AddDiscussionArguments(id, data)
