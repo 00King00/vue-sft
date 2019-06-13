@@ -18,9 +18,10 @@
         active: false
       }
     },
-    props: ['item'],
+    props: ['item', 'disable'],
     methods:{
       filter(){
+        if(this.disable) return false
         this.active = !this.active
         if(this.active){
           this.$store.commit('discussion/setSelectedAspects', this.item.id)

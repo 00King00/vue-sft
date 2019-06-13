@@ -5,7 +5,6 @@
       <div class="comm_block">
         <div class="comm_block_bord">
           <div class="comm_img">
-            <!-- <img src="@/assets/img/sch.png" alt="image" @click.prevent="addModal({name: 'DiscussionGraph'})"> -->
             <scale :x="comment.votes.mean_x" :y="comment.votes.mean_y"  @click.native="setScale" />
           </div>
           <div class="comm_cont">
@@ -17,13 +16,13 @@
                   <div class="adds_file" v-if="item.type == 'link'">
                     <a href="#" class="adds_file_rem"><span class="icon-cab7"></span></a>
                     <a href="#" class="adds_file_check"><span class="icon-check"></span></a>
-                    <a href="#" class="adds_file_txt" >{{item.type}}</a>
+                    <a :href="item.payload_url" class="adds_file_txt" target="_blank" >{{item.payload_url}}</a>
                   </div>
                   <div class="adds_file adds_file-sm" v-if="item.type == 'file'">
                     <a href="#" class="adds_file_rem"><span class="icon-cab7"></span></a>
                     <a href="#" class="adds_file_check"><span class="icon-check"></span></a>
                     <div class="adds_file_ico"><span class="icon-doc1"></span></div>
-                    <a href="#" class="adds_file_txt">{{item.type}}</a>
+                    <a :href="$baseUrl+item.payload_url" class="adds_file_txt">{{item.type}}</a>
                   </div>
                 </div>
               </div>

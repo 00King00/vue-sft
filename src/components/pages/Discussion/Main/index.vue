@@ -21,8 +21,8 @@
       <div class="country_wr">
         <div class="country_title">{{$lang.descAdd.arg}}:</div>
         <div class="disc">
-          <Argument v-for="(argument, index) in filterArgument" :argument="argument" :key="`argument_${index}`"/>
-          <div class="disc_line_plus" @click.prevent="addModal({name: 'DiscussionArgument'})"><a href="#"><span class="icon-plus"></span><span>Add</span></a></div>
+          <Argument v-for="(argument, index) in filterArgument" :argument="argument" :key="`argument_${index}`" :propThesis="thesis"/>
+          <div class="disc_line_plus" @click.prevent="addModal({name: 'ModalArgument'})"><a href="#"><span class="icon-plus"></span><span>Add</span></a></div>
         </div>
       </div>
     </section>
@@ -41,6 +41,7 @@ export default {
   data () {
     return {
       discussion: null,
+      thesis: null,
     }
   },
 
@@ -91,7 +92,17 @@ export default {
       ])
     }
   },
-
+  mounted() {
+    this.$store.subscribe((mutation, state)=>{
+      switch(mutation.type){
+        case 'discussion/pushDiscussionThesis': {
+          const status = state.discussion.argument_thesis;
+          this.thesis = status;
+          break;
+        }
+      }
+    });
+  },
   created () {
     this.fetch()
   }

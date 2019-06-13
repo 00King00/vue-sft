@@ -40,14 +40,27 @@ export default {
     favoritesAspect: [],
     usersTop: [],
     favoritesAuthors: [],
+    paginationSetting:{
+      total_pages: null,
+      total_items: null,
+      items_per_page: null,
+    }
   },
 
   mutations: {
     setFavoritesDiscussionAuthors(state, items){
       state.favoritesAuthors = items
     },//*
-    setAllAspects(state, payload){state.all_aspects = payload},//*
-    UpdateAspects(state, {i, payload}){state.all_aspects[i].is_favorite = payload.is_favorite},//*
+    setAllAspects(state, {page, items}){state.all_aspects.push({page, items})},//*
+    UpdateAspects(state, {id, is_favorite, page}){
+      state.all_aspects.find((asp, index) =>{
+        if(asp.page == page){
+          state.all_aspects[index].items.find((a, i)=>{
+            if(a.id == id){ state.all_aspects[index].items[i].is_favorite = is_favorite}
+          })
+        }
+      })
+    },//*
     setUserProfile (state, profile) {
       state.profile = profile
     },//*
@@ -81,6 +94,9 @@ export default {
     cleareFavoritesDiscussionAuthors(state){
       state.favoritesAuthors = []
     }, //*
+    setPaginationSetting(state, {total_pages, total_items, items_per_page}){
+      state.paginationSetting = {total_pages, total_items, items_per_page}
+    },//*
     removeFavoritesDiscussionAuthors(state, id){
       state.favoritesAuthors.find((author, i)=>{
         if (author.id == id){state.favoritesAuthors.splice(i,1)}
@@ -95,7 +111,26 @@ export default {
         return res.data
       })
     },//*
-    GetAllAspects ({commit}){
+    GetAllAspects({commit, state}, page=1){
+      if(state.all_aspects.length == 0){
+        return GetAllAspects(page).then(res =>{
+          commit('setAllAspects', {items: res.data.items, page})
+          commit('setPaginationSetting', {
+            total_pages: res.data.total_pages,
+            total_items: res.data.total_items,
+            items_per_page: res.data.items_per_page,
+            itemsPerPage: 1
+          })
+          return res.data
+        })
+      }else if(!state.all_aspects.some(item =>{ return item.page == page})){
+        return GetAllAspects(page).then(res =>{
+          commit('setAllAspects', {items: res.data.items, page})
+          return true
+        })
+      }
+    },//*
+    getFavoriteAspects({commit}){
       return GetAllAspects().then( res => {
         commit('setAllAspects', res.data.items)
         return res

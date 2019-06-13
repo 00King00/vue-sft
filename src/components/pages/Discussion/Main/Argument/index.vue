@@ -20,9 +20,17 @@
         <b>Опровержение:</b>
       </div>
       <div class="comm">
-        <Comment :comment="argument.thesis"/>
         <div  v-if="resAllArgumentsThesis.length">
           <Comment v-for="item in resAllArgumentsThesis" :comment="item" :key="item.id"/>
+        </div>
+        <div v-if="myThesis.length">
+          <Comment v-for="item in myThesis" :comment="item" :key="item.id"/>
+        </div>
+        <div class="text-xs-center" >
+          <v-btn outline color="info" @click="addModal({name: 'ModalArgument', data:argument.id})">
+            <v-icon>add</v-icon>
+            Add Thesis
+          </v-btn>
         </div>
       </div>
     </div>
@@ -32,23 +40,36 @@
 <script>
   import {GetArgumentThesis} from '@/api'
   import Comment from './Comment'
+  import { mapActions } from 'vuex'
   export default {
     name: "Argument",
-    props: ['argument'],
+    props: ['argument', 'propThesis'],
     data() {
       return {
         show: false,
         resAllArgumentsThesis: [],
+        myThesis: []
       }
     },
     components: { Comment },
+    computed:{
+    },
+    watch:{
+      propThesis(val){
+        if(val && this.argument.id == val.id) this.pushThesis(val.thesis)
+      }
+
+    },
     methods: {
+      ...mapActions('modal', ['addModal']),
+      pushThesis(elem){
+        this.myThesis.push(elem)
+      },
       showArgumentThesis(){
         this.show = !this.show
         if(this.resAllArgumentsThesis.length == 0){
           GetArgumentThesis(this.argument.id).then(res => {
             this.resAllArgumentsThesis = res.data.items
-            if(this.resAllArgumentsThesis.length > 0) this.resAllArgumentsThesis.splice(0, 1)
           })
         }
       }

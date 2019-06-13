@@ -1,25 +1,14 @@
 <template>
-
   <div @click.prevent="selected" class="aspect_item" :class="{active}">
-
     <a href="#" class="aspect_item_img">
-
       <div class="aspect_item_bg js-bg">
-
-        <img :src="urlImg" :alt="title"/>
-
+        <img v-if="item.image_url" :src="$baseUrl+item.image_url" :alt="item.title"/>
       </div>
-
       <div class="aspect_item_text">
-
         <span class="icon-check"></span>
-
-        <p>{{ title }}</p>
-
+        <p>{{ item.title }}</p>
       </div>
-
     </a>
-
   </div>
 
 </template>
@@ -28,20 +17,7 @@
 export default {
   name: 'argumentItem',
 
-  props: {
-    id: {
-      type: String,
-      default: ''
-    },
-    title: {
-      type: String,
-      default: ''
-    },
-    urlImg: {
-      type: String,
-      default: ''
-    }
-  },
+  props: ['item'],
 
   data () {
     return {
@@ -52,12 +28,17 @@ export default {
   methods: {
     selected () {
       this.active = !this.active
-      this.$emit('selected', this.id)
+      if(this.active){
+        this.$emit('selected', this.item.id)
+      }
+
     }
   }
 }
 </script>
 
 <style scoped>
-
+.aspect_item_text{
+  top: 9px;
+}
 </style>
