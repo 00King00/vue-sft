@@ -133,8 +133,10 @@
 import { mapActions, mapState } from 'vuex'
 import Item from './Item'
 import {GetAspects, PutDiscussionImage, PostDiscussionArgements, AddThesisFile, AddThesisLink } from '@/api'
+//import checkDiscForm from '@/components/mixins/checkDiscForm'
 export default {
   name: 'Discussion',
+  //mixins: [checkDiscForm],
   data () {
     return {
       newDiscussionForm:{
@@ -278,8 +280,6 @@ export default {
       }
 
     },
-    //:active="index === index_active_aspect"
-    //@click.native="setActiveAspect(index)"
     setActiveAspect (index) {
       this.index_active_aspect = index
       this.form.aspect = this.favorite_aspects[index]

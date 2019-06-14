@@ -21,8 +21,8 @@
       <div class="country_wr">
         <div class="country_title">{{$lang.descAdd.arg}}:</div>
         <div class="disc">
-          <Argument v-for="(argument, index) in filterArgument" :argument="argument" :key="`argument_${index}`"/>
-          <div class="disc_line_plus" @click.prevent="addModal({name: 'DiscussionArgument'})"><a href="#"><span class="icon-plus"></span><span>Add</span></a></div>
+          <Argument v-for="(argument, index) in filterArgument" :argument="argument" :key="`argument_${index}`" :propThesis="thesis"/>
+          <div class="disc_line_plus" @click.prevent="addModal({name: 'ModalArgument'})"><a href="#"><span class="icon-plus"></span><span>Add</span></a></div>
         </div>
       </div>
     </section>
@@ -41,13 +41,13 @@ export default {
   data () {
     return {
       discussion: null,
+      thesis: null,
     }
   },
 
   components: { Aspects, Argument },
 
   computed: {
-    //...mapState('discussion', ['discussion', 'discussion_aspects', 'discussion_arguments']),
     ...mapState('discussion', ['discussion_arguments', 'selected_aspects']),
     filterArgument(){
       if(this.selected_aspects.length == 0){
@@ -83,18 +83,26 @@ export default {
 
   methods: {
     ...mapActions('modal', ['addModal']),
-    ...mapActions('discussion', ['getDiscussion', 'getDiscussionArguments']),
+    ...mapActions('discussion', ['getDiscussionArguments']),
 
     async fetch () {
       await Promise.all([
         this.getDiscussionArguments(this.$route.params.id),
-        //this.getDiscussion(this.$route.params.id),
         GetCurrentDiscussions(this.$route.params.id).then(res => {this.discussion = res.data}),
-        //this.getDiscussionAspects(this.$route.params.id) //change not necessary
       ])
     }
   },
-
+  mounted() {
+    this.$store.subscribe((mutation, state)=>{
+      switch(mutation.type){
+        case 'discussion/pushDiscussionThesis': {
+          const status = state.discussion.argument_thesis;
+          this.thesis = status;
+          break;
+        }
+      }
+    });
+  },
   created () {
     this.fetch()
   }

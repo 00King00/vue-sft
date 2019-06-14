@@ -15,11 +15,13 @@ export default {
   namespaced: true,
 
   state: {
+    thesisId: null,
     discussions: [],
     discussion: null,
     discussion_aspects: [],
     selected_aspects: [],
     discussion_arguments: [],
+    argument_thesis: null,
     resDiscussionArguments: null,
     discussionButton: true,
     searchedDiscusion: [],
@@ -35,6 +37,9 @@ export default {
     }
   },
   mutations: {
+    setThesisId(state, payload){
+      state.thesisId = payload
+    },//*
     setRemovedFavDisc(state, payload){
       state.removedFavDisc = payload
     },//*
@@ -63,45 +68,56 @@ export default {
     setDiscussionsList (state, list) {
       state.discussions = list
     },//*
-    setDiscussion (store, item) {
-      store.discussion = item
+    setDiscussion (state, item) {
+      state.discussion = item
     },
-    setDiscussionsTop(store, payload){
-      store.discussionsTop = payload.items
+    setDiscussionsTop(state, payload){
+      state.discussionsTop = payload.items
     },//*
-    replaceDiscussionLast(store, {id, is_favorite}){
-      store.discussionsLast.find((disc, index) =>{
+    replaceDiscussionLast(state, {id, is_favorite}){
+      state.discussionsLast.find((disc, index) =>{
         if(disc.id == id){
-          store.discussionsLast[index].is_favorite = is_favorite
+          state.discussionsLast[index].is_favorite = is_favorite
         }
       })
     },//*
-    replaceDiscussionTop(store, {id, is_favorite}){
-      store.discussionsTop.find((disc, index) =>{
+    replaceDiscussionTop(state, {id, is_favorite}){
+      state.discussionsTop.find((disc, index) =>{
         if(disc.id == id){
-          store.discussionsTop[index].is_favorite = is_favorite
+          state.discussionsTop[index].is_favorite = is_favorite
         }
       })
     },//*
-    replaceDiscussionAll(store, {id, is_favorite, page}){
-      store.discussionsAll.find((disc, index) =>{
+    replaceDiscussionAll(state, {id, is_favorite, page}){
+      state.discussionsAll.find((disc, index) =>{
         if(disc.page == page){
-          store.discussionsAll[index].items.find((d, i)=>{
-            if(d.id == id){ store.discussionsAll[index].items[i].is_favorite = is_favorite}
+          state.discussionsAll[index].items.find((d, i)=>{
+            if(d.id == id){ state.discussionsAll[index].items[i].is_favorite = is_favorite}
           })
         }
       })
     },//*
-    setDiscussionsLast(store, payload){
-      store.discussionsLast = payload.items
+    setDiscussionsLast(state, payload){
+      state.discussionsLast = payload.items
     },//*
     // setDiscussionAspects (store, aspects) {
     //   store.discussion_aspects.push(aspects)
     // },// not necassery*
-    setDiscussionArguments (store, payload) {
-      store.discussion_arguments  =payload.items
-      store.resDiscussionArguments = payload
-    }//*
+    setDiscussionArguments (state, payload) {
+      state.discussion_arguments  =payload.items
+      state.resDiscussionArguments = payload
+    }, //*
+    pushDiscussionArgument(state, payload){
+      state.discussion_arguments.push(payload)
+    }, //*
+    pushDiscussionThesis(state, payload){
+      state.argument_thesis = null
+      state.argument_thesis = payload
+    }, //*
+
+
+
+
 
   },
 
@@ -172,7 +188,7 @@ export default {
           store.commit('setDiscussionArguments', response.data)
           return response
         })
-    },//
+    },//*
 
     addDiscussionArguments (store, { id, data }) {
       return AddDiscussionArguments(id, data)

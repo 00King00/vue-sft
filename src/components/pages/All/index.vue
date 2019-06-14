@@ -173,7 +173,7 @@
     components:{ ThemeItem },
     methods:{
       ...mapActions('discussion', ['getDiscussionsAll']),
-      ...mapMutations('discussion', ['pushAllDiscusionPage', 'replaceDiscussionAll']),
+      ...mapMutations('discussion', ['replaceDiscussionAll']),
       fetchDiscussions(){
         this.getDiscussionsAll(this.page).then(()=>{
           let item = this.discussionsAll.find(item => item.page === this.page);
@@ -184,7 +184,7 @@
         ToggleDiscusionFav(id).then(res =>{
           this.replaceDiscussionAll({page: this.page, id, is_favorite: res.data.is_favorite})
         })
-        
+
       }
     },
     computed:{
@@ -204,7 +204,6 @@
         this.items_per_page = this.paginationSetting.items_per_page
         this.itemsPerPage = this.discussionsAll[0].items
       }
-
       this.removedFavDisc.forEach(id =>{
           this.replaceDiscussionAll({page: this.page, id, is_favorite: false})
       })

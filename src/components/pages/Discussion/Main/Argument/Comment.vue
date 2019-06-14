@@ -1,10 +1,12 @@
 <template>
   <div class="comm_item">
-    <div class="comm_row comm_row_right">
+    <div class="comm_row" :class="{'comm_row_right': !comment.position}">
       <div class="comm_ava"><img v-if="comment.author.avatar_url" :src="$baseUrl+comment.author.avatar_url" alt="image"></div>
       <div class="comm_block">
         <div class="comm_block_bord">
-          <div class="comm_img"><img src="@/assets/img/sch.png" alt="image"></div>
+          <div class="comm_img">
+            <scale :x="comment.votes.mean_x" :y="comment.votes.mean_y"  @click.native="setScale" />
+          </div>
           <div class="comm_cont">
             <div class="comm_txt">{{comment.message}}.</div>
             <div  class="comm_adds" :class="{'open': toggle}">
@@ -14,13 +16,13 @@
                   <div class="adds_file" v-if="item.type == 'link'">
                     <a href="#" class="adds_file_rem"><span class="icon-cab7"></span></a>
                     <a href="#" class="adds_file_check"><span class="icon-check"></span></a>
-                    <a href="#" class="adds_file_txt" >{{item.type}}</a>
+                    <a :href="item.payload_url" class="adds_file_txt" target="_blank" >{{item.payload_url}}</a>
                   </div>
                   <div class="adds_file adds_file-sm" v-if="item.type == 'file'">
                     <a href="#" class="adds_file_rem"><span class="icon-cab7"></span></a>
                     <a href="#" class="adds_file_check"><span class="icon-check"></span></a>
                     <div class="adds_file_ico"><span class="icon-doc1"></span></div>
-                    <a href="#" class="adds_file_txt">{{item.type}}</a>
+                    <a :href="$baseUrl+item.payload_url" class="adds_file_txt">{{item.type}}</a>
                   </div>
                 </div>
               </div>
@@ -46,25 +48,33 @@
 
 <script>
 import {GetThesisIdComments} from '@/api'
-    export default {
-        name: "Comment",
-        props: ["comment"],
-        data: ()=>({
-          toggle: false,
-          responseThesisIdComments: null,
+import { mapActions } from 'vuex'
+import scale from './Scale'
+export default {
+  name: "Comment",
+  props: ["comment"],
+  data: ()=>({
+    toggle: false,
+    responseThesisIdComments: null,
 
-        }),
-        methods:{
-          showMore(){
-            this.toggle = !this.toggle
-          }
-        },
-        async created(){
-          await GetThesisIdComments(this.comment.id).then( res => {
-            this.responseThesisIdComments = res.data
-          })
-        },
+  }),
+  components:{scale},
+  methods:{
+    ...mapActions('modal', ['addModal']),
+    setScale(){
+      this.addModal({name: 'DiscussionGraph'})
+      this.$store.commit('discussion/setThesisId', this.comment.id)
+    },
+    showMore(){
+      this.toggle = !this.toggle
     }
+  },
+  async created(){
+      await GetThesisIdComments(this.comment.id).then( res => {
+        this.responseThesisIdComments = res.data
+      })
+    },
+}
 </script>
 
 <style scoped>
