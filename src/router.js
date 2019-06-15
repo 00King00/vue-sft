@@ -5,6 +5,7 @@ Vue.use(Router)
 import Main from '@/components/pages/Main'
 import About from '@/components/pages/About'
 import All from '@/components/pages/All'
+import Author from '@/components/pages/Author'
 import Search from '@/components/pages/Search'
 import Archive from '@/components/pages/Archive'
 import Aspects from '@/components/pages/Aspects'
@@ -31,6 +32,7 @@ export default new Router({
     { path: '/', name: 'Main', component: Main },
     { path: '/about', name: 'About', component: About },
     { path: '/all', name: 'All', component: All },
+    { path: '/author/:id', name: 'Author', component: Author },
     { path: '/search', name: 'Search', component: Search },
     { path: '/aspects', name: 'Aspects', component: Aspects },
     { path: '/archive', name: 'Archive', component: Archive },
