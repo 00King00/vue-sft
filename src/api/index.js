@@ -100,6 +100,9 @@ export function ToggleDiscusionFav(id){
 export function ToggleDiscusionAuthorFav(id){
   return request.post(`/profiles/${id}/favorite`)
 }// *
+export function ToggleDiscusionAuthorLike(id){
+  return request.post(`/profiles/${id}/likes`)
+}// *
 export function CreateAspects (payload) {
   return request.post(`/aspects`, payload, {
     headers: {
