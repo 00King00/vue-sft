@@ -24,21 +24,21 @@
                 :side="190"
                 :min="0"
                 :max="balance"
-                :limit="10"
                 :step-size="1"
                 :circle-width="10"
                 circle-color="#E7E7E7"
                 progress-color="#0560CE"
                 knob-color="#0560CE"
                 :knob-radius="14"
+                :disable="true"
               ></circle-slider>
 
-              <!--<div class="fields_item_num" style="left: 94%; top: 39%;">{{ item.score }}</div>-->
-              <!--<div class="fields_item_img"><img :src="item.knowledge.id" alt=""/></div>-->
-              <!--<div class="fields_item_txt">-->
-                <!--<span class="icon-check" v-if="item.score > 0"></span>-->
-                <!--<p>{{ item.knowledge.title }}</p>-->
-              <!--</div>-->
+              <div class="fields_item_num" :style="scoreStyle">{{ score[index] }}</div>
+              <div class="fields_item_img"><img :src="item.knowledge.id" alt=""/></div>
+              <div class="fields_item_txt">
+                <span class="icon-check"></span>
+                <p>{{     knowledge_list[index].knowledge }}</p>
+              </div>
 
             </div>
           </div>
@@ -75,13 +75,11 @@ export default {
         }],
       knowledgeListStart: [],
       maxBal: 20,
-      score:[
-        this.score1,
-        this.score2,
-        this.score3,
-        this.score4,
-      ],
-      score1: 5,
+      score:[0,0,0,0],
+      scoreStyle: {
+        left: '73px',
+        top: '191px'
+      },
       score2: 10,
       score3: 3,
       score4: 0,
@@ -92,16 +90,45 @@ export default {
     ...mapState('auth', ['auth']),
     ...mapState('profile', ['profile', 'profile_knowledge']),
 
-
     balance () {
       return this.maxBal - this.score[0] - this.score[1] - this.score[2] - this.score[3]
+    },
+    balControler(){
+      return this.balance<=0 ? true : false
     }
 
   },
+  watch:{
 
+    balance(val){
+      if(val<0){
+        let num = Math.abs(val)
+        this.score.forEach((s,i)=>{
+          if(s>0){
+            num -=1
+            let newNum = s - 1;
+            if (newNum>=0){
+              this.score[i] = newNum
+            }
+          }
+          if(s==1 && i==0){
+            this.score1 = {
+              left: '45px',
+              top: '187px'
+            }
+          }else if(s==2 && i==0){
+            this.score1 = {
+              left: '25px',
+              top: '176px'
+            }
+          }
+        })
+        console.log(num)}
+    }
+  },
   methods: {
     ...mapActions('profile', ['getUserProfile', 'getUserKnowledges', 'savePrifileKnowledges']),
-
+  
     async fetchProfile () {
       await this.auth
       await this.getUserProfile(this.auth.id)
