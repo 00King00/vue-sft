@@ -5,7 +5,7 @@
       <div class="fields-vis fields-vis_add" v-if="knowledge_list">
         <div class="fields_center">
           <div class="fields_center_circ">
-            <div class="fields_center_num">{{ balance ? 0 : balance }}</div>
+            <div class="fields_center_num">{{balance}}</div>
           </div>
           <div class="fields_center_name c-blue">{{$lang.profile.ballCount}}</div>
           <div class="fields_center_txt">{{$lang.profile.globalBall}} {{maxBal}}</div>
@@ -13,24 +13,24 @@
           <a href="#" class="btn" @click.prevent="resetKnowledgeList">Сбросить</a>
         </div>
         <div class="fields">
-          <div class="fields_col" v-for="item in knowledge_list" :key="item.id">
-            <div class="fields_item fields_item4">
+          <div class="fields_col" v-for="(item, index) in knowledge_list" :key="item.id">
+            <div class="fields_item" :class="['fields_item'+(index+1)]">
 
               <circle-slider
                 class="slider-circle__item"
-                v-model="item.score"
+                v-model="score[index]"
                 :text="item.knowledge.title"
                 :urlImg="item.knowledge.image"
                 :side="190"
                 :min="0"
-                :max="10"
-                :limit="balance"
+                :max="balance"
+                :limit="10"
                 :step-size="1"
                 :circle-width="10"
                 circle-color="#E7E7E7"
-                progress-color="#E7E7E7"
-                knob-color="#fff"
-                :knob-radius="24"
+                progress-color="#0560CE"
+                knob-color="#0560CE"
+                :knob-radius="14"
               ></circle-slider>
 
               <!--<div class="fields_item_num" style="left: 94%; top: 39%;">{{ item.score }}</div>-->
@@ -56,9 +56,35 @@ export default {
 
   data () {
     return {
-      knowledge_list: false,
+      knowledge_list: [
+        {
+          knowledge: "Гуманитарные науки",
+          image: ''
+        },
+        {
+          knowledge: "Техныческие науки",
+          image: ''
+        },
+        {
+          knowledge: "Гуманитарные науки",
+          image: ''
+        },
+        {
+          knowledge: "Техныческие науки",
+          image: ''
+        }],
       knowledgeListStart: [],
-      maxBal: 20
+      maxBal: 20,
+      score:[
+        this.score1,
+        this.score2,
+        this.score3,
+        this.score4,
+      ],
+      score1: 5,
+      score2: 10,
+      score3: 3,
+      score4: 0,
     }
   },
 
@@ -66,8 +92,9 @@ export default {
     ...mapState('auth', ['auth']),
     ...mapState('profile', ['profile', 'profile_knowledge']),
 
+
     balance () {
-      return (this.maxBal - this.knowledge_list.reduce((acc, item) => acc + item.score, 0) < 0)
+      return this.maxBal - this.score[0] - this.score[1] - this.score[2] - this.score[3]
     }
 
   },
@@ -112,7 +139,7 @@ export default {
   },
 
   created () {
-    this.fetchProfile()
+    //this.fetchProfile()
   }
 }
 </script>

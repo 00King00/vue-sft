@@ -20,7 +20,7 @@
             <span v-else class="icon-user"></span>
           </div>
           <div class="cab_top_txt">
-            <div class="cab_top_name">{{auth.fullname}}</div>
+            <div class="cab_top_name">{{auth.fullname + is_admin}}</div>
             <div class="cab_top_mail">{{auth.email}}</div>
           </div>
         </router-link>
@@ -113,6 +113,7 @@ export default {
 
   data () {
     return {
+
     }
   },
 
@@ -141,9 +142,11 @@ export default {
   },
 
   computed: {
-    ...mapState('auth', ['auth','userMenuOpened', 'renderKeyAvatar']),
+    ...mapState('auth', ['auth','userMenuOpened', 'renderKeyAvatar','permission']),
     ...mapState('discussion', ['discussionButton']),
-
+    is_admin(){
+      return this.permission ? ' is admin' : ''
+    },
     activePage () {
       return this.$route.name
     }

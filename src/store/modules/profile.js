@@ -1,5 +1,6 @@
 import {
   GetProfileId,//*
+  GetCurrentProfile, //*
   GetProfileEducation,//*
   EditProfileEducation,//*
   EditProfileEducationScan,//*
@@ -34,6 +35,15 @@ export default {
       scan_url: "",
       is_verified: false
     },
+    profile_current: {
+      avatar_url:null,
+      fullname:"",
+      i_like:false,
+      id:null,
+      is_confirmed:false,
+      is_favorite:false,
+      total_likes:0
+    },
     all_aspects: [],
     favorite_aspects: [],
     favoritesDiscussion: [],
@@ -64,6 +74,10 @@ export default {
     },//*
     setUserProfile (state, profile) {
       state.profile = profile
+    },//*
+    //setUserKnowledges
+    setCurrentProfile(state, payload){
+      state.profile_current = payload
     },//*
     setUserEducation (state, education) {
       state.profile_education = education
@@ -161,6 +175,14 @@ export default {
           store.commit('setUserProfile', response.data)
           return response
         })
+    },//*
+    getUserKnowledges({commit}, id){
+      return  commit + id
+    },//* not api
+    getCurrentProfile({commit}){
+      return GetCurrentProfile().then(res=>{
+        commit('setCurrentProfile', res.data)
+      })
     },//*
     editUserEducation({commit}, {id, data}){
       return EditProfileEducation({id, data}).then(res => {

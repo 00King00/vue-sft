@@ -5,6 +5,7 @@ import {
   GetDiscussionsTop, //*
   GetDiscussionsLast, //*
   ToggleDiscusionFav,//*
+  ToggleDiscusionFreeze,//*
   GetDiscussion,
   //GetDiscussionAspects, // not necassery*
   GetDiscussionArguments, //*
@@ -88,11 +89,14 @@ export default {
         }
       })
     },//*
-    replaceDiscussionAll(state, {id, is_favorite, page}){
+    replaceDiscussionAll(state, {id, is_favorite, is_freeze, page}){
       state.discussionsAll.find((disc, index) =>{
         if(disc.page == page){
           state.discussionsAll[index].items.find((d, i)=>{
-            if(d.id == id){ state.discussionsAll[index].items[i].is_favorite = is_favorite}
+            if(d.id == id){
+              state.discussionsAll[index].items[i].is_favorite = is_favorite
+              state.discussionsAll[index].items[i].is_freeze = is_freeze
+            }
           })
         }
       })
@@ -129,7 +133,12 @@ export default {
       return ToggleDiscusionFav(id).then(res =>{
         return res.data
       })
-    },
+    },//*
+    ToggleDiscusionFreeze(ctx, id){
+      return ToggleDiscusionFreeze(id).then(res=>{
+        return res.data
+      })
+    },//*
     getDiscussions (store) {
       return GetDiscussions()
         .then(response => {
