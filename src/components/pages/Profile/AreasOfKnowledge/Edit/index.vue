@@ -15,28 +15,27 @@
         <div class="fields">
           <div class="fields_col" v-for="(item, index) in knowledge_list" :key="item.id">
             <div class="fields_item" :class="['fields_item'+(index+1)]">
-
               <circle-slider
                 class="slider-circle__item"
                 v-model="score[index]"
                 :text="item.knowledge.title"
                 :urlImg="item.knowledge.image"
-                :side="190"
+                :side="215"
                 :min="0"
-                :max="balance"
+                :max="20"
                 :step-size="1"
-                :circle-width="10"
+                :circle-width="12"
                 circle-color="#E7E7E7"
                 progress-color="#0560CE"
-                knob-color="#0560CE"
-                :knob-radius="14"
+                knob-color="white"
+                :knob-radius="17"
                 :disable="true"
               ></circle-slider>
 
-              <div class="fields_item_num" :style="scoreStyle">{{ score[index] }}</div>
-              <div class="fields_item_img"><img :src="item.knowledge.id" alt=""/></div>
-              <div class="fields_item_txt">
-                <span class="icon-check"></span>
+              <!-- <div class="fields_item_num" :style="scoreStyle">{{ score[index] }}</div> -->
+              <div class="fields_item_img" :class="{'not_active': score[index] == 0}"><img :src="item.knowledge.id" alt=""/></div>
+              <div class="fields_item_txt" >
+                <span class="icon-check" v-if="score[index] > 0"></span>
                 <p>{{     knowledge_list[index].knowledge }}</p>
               </div>
 
@@ -50,7 +49,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-
+import circleSlider from '@/components/ui/CircleSlider/components/CircleSlider.vue'
 export default {
   name: 'EditAreasOfKnowledge',
 
@@ -69,13 +68,10 @@ export default {
           knowledge: "Гуманитарные науки",
           image: ''
         },
-        {
-          knowledge: "Техныческие науки",
-          image: ''
-        }],
+        ],
       knowledgeListStart: [],
       maxBal: 20,
-      score:[0,0,0,0],
+      score:[0,0,0],
       scoreStyle: {
         left: '73px',
         top: '191px'
@@ -85,13 +81,15 @@ export default {
       score4: 0,
     }
   },
-
+  components:{
+    circleSlider
+  },
   computed: {
     ...mapState('auth', ['auth']),
     ...mapState('profile', ['profile', 'profile_knowledge']),
 
     balance () {
-      return this.maxBal - this.score[0] - this.score[1] - this.score[2] - this.score[3]
+      return this.maxBal - this.score[0] - this.score[1] - this.score[2]
     },
     balControler(){
       return this.balance<=0 ? true : false
@@ -102,7 +100,7 @@ export default {
 
     balance(val){
       if(val<0){
-        let num = Math.abs(val)
+        let num = Math.abs(val);
         this.score.forEach((s,i)=>{
           if(s>0){
             num -=1
@@ -123,12 +121,12 @@ export default {
             }
           }
         })
-        console.log(num)}
+      }
     }
   },
   methods: {
     ...mapActions('profile', ['getUserProfile', 'getUserKnowledges', 'savePrifileKnowledges']),
-  
+
     async fetchProfile () {
       await this.auth
       await this.getUserProfile(this.auth.id)
@@ -148,9 +146,7 @@ export default {
         .then(() => {
           this.$router.push('/profile/areas-of-knowledge')
         })
-        .catch(err => {
-          console.log(err)
-        })
+
     },
 
     startKnowledgeList () {
@@ -158,9 +154,7 @@ export default {
     },
 
     resetKnowledgeList () {
-      this.knowledge_list.forEach((item, index) => {
-        item.score = this.knowledgeListStart[index]
-      })
+      this.score = [0,0,0,0]
     }
 
   },
@@ -184,5 +178,21 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+  .fields_item{
+    &_txt{
+      width: 90%;
+      height: 90%;
+      left: 5px;
+    }
+    &_img {
+      width: 95%;
+      height: 95%;
+      left: 3px;
+      &.not_active{
+        opacity: 0.5;
+      }
+    }
   }
 </style>

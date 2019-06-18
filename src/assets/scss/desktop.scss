@@ -342,16 +342,16 @@ input:-ms-input-placeholder { font-size: 12px; }
 }
 .fields-vis_add {    height: 573px;}
 .fields_item1 {    top: 183px;    margin-left: -337px;
-	&:after {    height: 160px;    top: 110px;    left: 141px;    transform: rotate(-69deg);    transform-origin: 0 0;}
+	&:after {    height: 160px;    top: 110px;    left: 160px;    transform: rotate(-69deg);    transform-origin: 0 0;}
 }
 .fields_item2 {    top: 8px;    margin-left: -195px;
-	&:after {    height: 160px;    top: 143px;    left: 102px;    transform: rotate(-24deg);    transform-origin: 0 0;}
+	&:after {    height: 160px;    top: 155px;    left: 102px;    transform: rotate(-24deg);    transform-origin: 0 0;}
 }
 .fields_item3 {    top: 45px;    margin-left: 27px;
-	&:after {    height: 137px;    top: 142px;    left: 45px;    transform: rotate(23deg);    transform-origin: 0 0;}
+	&:after {    height: 137px;    top: 155px;    left: 45px;    transform: rotate(23deg);    transform-origin: 0 0;}
 }
 .fields_item4 {    top: 196px;    margin-left: 167px;
-	&:after {height: 110px;    top: 96px;    left: 4px;    transform: rotate(65deg);    transform-origin: 0 0;}
+	&:after {height: 110px;    top: 96px;    left: -14px;    transform: rotate(65deg);    transform-origin: 0 0;}
 }
 .fields_center {position: absolute; bottom: 0; left:50%;z-index: 5; width:300px; margin-left: -150px;}
 .fields_center_circ {padding: 16px; width: 158px; height: 158px; border: 11px solid #0560CE;}

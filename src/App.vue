@@ -72,7 +72,8 @@ export default {
         .then(id =>{
             return this.$axios.get(`/profiles/${id}/permissions`)
         })
-        .then((res) => {this.setPermission(); console.log(res.data)})
+        .then(() => {this.setPermission(); //console.log(res.data)
+        })
         .catch(err => console.log(err.message))
 
 
