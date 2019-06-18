@@ -47,14 +47,6 @@ import Modal from '@/components/ui/Modal'
 
 import { mapMutations } from 'vuex'
 
-// import '@/assets/css/style.css'
-// if (window.innerWidth >= 768) {
-//   require('@/assets/css/tablet.css')
-// }
-// if (window.innerWidth >= 1024) {
-//   require('@/assets/css/desktop.css')
-// }
-
 export default {
   name: 'App',
 
@@ -64,17 +56,27 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('auth', ['login'])
+    ...mapMutations('auth', ['login', 'setPermission'])
   },
 
   mounted() {
     let auth;
-      this.$axios.get('/profiles/current').then(res => {
-      if(res.status == 200){
-        auth = res.data;
-        this.login(auth)
-      }
-    }).catch(err => alert(err.message))
+      this.$axios.get('/profiles/current')
+        .then(res => {
+            if(res.status == 200){
+              auth = res.data;
+              this.login(auth)
+              return auth.id
+            }
+        })
+        .then(id =>{
+            return this.$axios.get(`/profiles/${id}/permissions`)
+        })
+        .then(() => {this.setPermission(); //console.log(res.data)
+        })
+        .catch(err => console.log(err.message))
+
+
     if(this.$route.path == "/discussion/add"){
       this.$store.commit('discussion/toggleDiscussionButton', false)
     }else{this.$store.commit('discussion/toggleDiscussionButton', true)}

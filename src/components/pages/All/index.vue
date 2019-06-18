@@ -143,7 +143,7 @@
             <v-pagination circle v-if="discussionsAll.length > 0" v-model="page" :length="total_pages" @click.native="fetchDiscussions"></v-pagination>
           </v-flex>
           <v-flex xs6 sm3 md4 v-for="item in itemsPerPage" :key="item.id">
-              <ThemeItem :eventModel="true" :item="item" @fav-toggle="toggleFavorite"/>
+              <ThemeItem :eventModel="true" :item="item" @fav-toggle="toggleFavorite" @freeze-toggle="toggleFreeze"/>
           </v-flex>
           <v-flex xs12 class="text-xs-center">
             <v-pagination circle v-if="discussionsAll.length > 0" v-model="page" :length="total_pages" @click.native="fetchDiscussions"></v-pagination>
@@ -155,7 +155,7 @@
 </template>
 
 <script>
-  import {ToggleDiscusionFav} from '@/api'
+  import {ToggleDiscusionFav, ToggleDiscusionFreeze,} from '@/api'
   import { mapState, mapActions, mapMutations } from 'vuex'
   import ThemeItem from '@/components/pages/Main/ThemeItem'
   export default {
@@ -178,6 +178,11 @@
         this.getDiscussionsAll(this.page).then(()=>{
           let item = this.discussionsAll.find(item => item.page === this.page);
           this.itemsPerPage = item.items
+        })
+      },
+      toggleFreeze(id){
+        ToggleDiscusionFreeze(id).then(res=>{
+          this.replaceDiscussionAll({page: this.page, id, is_favorite: res.data.is_favorite, is_freeze: res.data.is_freeze})
         })
       },
       toggleFavorite(id){

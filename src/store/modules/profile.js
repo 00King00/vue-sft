@@ -1,10 +1,12 @@
 import {
   GetProfileId,//*
+  GetCurrentProfile, //*
   GetProfileEducation,//*
   EditProfileEducation,//*
   EditProfileEducationScan,//*
   GetUsersTop,//*
   ToggleDiscusionAuthorFav,//*
+  ToggleDiscusionAuthorLike,//*
   EditPassword,//*
   EditEmail,//*
   ChangeAvatar,//*
@@ -32,6 +34,15 @@ export default {
       graduation_date: "",
       scan_url: "",
       is_verified: false
+    },
+    profile_current: {
+      avatar_url:null,
+      fullname:"",
+      i_like:false,
+      id:null,
+      is_confirmed:false,
+      is_favorite:false,
+      total_likes:0
     },
     all_aspects: [],
     favorite_aspects: [],
@@ -64,6 +75,10 @@ export default {
     setUserProfile (state, profile) {
       state.profile = profile
     },//*
+    //setUserKnowledges
+    setCurrentProfile(state, payload){
+      state.profile_current = payload
+    },//*
     setUserEducation (state, education) {
       state.profile_education = education
     },//*
@@ -77,11 +92,27 @@ export default {
       state.favorite_aspects.push(aspect)
     },//*
     replaceDiscusionAuthorFav(state, {id, is_favorite}){
-      state.usersTop.find((disc, index) =>{
-        if(disc.id == id){
+      state.usersTop.find((author, index) =>{
+        if(author.id == id){
           state.usersTop[index].is_favorite = is_favorite
         }
       })
+    },//*
+    replaceDiscusionAuthorLike(state, {id, i_like, total_likes}){
+      state.usersTop.find((author, index) =>{
+        if(author.id == id){
+          state.usersTop[index].i_like = i_like
+          state.usersTop[index].total_likes = total_likes
+        }
+      })
+      if(state.favoritesAuthors.length){
+        state.favoritesAuthors.find((author, index) =>{
+          if(author.id == id){
+            state.favoritesAuthors[index].i_like = i_like
+            state.favoritesAuthors[index].total_likes = total_likes
+          }
+        })
+      }
     },//*
     deleteFavoritesDiscussion(state, id){
       state.favoritesDiscussions.find((disc, index)=>{
@@ -108,6 +139,11 @@ export default {
   actions: {
     toggleDiscusionAuthorFav(ctx, id){
       return ToggleDiscusionAuthorFav(id).then(res =>{
+        return res.data
+      })
+    },//*
+    toggleDiscusionAuthorLike(ctx, id){
+      return ToggleDiscusionAuthorLike(id).then(res =>{
         return res.data
       })
     },//*
@@ -139,6 +175,14 @@ export default {
           store.commit('setUserProfile', response.data)
           return response
         })
+    },//*
+    getUserKnowledges({commit}, id){
+      return  commit + id
+    },//* not api
+    getCurrentProfile({commit}){
+      return GetCurrentProfile().then(res=>{
+        commit('setCurrentProfile', res.data)
+      })
     },//*
     editUserEducation({commit}, {id, data}){
       return EditProfileEducation({id, data}).then(res => {
