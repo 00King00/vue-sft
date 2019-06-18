@@ -8,18 +8,33 @@
       <div class="posts_item_title">{{ item.title }}</div>
       <div class="posts_item_bot">
         <div class="posts_item_author">{{$lang.main.authorWrap}}: <b>{{ item.author.fullname }}</b></div>
-        <a href="#" v-if="$store.state.auth.auth.id !== null" :class="{'active': item.is_favorite}" class="fav_link"><span class="icon-fav"></span></a>
+        <a href="#" v-if="$store.state.auth.auth.id !== null" :class="{'active': item.is_favorite}" class="fav_link"><v-icon v-if="permission" :color="is_frozen" >lock</v-icon><span class="icon-fav"></span></a>
         <div class="posts_item_date">{{item.created_at}}</div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import {mapState} from 'vuex'
 export default {
   name: 'ThemeItem',
   props: ['item', 'eventModel'],
+  computed:{
+    ...mapState('auth', ['permission']),
+    is_frozen(){
+      return this.item.is_frozen ? 'red' : ''
+    },
+  },
   methods: {
     cardEvent($event){
+      //console.log($event.target.classList[0] == "v-icon");
+      //return;
+      if($event.target.classList[0] == "v-icon"){
+        this.$emit("freeze-toggle", this.item.id)
+        //this.$store.dispatch('discussion/ToggleDiscusionFreeze').then
+        return;
+      }
+
       if($event.target.className == "icon-fav"){
         if(this.eventModel){
             this.$emit("fav-toggle", this.item.id)
@@ -28,7 +43,7 @@ export default {
             this.$store.commit('discussion/replaceDiscussionTop', {id : disc.id, is_favorite: disc.is_favorite})
           })
         }
-      }else{
+      }else {
         this.$router.push('/discussion/' + this.item.id)
       }
     }

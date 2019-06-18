@@ -12,12 +12,16 @@ export default {
 			total_likes: null,
 			i_like: false
 		},
+		permission: false,
 		userMenuOpened: false,
 		renderKeyAvatar: 1,
 
 	},
 
 	mutations: {
+		setPermission(state){
+			state.permission = true
+		},
 		login (state, data) {
 			state.auth = data
 		},
@@ -34,6 +38,7 @@ export default {
 				i_like: false
 			}
 			state.userMenuOpened = false
+			state.permission = false
 		},
 		updateAvatar(state){
 			state.renderKeyAvatar += 1;

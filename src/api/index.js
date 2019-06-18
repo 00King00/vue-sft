@@ -36,6 +36,9 @@ export function Register (data) {
 export function GetProfileId (id) {
   return request.get(`/profiles/${id}`)
 }//*
+export function GetCurrentProfile () {
+  return request.get(`/profiles/current`)
+}//*
 export function GetProfileEducation (id) {
   return request.get(`/profiles/${id}/education`)
 }//*
@@ -99,6 +102,9 @@ export function ToggleDiscusionFav(id){
 }//*
 export function ToggleDiscusionAuthorFav(id){
   return request.post(`/profiles/${id}/favorite`)
+}// *
+export function ToggleDiscusionFreeze(id){
+  return request.post(`/discussions/${id}/freeze`)
 }// *
 export function ToggleDiscusionAuthorLike(id){
   return request.post(`/profiles/${id}/likes`)
