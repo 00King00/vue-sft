@@ -42,6 +42,9 @@ export default {
     return {
       discussion: null,
       thesis: null,
+      window: {
+        width: 0
+      }
     }
   },
 
@@ -70,11 +73,13 @@ export default {
       }
     },
     circleSizeTrue(){
+      if(this.window.width<450) return 100
       if(this.discussion.votes.true >= this.discussion.votes.false ){
         return 174
       } else {return 150}
     },
     circleSizeFalse(){
+      if(this.window.width<450) return 100
       if(this.discussion.votes.true <= this.discussion.votes.false ) {
         return 174
       } else {return 150}
@@ -84,7 +89,9 @@ export default {
   methods: {
     ...mapActions('modal', ['addModal']),
     ...mapActions('discussion', ['getDiscussionArguments']),
-
+    handleResize() {
+      this.window.width = window.innerWidth;
+    },
     async fetch () {
       await Promise.all([
         this.getDiscussionArguments(this.$route.params.id),
@@ -103,9 +110,14 @@ export default {
       }
     });
   },
-  created () {
+  created() {
     this.fetch()
-  }
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize();
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.handleResize)
+  },
 }
 </script>
 

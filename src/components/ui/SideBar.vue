@@ -134,10 +134,6 @@ export default {
     },
     allDiscusion(){
       this.$router.push('/all')
-      // GetAllDiscussion(page).then(res =>{
-      //     this.$store.commit('discussion/setAllDiscusion', res.data.items)
-      //     this.$router.push('/all')
-      //   })
     }
   },
 

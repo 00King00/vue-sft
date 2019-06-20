@@ -44,7 +44,7 @@
         <a href="#" class="cloud_link"><span class="icon-point"></span>Кулинария</a>
         <a href="#" class="cloud_link"><span class="icon-point"></span>Животные</a>
         <a href="#" class="cloud_link"><span class="icon-point"></span>Кант</a>
-        <a href="#" class="cloud_link"><span class="icon-point"></span>Конфеты</a>
+        <a href="#" class="cloud_link"  @click.prevent="allDiscusion()"><span class="icon-point"></span>Все</a>
       </div>
     </section>
     <section class="section-top-author" id="top-authors">
@@ -299,6 +299,9 @@ export default {
   methods: {
     ...mapActions('discussion', ['getDiscussionsTop', 'getDiscussionsLast']),
     ...mapActions('profile', ['getUsersTop']),
+    allDiscusion(){
+      this.$router.push('/all')
+    },
     SubmitFeedback(){
       let data = new FormData();
       data.append("email", this.feedbackEmail)
