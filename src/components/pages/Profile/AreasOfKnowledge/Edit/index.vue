@@ -31,14 +31,18 @@
                 :knob-radius="17"
                 :disable="true"
               ></circle-slider>
-
               <!-- <div class="fields_item_num" :style="scoreStyle">{{ score[index] }}</div> -->
               <div class="fields_item_img" :class="{'not_active': score[index] == 0}"><img :src="item.knowledge.id" alt=""/></div>
               <div class="fields_item_txt" >
                 <span class="icon-check" v-if="score[index] > 0"></span>
                 <p>{{     knowledge_list[index].knowledge }}</p>
               </div>
-
+            </div>
+            <div class="range-slider">
+              <v-slider
+                v-model="score[index]"
+                thumb-color="red" :max="20" thumb-label="always"
+              ></v-slider>
             </div>
           </div>
         </div>
@@ -166,6 +170,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .range-slider{
+    flex-grow: 10;
+    @media (min-width: 600px){
+      display: none;
+    }
+
+  }
   .fields_item {
     background-color: transparent;
     &:before {
@@ -179,12 +190,19 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
+    @media (max-width: 600px){
+      display: none;
+    }
   }
   .fields_item{
     &_txt{
       width: 90%;
       height: 90%;
       left: 5px;
+      @media (max-width: 600px){
+       top: 6px;
+       left: 0;
+      }
     }
     &_img {
       width: 95%;

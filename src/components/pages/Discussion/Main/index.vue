@@ -15,14 +15,12 @@
           </div>
         </div>
       </div>
-
       <Aspects :aspects="discussion.aspects"/>
-
       <div class="country_wr">
         <div class="country_title">{{$lang.descAdd.arg}}:</div>
         <div class="disc">
           <Argument v-for="(argument, index) in filterArgument" :argument="argument" :key="`argument_${index}`" :propThesis="thesis"/>
-          <div class="disc_line_plus" @click.prevent="addModal({name: 'ModalArgument'})"><a href="#"><span class="icon-plus"></span><span>Add</span></a></div>
+          <div v-if="$store.state.auth.auth.id" class="disc_line_plus" @click.prevent="addModal({name: 'ModalArgument'})"><a href="#"><span class="icon-plus"></span><span>Add</span></a></div>
         </div>
       </div>
     </section>
@@ -73,13 +71,13 @@ export default {
       }
     },
     circleSizeTrue(){
-      if(this.window.width<450) return 100
+      if(this.window.width<600) return 100
       if(this.discussion.votes.true >= this.discussion.votes.false ){
         return 174
       } else {return 150}
     },
     circleSizeFalse(){
-      if(this.window.width<450) return 100
+      if(this.window.width<600) return 100
       if(this.discussion.votes.true <= this.discussion.votes.false ) {
         return 174
       } else {return 150}

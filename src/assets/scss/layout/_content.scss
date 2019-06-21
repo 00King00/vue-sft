@@ -514,9 +514,24 @@ form .error {color:red;}
 	&:after {content:''; background: #CFD9E4; height: 1px; flex-grow: 1; margin-left: 13px;}
 	[class^="icon-"] {color:#0560CE; display: inline-block; vertical-align: middle;    font-size: 22px;    margin: -3px 2px 0 0;    width: 25px;}
 }
-.fields { padding: 7.7% 5px 5.7%; margin:0 -10px 20px; display: flex; flex-direction: row; overflow: auto; justify-content: space-between;}
-.fields_col {padding: 0 5px;}
+.fields { padding: 7.7% 45px 5.7%; margin:0 -10px 20px; display: flex; flex-direction: row; justify-content: space-around;
+  @include breakpoint(mobileonly){
+    flex-wrap: wrap;
+  }
+}
+.fields_col {
+  padding: 0 5px;
+  @include breakpoint(mobileonly){
+    flex-basis: 100%;
+    display: flex;
+    align-items: center;
+  }
+}
 .fields_item {position: relative; border-radius: 50%; background:#E7E7E7; padding: 10px; width:92px; height:92px; margin: 0 auto 15px;
+  @include breakpoint(mobileonly){
+    margin: 0;
+    padding: 0 10px 0 0;
+  }
 	&:before {content:''; border-radius: 50%; background: #fff; top:5px; left:5px; right:5px; bottom:5px; z-index: 0; position: absolute;}
 }
 .fields_item_img {width: 100%; height:100%;position: relative; border-radius: 50%; overflow: hidden;
@@ -712,15 +727,29 @@ form .error {color:red;}
      width: 427px;
   }
 }
-.country_libra_svg {background: url(../svg/ves.svg) no-repeat center; background-size: auto 100%; position: absolute; z-index: 0; top:0;bottom: 0;left: 0;right: 0;}
+.country_libra_svg {background: url(../svg/ves.svg) no-repeat center;
+  @include breakpoint(phablet){
+     background-size: auto 100%;
+  }
+  background-size: auto 85%; position: absolute; z-index: 0; top:0;bottom: 0;left: 0;right: 0;}
 .c_b {text-align:center; position:relative; position: absolute; top: 54px; width:176px; height:176px;box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.056);
 display:flex; align-items: center; justify-content: center; background: #E1E3EB; border-radius: 50%;
 	&:after{content:''; background: #fff; display:block; position:absolute; top:15px; left:15px; right:15px; bottom:15px; border-radius:50%;}
 	[class^="icon-"] {color:rgba(225, 227, 235, 0.4);font-size: 63px;z-index: 1; position: absolute;top:50%; left: 0; right:0;text-align: center; height: 70px; margin-top: -35px; line-height: 70px;}
 }
 .c_b_val {display:block; position: relative; z-index: 2;color:#000; font-size:36px; font-weight: bold; }
-.blue_c{ left:0px;}
-.blue_r{ right:0px;}
+.blue_c{
+  left:30px;
+  @include breakpoint(phablet){
+    left: 0;
+  }
+}
+.blue_r{
+  right:30px;
+  @include breakpoint(phablet){
+    right: 0;
+  }
+}
 
 .country_wr {margin-bottom: 20px;
 	.disc {   margin-top: -2px;}

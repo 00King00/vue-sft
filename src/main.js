@@ -24,6 +24,7 @@ import Vuetify, {
 	VCardActions,
 	VSpacer,
 	VDialog,
+	VSlider,
 	VAlert
 } from 'vuetify/lib'
 Vue.use(Vuetify, {
@@ -41,6 +42,7 @@ Vue.use(Vuetify, {
 		VCardActions,
 		VSpacer,
 		VDialog,
+		VSlider,
 		VAlert
   }
 })

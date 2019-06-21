@@ -26,7 +26,7 @@
         <div v-if="myThesis.length">
           <Comment v-for="item in myThesis" :comment="item" :key="item.id"/>
         </div>
-        <div class="text-xs-center" >
+        <div class="text-xs-center" v-if="$store.state.auth.auth.id" >
           <v-btn outline color="info" @click="addModal({name: 'ModalArgument', data:argument.id})">
             <v-icon>add</v-icon>
             Add Thesis

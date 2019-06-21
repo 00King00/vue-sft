@@ -20,7 +20,7 @@
                 v-model="item.score"
                 :text="item.knowledge.title"
                 :urlImg="item.knowledge.image"
-                :side="215"
+                :side="180"
                 :min="0"
                 :max="20"
                 disabled
@@ -101,6 +101,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .fields{
+
+    &_col{
+      flex-basis: 50%;
+      justify-content: center;
+
+    }
+  }
+
   .fields_center{
     bottom: none;
     top: 265px;
