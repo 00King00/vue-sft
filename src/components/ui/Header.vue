@@ -20,12 +20,12 @@
             <div class="header_link_txt">Поиск</div>
           </a>
         </div>
-        <div class="header_link header_arch">
+        <!--* <div class="header_link header_arch">
           <router-link to="/archive" href="#">
             <span class="icon-arch"></span>
             <div class="header_link_txt">{{$lang.header.archive}}</div>
           </router-link>
-        </div>
+        </div> *-->
         <nav class="header_nav">
           <ul>
             <li>
@@ -46,12 +46,12 @@
                 <div class="header_link_txt">{{$lang.header.login}}</div>
               </a>
             </li>
-            <li v-else>
+            <!-- <li v-else>
               <router-link :to="'/profile/' + auth.id" href="#">
                 <span class="icon-user"></span>
                 <div class="header_link_txt">Профиль</div>
               </router-link>
-            </li>
+            </li> -->
           </ul>
           <div class="header_nav_circ">
             <span class="circ_grad"><span class="icon-reload"></span></span>
@@ -83,9 +83,9 @@
           <a href="#" class="btn btn-bord" @click.prevent="logout" v-else>Выход</a>
         </div>
         <ul class="mob-side_nav sidebar-themes_list">
-          <li><router-link to="/"><span class="icon-arrow_down"></span>Тема дня</router-link></li>
-          <li><router-link to="/"><span class="icon-arrow_down"></span>Топ тем дискуссий</router-link></li>
-          <li><router-link to="/"><span class="icon-arrow_down"></span>Топ авторов</router-link></li>
+          <li><router-link  @click.native="openMenu(false)" v-scroll-to="'#theme-day'" to="/"><span class="icon-arrow_down"></span>Тема дня</router-link></li>
+          <li><router-link @click.native="openMenu(false)" v-scroll-to="'#theme-disc-top'" to="/"><span class="icon-arrow_down"></span>Топ тем дискуссий</router-link></li>
+          <li><router-link @click.native="openMenu(false)" v-scroll-to="'#top-authors'" to="/"><span class="icon-arrow_down"></span>Топ авторов</router-link></li>
           <li><router-link to="/"><span class="icon-arrow_down"></span>О проекте</router-link></li>
           <li><router-link to="/"><span class="icon-arrow_down"></span>Архив тем дискуссий</router-link></li>
           <li><router-link to="/"><span class="icon-arrow_down"></span>Обратная связь</router-link></li>

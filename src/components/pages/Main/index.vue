@@ -28,7 +28,7 @@
     <section class="section-top-discuss m-show">
       <div class="h2"><h2>{{$lang.main.discTopTheme}}</h2></div>
       <div class="cloud">
-        <a href="#" class="cloud_link"><span class="icon-point"></span>Планета Земля</a>
+        <!-- <a href="#" class="cloud_link"><span class="icon-point"></span>Планета Земля</a>
         <a href="#" class="cloud_link"><span class="icon-point"></span>Космос</a>
         <a href="#" class="cloud_link"><span class="icon-point"></span>Психология</a>
 
@@ -43,7 +43,7 @@
 
         <a href="#" class="cloud_link"><span class="icon-point"></span>Кулинария</a>
         <a href="#" class="cloud_link"><span class="icon-point"></span>Животные</a>
-        <a href="#" class="cloud_link"><span class="icon-point"></span>Кант</a>
+        <a href="#" class="cloud_link"><span class="icon-point"></span>Кант</a> -->
         <a href="#" class="cloud_link"  @click.prevent="allDiscusion()"><span class="icon-point"></span>Все</a>
       </div>
     </section>
@@ -63,7 +63,7 @@
         <UserItem v-for="author in usersTop" :key="author.id" :author="author" />
       </Slick>
     </section>
-    <section class="section-revs">
+    <!-- <section class="section-revs">
       <div class="h2"><h2>{{$lang.main.reviews}}</h2></div>
       <Slick
         ref="slick-4"
@@ -80,13 +80,13 @@
         <ReviewItem />
         <ReviewItem />
       </Slick>
-    </section>
+    </section> -->
     <section class="section-feed" id="feedback">
       <div class="h2"><h2>{{$lang.main.feedTitle}}</h2></div>
       <div class="form_txt">{{$lang.main.feedSubtitle}}</div>
       <div class="form_bg">
         <form>
-          <div class="form_cols">
+          <div class="form_cols text-xs-left">
             <div class="form_cols_item">
               <div class="form_row">
                 <label><span class="error">*</span> {{$lang.main.feedName}}:</label>
@@ -97,7 +97,7 @@
                 <div class="form_el"><input type="email" class="t-inp" v-model="feedbackEmail" placeholder="example@gmail.com"></div>
               </div>
             </div>
-            <div class="form_cols_item">
+            <div class="form_cols_item text-xs-left">
               <div class="form_row">
                 <label><span class="error">*</span> {{$lang.main.feedTheme}}:</label>
                 <div class="form_el">
@@ -129,7 +129,7 @@
               </div>
             </div>
           </div>
-          <div class="form_cols">
+          <div class="form_cols text-xs-left">
             <div class="form_cols_item">
               <div class="form_row form_capt">
                 <div class="form_el">

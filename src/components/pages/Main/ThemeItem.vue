@@ -8,7 +8,7 @@
       <div class="posts_item_title">{{ item.title }}</div>
       <div class="posts_item_bot">
         <div class="posts_item_author">{{$lang.main.authorWrap}}: <b>{{ item.author.fullname }}</b></div>
-        <a href="#" v-if="$store.state.auth.auth.id !== null" :class="{'active': item.is_favorite}" class="fav_link"><v-icon v-if="permission" :color="is_frozen" >lock_open</v-icon><span class="icon-fav"></span></a>
+        <a href="#" v-if="$store.state.auth.auth.id !== null" :class="{'active': item.is_favorite}" class="fav_link"><v-icon v-if="false" :color="is_frozen" >lock_open</v-icon><span class="icon-fav"></span></a>
         <div class="posts_item_date">{{item.created_at}}</div>
       </div>
     </div>
