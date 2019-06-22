@@ -7,11 +7,11 @@
           <div class="country_libra_svg"></div>
           <div class="c_b blue_c">
             <span class="icon-check"></span>
-            <v-progress-circular  :size="circleSizeTrue"  :value="discussion.votes.true" color="blue" width="12" rotate="-90">{{discussion.votes.true}}%</v-progress-circular>
+            <v-progress-circular  :size="circleSizeTrue"  :value="discussion.votes.true" color="blue" width="12" rotate="-90">{{discussionVote.votes.true}}%</v-progress-circular>
           </div>
           <div class="c_b blue_r">
             <span class="icon-close"></span>
-            <v-progress-circular :size="circleSizeFalse"  :value="discussion.votes.false" color="red" width="12" rotate="-90">{{discussion.votes.false}}%</v-progress-circular>
+            <v-progress-circular :size="circleSizeFalse"  :value="discussion.votes.false" color="red" width="12" rotate="-90">{{discussionVote.votes.false}}%</v-progress-circular>
           </div>
         </div>
       </div>
@@ -49,7 +49,12 @@ export default {
   components: { Aspects, Argument },
 
   computed: {
-    ...mapState('discussion', ['discussion_arguments', 'selected_aspects']),
+    ...mapState('discussion', ['discussion_arguments', 'selected_aspects','current_discussion']),
+    discussionVote(){
+      if(this.current_discussion){
+        return this.current_discussion
+      }else{return this.discussion}
+    },
     filterArgument(){
       if(this.selected_aspects.length == 0){
         return this.discussion_arguments
@@ -98,6 +103,7 @@ export default {
     }
   },
   mounted() {
+    this.$store.commit('discussion/setCurrentDiscussion', null)
     this.$store.subscribe((mutation, state)=>{
       switch(mutation.type){
         case 'discussion/pushDiscussionThesis': {
