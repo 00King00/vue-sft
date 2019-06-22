@@ -182,7 +182,7 @@
       },
       toggleFreeze(id){
         ToggleDiscusionFreeze(id).then(res=>{
-          this.replaceDiscussionAll({page: this.page, id, is_favorite: res.data.is_favorite, is_freeze: res.data.is_freeze})
+          this.replaceDiscussionAll({page: this.page, id, is_favorite: res.data.is_favorite, is_frozen: res.data.is_frozen})
         })
       },
       toggleFavorite(id){

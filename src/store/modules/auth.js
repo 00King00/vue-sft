@@ -19,8 +19,12 @@ export default {
 	},
 
 	mutations: {
-		setPermission(state){
-			state.permission = true
+		setPermission(state, payload){
+		let arr = payload.permissions.find(p => {
+			if(p.name=="edit_special_rights" && p.is_allowed == true) return p
+		})
+			if(arr.is_allowed) state.permission = true
+
 		},
 		login (state, data) {
 			state.auth = data
