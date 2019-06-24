@@ -40,7 +40,6 @@ export default {
       ctx.dispatch('addModal', {
         name: 'Login',
         success: () => {
-
         },
 
         cancel: () => {

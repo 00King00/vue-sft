@@ -1,3 +1,6 @@
+
+
+
 import {
   CreateNewDiscussion,//*
   GetDiscussions,//*
@@ -16,6 +19,7 @@ export default {
   namespaced: true,
 
   state: {
+    current_discussion: null,
     thesisId: null,
     discussions: [],
     discussion: null,
@@ -38,6 +42,9 @@ export default {
     }
   },
   mutations: {
+    setCurrentDiscussion(state, payload){
+      state.current_discussion = payload;
+    },//*
     setThesisId(state, payload){
       state.thesisId = payload
     },//*
@@ -89,13 +96,13 @@ export default {
         }
       })
     },//*
-    replaceDiscussionAll(state, {id, is_favorite, is_freeze, page}){
+    replaceDiscussionAll(state, {id, is_favorite, is_frozen, page}){
       state.discussionsAll.find((disc, index) =>{
         if(disc.page == page){
           state.discussionsAll[index].items.find((d, i)=>{
             if(d.id == id){
               state.discussionsAll[index].items[i].is_favorite = is_favorite
-              state.discussionsAll[index].items[i].is_freeze = is_freeze
+              state.discussionsAll[index].items[i].is_frozen = is_frozen
             }
           })
         }

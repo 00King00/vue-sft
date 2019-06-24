@@ -7,22 +7,20 @@
           <div class="country_libra_svg"></div>
           <div class="c_b blue_c">
             <span class="icon-check"></span>
-            <v-progress-circular  :size="circleSizeTrue"  :value="discussion.votes.true" color="blue" width="12" rotate="-90">{{discussion.votes.true}}%</v-progress-circular>
+            <v-progress-circular  :size="circleSizeTrue"  :value="discussion.votes.true" color="blue" width="12" rotate="-90">{{discussionVote.votes.true}}%</v-progress-circular>
           </div>
           <div class="c_b blue_r">
             <span class="icon-close"></span>
-            <v-progress-circular :size="circleSizeFalse"  :value="discussion.votes.false" color="red" width="12" rotate="-90">{{discussion.votes.false}}%</v-progress-circular>
+            <v-progress-circular :size="circleSizeFalse"  :value="discussion.votes.false" color="red" width="12" rotate="-90">{{discussionVote.votes.false}}%</v-progress-circular>
           </div>
         </div>
       </div>
-
       <Aspects :aspects="discussion.aspects"/>
-
       <div class="country_wr">
         <div class="country_title">{{$lang.descAdd.arg}}:</div>
         <div class="disc">
           <Argument v-for="(argument, index) in filterArgument" :argument="argument" :key="`argument_${index}`" :propThesis="thesis"/>
-          <div class="disc_line_plus" @click.prevent="addModal({name: 'ModalArgument'})"><a href="#"><span class="icon-plus"></span><span>Add</span></a></div>
+          <div v-if="$store.state.auth.auth.id" class="disc_line_plus" @click.prevent="addModal({name: 'ModalArgument'})"><a href="#"><span class="icon-plus"></span><span>Add</span></a></div>
         </div>
       </div>
     </section>
@@ -42,13 +40,21 @@ export default {
     return {
       discussion: null,
       thesis: null,
+      window: {
+        width: 0
+      }
     }
   },
 
   components: { Aspects, Argument },
 
   computed: {
-    ...mapState('discussion', ['discussion_arguments', 'selected_aspects']),
+    ...mapState('discussion', ['discussion_arguments', 'selected_aspects','current_discussion']),
+    discussionVote(){
+      if(this.current_discussion){
+        return this.current_discussion
+      }else{return this.discussion}
+    },
     filterArgument(){
       if(this.selected_aspects.length == 0){
         return this.discussion_arguments
@@ -70,11 +76,13 @@ export default {
       }
     },
     circleSizeTrue(){
+      if(this.window.width<600) return 100
       if(this.discussion.votes.true >= this.discussion.votes.false ){
         return 174
       } else {return 150}
     },
     circleSizeFalse(){
+      if(this.window.width<600) return 100
       if(this.discussion.votes.true <= this.discussion.votes.false ) {
         return 174
       } else {return 150}
@@ -84,7 +92,9 @@ export default {
   methods: {
     ...mapActions('modal', ['addModal']),
     ...mapActions('discussion', ['getDiscussionArguments']),
-
+    handleResize() {
+      this.window.width = window.innerWidth;
+    },
     async fetch () {
       await Promise.all([
         this.getDiscussionArguments(this.$route.params.id),
@@ -93,6 +103,7 @@ export default {
     }
   },
   mounted() {
+    this.$store.commit('discussion/setCurrentDiscussion', null)
     this.$store.subscribe((mutation, state)=>{
       switch(mutation.type){
         case 'discussion/pushDiscussionThesis': {
@@ -103,9 +114,14 @@ export default {
       }
     });
   },
-  created () {
+  created() {
     this.fetch()
-  }
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize();
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.handleResize)
+  },
 }
 </script>
 

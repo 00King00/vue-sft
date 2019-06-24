@@ -25,14 +25,14 @@
               <label class="checkbox"><input type="checkbox" v-model="terms" checked=""><div class="checkbox_text">{{$lang.auth.iAccept}} <a href="#">{{$lang.auth.terms}}</a></div></label>
             </div>
           </div>
-          <div class="win_soc">
+          <!-- <div class="win_soc">
             <div class="win_soc_title">{{$lang.auth.orSign}}</div>
             <div class="soc">
               <a href="#" class="soc_link"><span class="icon-google"></span></a>
               <a href="#" class="soc_link"><span class="icon-fb"></span></a>
               <a href="#" class="soc_link"><span class="icon-vk"></span></a>
             </div>
-          </div>
+          </div> -->
           <div class="form_btn"><input type="submit" class="btn btn-bord" :value="$lang.auth.register" /></div>
           <div class="win_account">{{$lang.auth.haveAcc}} <a href="#" @click.prevent="addModal({name: 'Login'})">{{$lang.auth.signIn}}</a></div>
         </form>

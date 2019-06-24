@@ -82,7 +82,7 @@
     <section class="sidebar-top-discuss m-hid">
       <h3>{{$lang.main.discTopTheme}}</h3>
       <div class="cloud">
-        <a href="#" class="cloud_link"><span class="icon-point"></span>Планета Земля</a>
+        <!-- <a href="#" class="cloud_link"><span class="icon-point"></span>Планета Земля</a>
         <a href="#" class="cloud_link"><span class="icon-point"></span>Космос</a>
         <a href="#" class="cloud_link"><span class="icon-point"></span>Психология</a>
 
@@ -97,7 +97,7 @@
 
         <a href="#" class="cloud_link"><span class="icon-point"></span>Кулинария</a>
         <a href="#" class="cloud_link"><span class="icon-point"></span>Животные</a>
-        <a href="#" class="cloud_link"><span class="icon-point"></span>Кант</a>
+        <a href="#" class="cloud_link"><span class="icon-point"></span>Кант</a> -->
         <a href="#" class="cloud_link" @click.prevent="allDiscusion()" ><span class="icon-point"></span>Все</a>
       </div>
     </section>
@@ -107,7 +107,6 @@
 <script>
 
 import { mapState, mapActions } from 'vuex'
-//import {GetAllDiscussion} from '@/api'
 export default {
   name: 'SideBar',
 
@@ -119,7 +118,7 @@ export default {
 
   methods: {
     ...mapActions('modal', ['openLoginModal']),
-	...mapActions('modal', ['openLoginModal']),
+	   ...mapActions('modal', ['openLoginModal']),
     openUserMenu () {
       this.$store.commit('auth/toggleUserMenuOpened', null, { root: true })
     },
@@ -134,10 +133,6 @@ export default {
     },
     allDiscusion(){
       this.$router.push('/all')
-      // GetAllDiscussion(page).then(res =>{
-      //     this.$store.commit('discussion/setAllDiscusion', res.data.items)
-      //     this.$router.push('/all')
-      //   })
     }
   },
 
