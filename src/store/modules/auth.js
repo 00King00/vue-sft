@@ -23,7 +23,12 @@ export default {
 		let arr = payload.permissions.find(p => {
 			if(p.name=="edit_special_rights" && p.is_allowed == true) return p
 		})
+		if(arr === undefined){
+			return
+		}else{
 			if(arr.is_allowed) state.permission = true
+		}
+
 
 		},
 		login (state, data) {

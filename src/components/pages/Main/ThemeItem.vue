@@ -51,6 +51,11 @@ export default {
 </script>
 
 <style scoped>
+.posts_item{
+  height: auto;
+  width: 100%;
+  margin: 0;
+}
 .v-icon{
   float: right;
   margin-top: -10px;

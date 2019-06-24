@@ -175,8 +175,11 @@ export function PutDiscussionImage({id, image}){
     }
   })
 } //*
+export function GetDiscussions () {
+  return request.get('/discussions')
+} //* not ready
 export function GetAuthorDiscussions ({id, page}) {
-  return request.get(`/discussions/?author=${id}&location=all&sort=last&page=${page}`)
+  return request.get(`/discussions?author=${id}&location=all&sort=last&page=${page}`)
 } //*
 export function GetDiscussion (id) {
   return request.get('/discussions/' + id)

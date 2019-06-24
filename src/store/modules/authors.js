@@ -11,7 +11,15 @@ export default {
     }
   },
   mutations: {
-    setAuthorsDiscussion(state, payload){
+    clereAuthorsDiscussions(state){
+      state.authors_discussion = []
+      state.paginationSetting = {
+        total_pages: null,
+        total_items: null,
+        items_per_page: null,
+      }
+    },
+    setAuthorsDiscussions(state, payload){
       state.authors_discussion.push({items: payload.items, page: payload.page})
       state.paginationSetting = {
         total_pages: payload.total_pages,
@@ -21,7 +29,7 @@ export default {
     }
   },
   actions:{
-    getAuthorDiscussions({commit},{id, page}){
+    getAuthorDiscussions({commit}, {id, page}){
       return GetAuthorDiscussions({id, page}).then(res => {
         commit('setAuthorsDiscussions', res.data)
         return res.data
