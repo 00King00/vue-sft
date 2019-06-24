@@ -20,7 +20,7 @@
             <span v-else class="icon-user"></span>
           </div>
           <div class="cab_top_txt">
-            <div class="cab_top_name">{{auth.fullname + is_admin}}</div>
+            <div class="cab_top_name">{{auth.fullname}}</div>
             <div class="cab_top_mail">{{auth.email}}</div>
           </div>
         </router-link>
@@ -118,7 +118,7 @@ export default {
 
   methods: {
     ...mapActions('modal', ['openLoginModal']),
-	   ...mapActions('modal', ['openLoginModal']),
+    ...mapActions('modal', ['openLoginModal']),
     openUserMenu () {
       this.$store.commit('auth/toggleUserMenuOpened', null, { root: true })
     },
@@ -139,9 +139,6 @@ export default {
   computed: {
     ...mapState('auth', ['auth','userMenuOpened', 'renderKeyAvatar','permission']),
     ...mapState('discussion', ['discussionButton']),
-    is_admin(){
-      return this.permission ? ' is admin' : ''
-    },
     activePage () {
       return this.$route.name
     }

@@ -9,8 +9,8 @@
       <div class="posts_item_bot">
         <div class="posts_item_author">{{$lang.main.authorWrap}}: <b>{{ item.author.fullname }}</b></div>
         <a href="#" v-if="$store.state.auth.auth.id !== null" :class="{'active': item.is_favorite}" class="fav_link"><span class="icon-fav"></span></a>
-        <v-icon v-if="permission && !item.is_frozen" :color="is_frozen" >lock_open</v-icon>
-        <v-icon v-if="item.is_frozen" >lock</v-icon>
+        <v-icon v-if="permission && !item.is_frozen" :color="is_frozen" :class="{'admin': permission }">lock_open</v-icon>
+        <v-icon v-if="item.is_frozen" :class="{'admin': permission }">lock</v-icon>
         <div class="posts_item_date">{{item.created_at}}</div>
       </div>
     </div>
@@ -29,11 +29,8 @@ export default {
   },
   methods: {
     cardEvent($event){
-      //console.log($event.target.classList[0] == "v-icon");
-      //return;
       if($event.target.classList[0] == "v-icon"){
         this.$emit("freeze-toggle", this.item.id)
-        //this.$store.dispatch('discussion/ToggleDiscusionFreeze').then(res=>console.log(res))
         return;
       }
 
@@ -54,12 +51,17 @@ export default {
 </script>
 
 <style scoped>
+.posts_item{
+  height: auto;
+  width: 100%;
+  margin: 0;
+}
 .v-icon{
   float: right;
   margin-top: -10px;
   cursor: pointer;
 }
-.v-icon:hover{
+.v-icon.admin:hover{
   color:#FF441D;
 }
 </style>

@@ -19,6 +19,12 @@
         ref="slick2"
         class="posts posts-sm"
         :options="themesSlickOptions">
+        <!-- <v-container grid-list-lg class="pa-0">
+          <v-layout row wrap >
+            <v-flex xs6 sm3 md4>
+            </v-flex>
+          </v-layout >
+        </v-container> -->
         <ThemeItem
           v-for="item in discussionsTop" :key="item.id"
           :item="item"
@@ -289,7 +295,8 @@ export default {
     }
   },
 
-  components: { Slick, PostItem, ThemeItem, UserItem, ReviewItem, VueRecaptcha },
+  components: { Slick, PostItem, ThemeItem, UserItem, //ReviewItem,
+     VueRecaptcha },
 
   computed: {
     ...mapState('discussion', ['discussionsTop', 'discussionsLast', 'removedFavDisc', 'removedFavAuthorDisc']),
@@ -361,6 +368,10 @@ export default {
 </style>
 
 <style scoped>
+  .posts_item{
+    margin-bottom:15px;
+
+  }
   .section-discuss .posts_item_cont{
     margin-top: -35px;
   }

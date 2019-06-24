@@ -1,6 +1,3 @@
-
-
-
 import {
   CreateNewDiscussion,//*
   GetDiscussions,//*
@@ -26,6 +23,7 @@ export default {
     discussion_aspects: [],
     selected_aspects: [],
     discussion_arguments: [],
+    argument_id: null,
     argument_thesis: null,
     resDiscussionArguments: null,
     discussionButton: true,
@@ -114,6 +112,14 @@ export default {
     // setDiscussionAspects (store, aspects) {
     //   store.discussion_aspects.push(aspects)
     // },// not necassery*
+    replaceDiscussionArgument(state,{id, opinion_ratio}){
+      state.discussion_arguments.find((arg, index) =>{
+        if(arg.id == id){
+          state.discussion_arguments[index].opinion_ratio = opinion_ratio
+        }
+      })
+    }, //*
+    setArgumentId(state, id){state.argument_id = id}, //*
     setDiscussionArguments (state, payload) {
       state.discussion_arguments  =payload.items
       state.resDiscussionArguments = payload

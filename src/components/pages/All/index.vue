@@ -225,10 +225,10 @@
   }
 </script>
 
-<style scoped lang="scss">
-.posts_item{
-  height: auto;
-  width: 100%;
-  margin: 0;
-}
+<style scope lang="scss">
+  .posts_item{
+    height: auto;
+    width: 100%;
+    margin: 0;
+  }
 </style>

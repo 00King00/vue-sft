@@ -19,14 +19,14 @@
       <div class="disc_right_bg">
         <b>Опровержение:</b>
       </div>
-      <div class="comm">
+      <div class="comm" @click="setArgumentId">
         <div  v-if="resAllArgumentsThesis.length">
-          <Comment v-for="item in resAllArgumentsThesis" :comment="item" :key="item.id"/>
+          <Comment v-for="item in resAllArgumentsThesis" :comment="item" :key="item.id" />
         </div>
         <div v-if="myThesis.length">
-          <Comment v-for="item in myThesis" :comment="item" :key="item.id"/>
+          <Comment v-for="item in myThesis" :comment="item" :key="item.id" />
         </div>
-        <div class="text-xs-center" v-if="$store.state.auth.auth.id" >
+        <div class="text-xs-center" v-if="$store.state.auth.auth.id && !is_frozen" >
           <v-btn outline color="info" @click="addModal({name: 'ModalArgument', data:argument.id})">
             <v-icon>add</v-icon>
             Add Thesis
@@ -40,10 +40,10 @@
 <script>
   import {GetArgumentThesis} from '@/api'
   import Comment from './Comment'
-  import { mapActions } from 'vuex'
+  import { mapActions, mapState } from 'vuex'
   export default {
     name: "Argument",
-    props: ['argument', 'propThesis'],
+    props: ['argument', 'propThesis', "is_frozen"],
     data() {
       return {
         show: false,
@@ -53,6 +53,7 @@
     },
     components: { Comment },
     computed:{
+      ...mapState('discussion', ['current_discussion']),
     },
     watch:{
       propThesis(val){
@@ -62,6 +63,9 @@
     },
     methods: {
       ...mapActions('modal', ['addModal']),
+      setArgumentId(){
+        this.$store.commit('discussion/setArgumentId', this.argument.id)
+      },
       pushThesis(elem){
         this.myThesis.push(elem)
       },
