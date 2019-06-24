@@ -289,7 +289,8 @@ export default {
     }
   },
 
-  components: { Slick, PostItem, ThemeItem, UserItem, ReviewItem, VueRecaptcha },
+  components: { Slick, PostItem, ThemeItem, UserItem, //ReviewItem,
+     VueRecaptcha },
 
   computed: {
     ...mapState('discussion', ['discussionsTop', 'discussionsLast', 'removedFavDisc', 'removedFavAuthorDisc']),

@@ -1,17 +1,17 @@
 <template>
   <div class="center">
     <section class="section_discussion" v-if="discussion">
-      <div class="h2"><h1>{{ discussion.title }}</h1></div>
+      <div class="h2"><h1 :class="{'frozen': discussion.is_frozen}">{{ discussion.title +  isFrozen}}</h1></div>
       <div class="country_libra">
         <div class="country_libra_in">
           <div class="country_libra_svg"></div>
           <div class="c_b blue_c">
             <span class="icon-check"></span>
-            <v-progress-circular  :size="circleSizeTrue"  :value="discussion.votes.true" color="blue" width="12" rotate="-90">{{discussionVote.votes.true}}%</v-progress-circular>
+            <v-progress-circular  :size="circleSizeTrue"  :value="discussionVote.votes.true" color="blue" width="12" rotate="-90">{{discussionVote.votes.true}}%</v-progress-circular>
           </div>
           <div class="c_b blue_r">
             <span class="icon-close"></span>
-            <v-progress-circular :size="circleSizeFalse"  :value="discussion.votes.false" color="red" width="12" rotate="-90">{{discussionVote.votes.false}}%</v-progress-circular>
+            <v-progress-circular :size="circleSizeFalse"  :value="discussionVote.votes.false" color="red" width="12" rotate="-90">{{discussionVote.votes.false}}%</v-progress-circular>
           </div>
         </div>
       </div>
@@ -19,8 +19,8 @@
       <div class="country_wr">
         <div class="country_title">{{$lang.descAdd.arg}}:</div>
         <div class="disc">
-          <Argument v-for="(argument, index) in filterArgument" :argument="argument" :key="`argument_${index}`" :propThesis="thesis"/>
-          <div v-if="$store.state.auth.auth.id" class="disc_line_plus" @click.prevent="addModal({name: 'ModalArgument'})"><a href="#"><span class="icon-plus"></span><span>Add</span></a></div>
+          <Argument v-for="(argument, index) in filterArgument" :argument="argument" :key="`argument_${index}`" :propThesis="thesis" :is_frozen=" discussion.is_frozen"/>
+          <div v-if="$store.state.auth.auth.id && !discussion.is_frozen" class="disc_line_plus" @click.prevent="addModal({name: 'ModalArgument'})"><a href="#"><span class="icon-plus"></span><span>Add</span></a></div>
         </div>
       </div>
     </section>
@@ -50,6 +50,9 @@ export default {
 
   computed: {
     ...mapState('discussion', ['discussion_arguments', 'selected_aspects','current_discussion']),
+    isFrozen(){
+      return this.discussion.is_frozen ? ' (Дискусія заморожена)' : ''
+    },
     discussionVote(){
       if(this.current_discussion){
         return this.current_discussion
@@ -126,6 +129,9 @@ export default {
 </script>
 
 <style scoped>
+  .frozen{
+    color: red;
+  }
   .c_b{
     background: none;
     width: auto;

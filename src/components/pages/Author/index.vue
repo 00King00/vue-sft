@@ -16,6 +16,7 @@
 
 <script>
 import DiscussionCard from '@/components/pages/Main/ThemeItem'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: "Author",
   data() {
@@ -30,6 +31,29 @@ export default {
     }
   },
   components:{ DiscussionCard },
+  computed:{
+    ...mapState('authors', ['authors_discussion', 'paginationSetting']),
+  },
+  methodts:{
+    ...mapActions('authors', ['getAuthorDiscussions'])
+  },
+  created(){
+    if (this.authors_discussion.length == 0) {
+      this.getAuthorDiscussions({id: this.$route.params.id, page: this.page}).then(res =>{
+        this.total_pages = res.total_pages
+        this.total_items = res.total_items
+        this.items_per_page = res.items_per_page
+        this.itemsPerPage = this.authors_discussion[0].items
+      })
+    }else{
+      this.total_pages = this.paginationSetting.total_pages
+      this.total_items = this.paginationSetting.total_items
+      this.items_per_page = this.paginationSetting.items_per_page
+      this.itemsPerPage = this.authors_discussion[0].items
+    }
+  }
+
+
 }
 </script>
 

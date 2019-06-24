@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import {PatchtThesisVotes, GetCurrentDiscussions} from '@/api'
+import {PatchtThesisVotes, GetCurrentDiscussions, GetArguments} from '@/api'
 export default {
   name: "Graph",
   data(){
@@ -94,9 +94,10 @@ export default {
         x: this.x,
         y: this.y
       }).then( () =>{
-        console.log(id);
-        GetCurrentDiscussions(id).then(res => {this.$store.commit('discussion/setCurrentDiscussion', res.data) }),
-
+        GetArguments(this.$store.state.discussion.argument_id).then(res =>{
+          this.$store.commit('discussion/replaceDiscussionArgument', {id: this.$store.state.discussion.argument_id, opinion_ratio: res.data.opinion_ratio})
+        })
+        GetCurrentDiscussions(this.$route.params.id).then(res => {this.$store.commit('discussion/setCurrentDiscussion', res.data) }),
         this.$store.commit('modal/closeAllModal')
       })
     }
