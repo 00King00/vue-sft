@@ -24,7 +24,7 @@
 </template>
 
 <script>
-  import {mapMutations} from 'vuex'
+  import {mapMutations, mapActions} from 'vuex'
   import {CreateAspects, CreateAspectsImage} from '@/api'
   export default {
     name: "DiscussionAddAspects",
@@ -34,9 +34,14 @@
         image: false,
       }
     },
+    computed:{
+
+    },
     methods: {
       ...mapMutations('modal', ['closeAllModal']),
-      ...mapMutations('profile', ['addCustomAspect']),
+      //...mapMutations('profile', ['addCustomAspect']),
+      ...mapActions('modal', ['addModal']),
+      ...mapMutations('discussion', ['addCustomAspect']),
 
       uploadImage (e) {
         if (e.target.files === 0 || e.target.files > 1) return
@@ -51,10 +56,17 @@
           let id = res.data.id
           CreateAspectsImage({id, image: this.image}).then(()=>{
             this.$axios.get('/aspects/'+id).then(res =>{
-              console.log(res.data);
               this.addCustomAspect(res.data)
               this.closeAllModal()
+              if(this.$store.state.modal.modal.some(item=>{
+                item.data == 'openModalArgument'
+              })){
+                this.addModal({name: 'ModalArgument'})
+              }
+
+
             })
+
 
           })
         })

@@ -101,7 +101,10 @@ export default {
     async fetch () {
       await Promise.all([
         this.getDiscussionArguments(this.$route.params.id),
-        GetCurrentDiscussions(this.$route.params.id).then(res => {this.discussion = res.data}),
+        GetCurrentDiscussions(this.$route.params.id).then(res => {
+          this.discussion = res.data
+            this.$store.commit('discussion/setCurrentDiscussion', res.data)
+        }),
       ])
     }
   },

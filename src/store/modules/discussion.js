@@ -40,6 +40,9 @@ export default {
     }
   },
   mutations: {
+    addCustomAspect (state, aspect) {
+      state.discussion_aspects.push(aspect)
+    },//*
     setCurrentDiscussion(state, payload){
       state.current_discussion = payload;
     },//*
