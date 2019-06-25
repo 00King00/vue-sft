@@ -1,9 +1,9 @@
 <template>
   <div class="center">
     <div class="center_search m-show">
-      <form>
-        <input type="text" placeholder="Что вы ищете?" class="t-inp" value="Психология">
-        <button class="search-btn"><span class="icon-search"></span></button>
+      <form @submit.prevent="search">
+        <input type="text" placeholder="Что вы ищете?" class="t-inp" v-model="searchDiscussion">
+        <button class="search-btn" type="submit"><span class="icon-search"></span></button>
       </form>
     </div>
     <section class="section-discuss">
@@ -187,6 +187,7 @@
 </template>
 
 <script>
+  import {GetFilteredDiscussion} from '@/api'
   import { mapState, mapActions } from 'vuex'
   import Slick from 'vue-slick'
   import slick from '@/components/mixins/slick'
@@ -198,6 +199,7 @@
     data() {
       return {
         showFilter: false,
+        searchDiscussion: "",
         SlickOptions: {
           infinity: true,
           dots: true,
@@ -299,6 +301,12 @@
     components:{ ThemeItem, PostItem, Slick },
     methods:{
       ...mapActions('discussion', ['getDiscussionsLast']),
+      search(){
+          this.$store.commit('discussion/setFilteredDiscusion', [])
+        GetFilteredDiscussion(this.searchDiscussion).then(res =>{
+            this.$store.commit('discussion/setFilteredDiscusion', res.data.items)
+          })
+      },
     },
     computed:{
       ...mapState('discussion', ['discussionsLast',]),

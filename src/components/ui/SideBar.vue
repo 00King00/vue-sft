@@ -71,9 +71,9 @@
         <li>
           <router-link to="/about"><span class="icon-arrow_down"></span>{{$lang.main.about}}</router-link>
         </li>
-        <li>
+        <!-- <li>
           <router-link to="/archive"><span class="icon-arrow_down"></span>{{$lang.main.archiveDisc}}</router-link>
-        </li>
+        </li> -->
         <li>
           <router-link to="/" v-scroll-to="'#feedback'"><span class="icon-arrow_down"></span>{{$lang.main.feedback}}</router-link>
         </li>

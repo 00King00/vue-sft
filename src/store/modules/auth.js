@@ -58,6 +58,7 @@ export default {
 		login (store, data) {
 			return Login(data)
 				.then(result => {
+					document.location.reload(true);
 					store.commit('login', result.data)
 					return "success login"
 				})
@@ -73,6 +74,7 @@ export default {
 			Logout().then(()=>{
 				commit('logout')
 				router.push('/')
+				document.location.reload(true);
 			})
 		}
 	}
