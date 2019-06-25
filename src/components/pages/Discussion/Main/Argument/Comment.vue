@@ -48,7 +48,7 @@
 
 <script>
 import {GetThesisIdComments} from '@/api'
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import scale from './Scale'
 export default {
   name: "Comment",
@@ -59,9 +59,13 @@ export default {
 
   }),
   components:{scale},
+  computed:{
+    ...mapState('auth', ['auth'])
+  },
   methods:{
     ...mapActions('modal', ['addModal']),
     setScale(){
+      if(this.auth.id === null) return this.$store.commit('openDialog', "You can't set vote, please login first");
       this.addModal({name: 'DiscussionGraph'})
       this.$store.commit('discussion/setThesisId', this.comment.id)
     },

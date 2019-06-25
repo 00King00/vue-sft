@@ -14,11 +14,11 @@
             <li v-for="lang in langs" v-show="lang.name !== activeLang" :key="lang.name"><a href="#" @click.prevent="changeLang(lang)">{{lang.name}}</a></li>
           </ul>
         </div>
-        <div class="header_link header_search_opener m-show">
-          <a href="#">
-            <span class="icon-search"></span>
-            <div class="header_link_txt">Поиск</div>
-          </a>
+        <div class="header_link header_link_long header_search_opener m-show">
+            <router-link to="search">
+              <span class="icon-search" @click.prevent="search"></span>
+              <div class="header_link_txt">Поиск</div>
+            </router-link>
         </div>
         <!--* <div class="header_link header_arch">
           <router-link to="/archive" href="#">
@@ -86,10 +86,10 @@
           <li><router-link  @click.native="openMenu(false)" v-scroll-to="'#theme-day'" to="/"><span class="icon-arrow_down"></span>Тема дня</router-link></li>
           <li><router-link @click.native="openMenu(false)" v-scroll-to="'#theme-disc-top'" to="/"><span class="icon-arrow_down"></span>Топ тем дискуссий</router-link></li>
           <li><router-link @click.native="openMenu(false)" v-scroll-to="'#top-authors'" to="/"><span class="icon-arrow_down"></span>Топ авторов</router-link></li>
-          <li><router-link to="/"><span class="icon-arrow_down"></span>О проекте</router-link></li>
-          <li><router-link to="/"><span class="icon-arrow_down"></span>Архив тем дискуссий</router-link></li>
-          <li><router-link to="/"><span class="icon-arrow_down"></span>Обратная связь</router-link></li>
-          <li class="li-prof"><a href="#"><span class="icon-user"></span>Мой профиль</a></li>
+          <li><router-link  @click.native="openMenu(false)" to="/about"><span class="icon-arrow_down"></span>О проекте</router-link></li>
+          <!-- <li><router-link to="/"><span class="icon-arrow_down"></span>Архив тем дискуссий</router-link></li> not API-->
+          <li><router-link to="/"  @click.native="openMenu(false)"  v-scroll-to="'#feedback'" ><span class="icon-arrow_down"></span>Обратная связь</router-link></li>
+          <!-- <li class="li-prof"><a href="#"><span class="icon-user"></span>Мой профиль</a></li> not API-->
         </ul>
         <div class="mob-side_lang">
           <a href="#" class="lang_link">Рус</a> / <a href="#" class="lang_link ative">Eng</a> / <a href="#" class="lang_link">Deu</a>
@@ -173,6 +173,10 @@ export default {
 }
 </script>
 
-<style >
-
+<style lang="scss">
+.header_link{
+  &_long{
+    //width: 45%;
+  }
+}
 </style>
