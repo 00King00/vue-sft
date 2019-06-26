@@ -128,6 +128,11 @@ export default {
   destroyed() {
     window.removeEventListener('resize', this.handleResize)
   },
+  watch:{
+    '$route.params.id': function (id) {
+      this.$forceUpdate()
+    }
+  }
 }
 </script>
 
