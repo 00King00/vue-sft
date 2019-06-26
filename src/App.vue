@@ -20,7 +20,8 @@
       <div class="content_cols">
         <div class="wrapper">
           <SideBar />
-          <router-view/>
+          <router-view :key="$route.path"/>
+
         </div>
       </div>
     </main>
@@ -52,7 +53,7 @@ export default {
 
   data () {
     return {
-      showPreloader: false
+      showPreloader: false,
     }
   },
   methods: {
