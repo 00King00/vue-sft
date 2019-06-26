@@ -133,10 +133,8 @@
 import { mapActions, mapState } from 'vuex'
 import Item from './Item'
 import {GetAspects, PutDiscussionImage, PostDiscussionArgements, AddThesisFile, AddThesisLink } from '@/api'
-//import checkDiscForm from '@/components/mixins/checkDiscForm'
 export default {
   name: 'Discussion',
-  //mixins: [checkDiscForm],
   data () {
     return {
       newDiscussionForm:{
@@ -155,8 +153,6 @@ export default {
       },
       aspect_ids: [],
       aspectsCount: 0,
-
-      //index_active_aspect: null,
       arrayAspects: [],
       step_2: false,
       step_3: false
@@ -172,11 +168,11 @@ export default {
 
   computed: {
     ...mapState('auth', ['auth']),
-    ...mapState('profile', ['favorite_aspects']),
+    ...mapState('discussion', ['discussion_aspects']),
     allAspects(){
-      let fav_asp = this.favorite_aspects;
+      let disc_asp = this.discussion_aspects;
       let arrayAspects = this.arrayAspects;
-      return fav_asp.concat(arrayAspects)
+      return disc_asp.concat(arrayAspects)
     },
 
   },

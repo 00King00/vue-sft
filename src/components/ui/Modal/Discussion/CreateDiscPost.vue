@@ -2,7 +2,15 @@
   <div class="edu_block_wrap">
     <div v-if="!thesis">
       <div class="w_thesis_title">Мои аспекты</div>
-      <aspectItem  v-for="item in favorite_aspects" @selected="addAspectId" :item="item" :key="item.id"/>
+      <aspectItem  v-for="item in all_aspects" @selected="addAspectId" :item="item" :key="item.id"/>
+      <div class="aspect_item aspect_item_plus">
+        <a href="#" @click.prevent="addModal({name: 'DiscussionAddAspects', data: 'openModalArgument'})">
+          <div class="aspect_item_add">
+            <span class="icon-plus"></span>
+            <span>Add</span>
+          </div>
+        </a>
+      </div>
     </div>
     <div class="w_thesis" v-if="!thesis">
       <div class="w_thesis_title">{{$lang.descAdd.arg}}</div>
@@ -55,10 +63,8 @@
 import aspectItem from './aspectItem'
 import { mapMutations, mapState, mapActions } from 'vuex'
 import {PostDiscussionArgements, PostDiscussionThesis, AddThesisFile, AddThesisLink, GetAllAspects} from '@/api'
-//import checkDiscForm from '@/components/mixins/checkDiscForm'
 export default {
   name: 'Argument',
-  //mixins: [checkDiscForm],
   components: { aspectItem },
   props:{
     thesis: Boolean,
@@ -82,24 +88,29 @@ export default {
 
   computed: {
     ...mapState('auth', ['auth']),
-    ...mapState('profile', ['all_aspects']),
-    favorite_aspects(){
-      let arr =[];
-      if(this.all_aspects.length){
-        arr = this.all_aspects;
-        return arr.filter(aspect=>{ return aspect.is_favorite === true})
-      }else{
-        arr = this.localAspects;
-        return arr.filter(aspect=>{ return aspect.is_favorite === true})
-      }
-
-    }
+    ...mapState('discussion', ['current_discussion', 'discussion_aspects']),
+    //...mapState('profile', ['all_aspects']),
+    all_aspects(){
+      return this.localAspects.concat(this.discussion_aspects)
+    },
+    // favorite_aspects(){
+    //   let arr =[];
+    //   if(this.all_aspects.length){
+    //     arr = this.all_aspects;
+    //     return arr.filter(aspect=>{ return aspect.is_favorite === true})
+    //   }else{
+    //     arr = this.localAspects;
+    //     return arr.filter(aspect=>{ return aspect.is_favorite === true})
+    //   }
+    //
+    // }
   },
 
   methods: {
     ...mapMutations('modal', ['closeAllModal']),
     ...mapMutations('discussion', ['pushDiscussionArgument', 'pushDiscussionThesis']),
     ...mapActions('discussion', ['addDiscussionArguments']),
+    ...mapActions('modal', ['addModal']),
     addAspectId(id){
       this.aspect_ids.push(id)
     },
@@ -178,9 +189,18 @@ export default {
   },
 
   created () {
-    if (this.all_aspects.length == 0 && !this.thesis) GetAllAspects().then(res =>{
-      this.localAspects = res.data.items
-    })
+    this.localAspects = this.current_discussion.aspects;
+    // GetAllAspects().then(res =>{
+    //   let  asp = res.data.items;
+    //   console.log(asp );
+    //   let fav_asp = [];
+    //   for (let i=0; i < asp.length; i++ ){
+    //     console.log(i);
+    //     if(asp[i].is_favorite){fav_asp.push(asp[i])
+    //     } else { break; }
+    //   }
+    // })
+
   }
 }
 </script>

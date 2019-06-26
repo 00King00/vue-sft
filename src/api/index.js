@@ -178,6 +178,9 @@ export function PutDiscussionImage({id, image}){
 export function GetDiscussions () {
   return request.get('/discussions')
 } //* not ready
+export function DeleteDiscussion(id){
+  return request.delete(`/discussions/${id}`)
+}//*
 export function GetAuthorDiscussions ({id, page}) {
   return request.get(`/discussions?author=${id}&location=all&sort=last&page=${page}`)
 } //*

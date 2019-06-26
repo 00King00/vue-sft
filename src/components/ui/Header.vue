@@ -53,7 +53,7 @@
               </router-link>
             </li> -->
           </ul>
-          <div class="header_nav_circ">
+          <div class="header_nav_circ" @click="getRendomDisc">
             <span class="circ_grad"><span class="icon-reload"></span></span>
           </div>
         </nav>
@@ -145,6 +145,11 @@ export default {
     ...mapActions('modal', ['openLoginModal']),
     ...mapMutations(['openMenu']),
     ...mapActions('auth', ['logout']),
+    getRendomDisc(){
+      this.$axios.get('/discussions/random').then(res=>{
+        this.$router.push('/discussion/' + res.data.id)
+      })
+    },
     toggle(){
       if(this.discussionButton){
         this.$store.commit('discussion/toggleDiscussionButton', false)
@@ -174,9 +179,7 @@ export default {
 </script>
 
 <style lang="scss">
-.header_link{
-  &_long{
-    //width: 45%;
-  }
+.header_nav_circ{
+  cursor: pointer;
 }
 </style>
