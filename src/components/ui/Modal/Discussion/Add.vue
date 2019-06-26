@@ -57,14 +57,17 @@
           CreateAspectsImage({id, image: this.image}).then(()=>{
             this.$axios.get('/aspects/'+id).then(res =>{
               this.addCustomAspect(res.data)
-              this.closeAllModal()
-              if(this.$store.state.modal.modal.some(item=>{
-                item.data == 'openModalArgument'
-              })){
+              let checkModalArgument = this.$store.state.modal.modals.some(item=>{
+                return item.data == 'openModalArgument'
+              });
+              if(checkModalArgument) {
+                console.log(true)
+                this.closeAllModal()
                 this.addModal({name: 'ModalArgument'})
-              }
-
-
+              } else{
+                  console.log(false)
+                  this.closeAllModal()
+                }
             })
 
 

@@ -155,7 +155,7 @@
 </template>
 
 <script>
-  import {ToggleDiscusionFav, ToggleDiscusionFreeze,} from '@/api'
+  import {ToggleDiscusionFav, ToggleDiscusionFreeze, } from '@/api'
   import { mapState, mapActions, mapMutations } from 'vuex'
   import ThemeItem from '@/components/pages/Main/ThemeItem'
   export default {

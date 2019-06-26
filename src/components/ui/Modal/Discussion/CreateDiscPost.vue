@@ -189,10 +189,18 @@ export default {
   },
 
   created () {
-    // if (this.all_aspects.length == 0 && !this.thesis) GetAllAspects().then(res =>{
-    //   this.localAspects = res.data.items
-    // })
     this.localAspects = this.current_discussion.aspects;
+    // GetAllAspects().then(res =>{
+    //   let  asp = res.data.items;
+    //   console.log(asp );
+    //   let fav_asp = [];
+    //   for (let i=0; i < asp.length; i++ ){
+    //     console.log(i);
+    //     if(asp[i].is_favorite){fav_asp.push(asp[i])
+    //     } else { break; }
+    //   }
+    // })
+
   }
 }
 </script>

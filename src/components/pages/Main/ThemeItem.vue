@@ -9,6 +9,7 @@
       <div class="posts_item_bot">
         <div class="posts_item_author">{{$lang.main.authorWrap}}: <b>{{ item.author.fullname }}</b></div>
         <a href="#" v-if="$store.state.auth.auth.id !== null" :class="{'active': item.is_favorite}" class="fav_link"><span class="icon-fav"></span></a>
+        <v-icon v-if="permission" :class="{'admin': permission }" :color="is_deleted">delete</v-icon>
         <v-icon v-if="permission && !item.is_frozen" :color="is_frozen" :class="{'admin': permission }">lock_open</v-icon>
         <v-icon v-if="item.is_frozen" :class="{'admin': permission }">lock</v-icon>
         <div class="posts_item_date">{{item.created_at}}</div>
@@ -18,22 +19,39 @@
 </template>
 <script>
 import {mapState} from 'vuex'
+import {DeleteDiscussion} from '@/api'
 export default {
   name: 'ThemeItem',
   props: ['item', 'eventModel'],
+  data(){
+    return{
+      deleted: false,
+    }
+  },
   computed:{
     ...mapState('auth', ['permission']),
     is_frozen(){
       return this.item.is_frozen ? 'red' : ''
     },
+    is_deleted(){
+      return this.deleted ? 'red' : ''
+    }
   },
   methods: {
     cardEvent($event){
       if($event.target.classList[0] == "v-icon"){
-        this.$emit("freeze-toggle", this.item.id)
+        if($event.target.innerText == 'lock_open' || $event.target.innerText == 'lock'){
+          this.$emit("freeze-toggle", this.item.id)
+        }else if($event.target.innerText == 'delete'){
+            DeleteDiscussion(this.item.id).then(res=>{
+              this.deleted = true;
+              console.dir('deleteDisc '+res.data )
+            })
+        }
+
+
         return;
       }
-
       if($event.target.className == "icon-fav"){
         if(this.eventModel){
             this.$emit("fav-toggle", this.item.id)
