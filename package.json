@@ -11,7 +11,6 @@
     "axios": "^0.19.0",
     "core-js": "^2.6.5",
     "vue": "^2.6.10",
-    "vue-circle-slider": "^1.0.2",
     "vue-recaptcha": "^1.1.1",
     "vue-router": "^3.0.3",
     "vue-scrollto": "^2.13.0",

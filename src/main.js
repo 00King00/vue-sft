@@ -4,11 +4,8 @@ import axios from 'axios'
 import router from './router'
 import store from './store/store.js'
 import Lang from 'vuejs-localization'
-//import VueCircleSlider from 'vue-circle-slider'
 const VueScrollTo = require('vue-scrollto')
 import '@/assets/scss/style.scss'
-//import 'vuetify/lib/src/stylus/components/_app.styl'
-//import 'vuetify/lib/src/stylus/components/_progress-circular.styl'
 import 'vuetify/src/stylus/app.styl'
 import Vuetify, {
 	VApp,  // required
@@ -25,7 +22,7 @@ import Vuetify, {
 	VSpacer,
 	VDialog,
 	VSlider,
-	VAlert
+	VAlert,
 } from 'vuetify/lib'
 Vue.use(Vuetify, {
   components: {
@@ -43,7 +40,7 @@ Vue.use(Vuetify, {
 		VSpacer,
 		VDialog,
 		VSlider,
-		VAlert
+		VAlert,
   }
 })
 Vue.use(VueScrollTo, {

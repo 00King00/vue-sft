@@ -169,7 +169,6 @@ import UserItem from './UserItem'
 import ReviewItem from './ReviewItem'
 import VueRecaptcha from 'vue-recaptcha'
 import slick from '@/components/mixins/slick'
-//import checkFavorites from '@/components/mixins/checkFavorites'
 let   feedbackFile = null;
 export default {
   name: 'Main',

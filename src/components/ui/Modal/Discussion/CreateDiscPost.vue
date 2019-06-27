@@ -2,7 +2,7 @@
   <div class="edu_block_wrap">
     <div v-if="!thesis">
       <div class="w_thesis_title">Мои аспекты</div>
-      <aspectItem  v-for="item in all_aspects" @selected="addAspectId" :item="item" :key="item.id"/>
+      <Slick  ref="slick" :options="SlickOptions" class="text-xs-center"><aspectItem  v-for="item in all_aspects" @selected="addAspectId" :item="item" :key="item.id"/></Slick>
       <div class="aspect_item aspect_item_plus">
         <a href="#" @click.prevent="addModal({name: 'DiscussionAddAspects', data: 'openModalArgument'})">
           <div class="aspect_item_add">
@@ -63,9 +63,12 @@
 import aspectItem from './aspectItem'
 import { mapMutations, mapState, mapActions } from 'vuex'
 import {PostDiscussionArgements, PostDiscussionThesis, AddThesisFile, AddThesisLink, GetAllAspects} from '@/api'
+import slick from '@/components/mixins/slick'
+import Slick from 'vue-slick'
 export default {
   name: 'Argument',
-  components: { aspectItem },
+  components: { aspectItem, Slick },
+  mixins: [slick],
   props:{
     thesis: Boolean,
     id: null
@@ -81,17 +84,36 @@ export default {
         files: []
       },
       aspect_ids: [],
-      localAspects: []
+      localAspects: [],
+      SlickOptions: {
+        infinity: true,
+        dots: true,
+        slidesToShow: 5,
+        slidesToScroll: 5,
+        prevArrow: '<button class="slick-prev slick-arrow"><span class="icon-arrow"></span></button>',
+        nextArrow: '<button class="slick-next slick-arrow"><span class="icon-arrow"></span></button>',
+        responsive: [
+          {
+            breakpoint: 600,
+            settings: {
+              slidesToShow: 3,
+              slidesToScroll: 3
+            }
+          },
+        ]
+      },
 
     }
   },
-
   computed: {
     ...mapState('auth', ['auth']),
     ...mapState('discussion', ['current_discussion', 'discussion_aspects']),
     //...mapState('profile', ['all_aspects']),
     all_aspects(){
       return this.localAspects.concat(this.discussion_aspects)
+    },
+    carousel(){
+      return this.all_aspects/5
     },
     // favorite_aspects(){
     //   let arr =[];
@@ -206,6 +228,13 @@ export default {
 </script>
 
 <style scoped lang='scss'>
+  .aspect_item.aspect_item_plus{
+    margin-top: 10px;
+    @media (max-width: 600px){
+      width: 70px;
+      margin-bottom: -25px;
+    }
+  }
   .aspect_item{
     float: none;
     display: inline-block;
