@@ -232,8 +232,10 @@ textarea {border: 1px solid #E3E3E3; background:#fff; border-radius: 6px; height
   width: 138px;
   height: 81px;
   line-height: 68px; background: url(../img/trueFalse.png) no-repeat top; background-size: 100%; font-weight: bold;font-size: 14px;
+  background-position: center;
   @include breakpoint(mobileonly){
-    width: 110px;
+    min-width: 90px;
+    max-width: 90px;
   }
 	span {float: left; width: 40%; position: relative; margin-left: 9%;
 		&:before {content: "\e90c"; position: absolute; color:#fff; font-family: 'icomoon'; opacity: 0.2; left:0;right:0;top:0;bottom: 0;font-size: 1.45em;}
