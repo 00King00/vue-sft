@@ -449,7 +449,8 @@ input:-ms-input-placeholder { font-size: 12px; }
 	}
 }
 .country_title{margin-bottom: 22px;}
-.disc_line_opener {width: 26px; height: 26px; line-height: 25px; font-size: 12px;}
+.disc_line_opener {//width: 26px; height: 26px; line-height: 25px; 
+	font-size: 12px;}
 .disc_line_header {
 	.disc_line_cont {padding:8px 23px 8px 21px;}
 	.disc_line_name {   margin: 7px 0 6px;    min-height: 37px;    font-size: 18px;}

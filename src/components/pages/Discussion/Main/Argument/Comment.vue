@@ -14,20 +14,20 @@
               <div class="comm_adds_drop">
                 <div v-for="item in comment.attachments" :key="item.id">
                   <div class="adds_file" v-if="item.type == 'link'">
-                    <a href="#" class="adds_file_rem"><span class="icon-cab7"></span></a>
-                    <a href="#" class="adds_file_check"><span class="icon-check"></span></a>
+                    <!-- <a href="#" class="adds_file_rem"><span class="icon-cab7"></span></a>
+                    <a href="#" class="adds_file_check"><span class="icon-check"></span></a> -->
                     <a :href="item.payload_url" class="adds_file_txt" target="_blank" >{{item.payload_url}}</a>
                   </div>
                   <div class="adds_file adds_file-sm" v-if="item.type == 'file'">
-                    <a href="#" class="adds_file_rem"><span class="icon-cab7"></span></a>
-                    <a href="#" class="adds_file_check"><span class="icon-check"></span></a>
+                    <!-- <a href="#" class="adds_file_rem"><span class="icon-cab7"></span></a>
+                    <a href="#" class="adds_file_check"><span class="icon-check"></span></a> -->
                     <div class="adds_file_ico"><span class="icon-doc1"></span></div>
                     <a :href="$baseUrl+item.payload_url" class="adds_file_txt">{{item.type}}</a>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="comm_bot">
+            <!-- <div class="comm_bot">
               <div class="comm_date">18:45</div>
               <div class="comm_ans"><a href="#">Ответы
                 <span class="inline" v-if="responseThesisIdComments === null">0</span>
@@ -35,10 +35,10 @@
                   <span class="inline" v-if="responseThesisIdComments.items.length == 0">0</span>
                   <span class="inline" v-else>{{responseThesisIdComments.items[0].total_comments}}</span>
                 </span>
-              </a>
-            </div>
+                </a>
+              </div>
               <div class="comm_compl"><a href="#">Пожаловаться</a></div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
