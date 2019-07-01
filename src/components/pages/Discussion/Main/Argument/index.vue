@@ -5,7 +5,7 @@
         <div class="disc_line_inf">
           <div class="disc_line_name"><a href="#">{{argument.title}}</a></div>
           <div class="disc_line_athor"><span>Автор:</span> {{argument.thesis.author.fullname}} </div>
-          <div class="disc_line_date">{{argument.thesis.created_at}}</div>
+          <div class="disc_line_date">{{created_at}}</div>
         </div>
         <div class="truefalse"><span>{{argument.opinion_ratio.true}}%</span><span>{{argument.opinion_ratio.false}}%</span></div>
         <a href="#" @click.prevent="showArgumentThesis" class="disc_line_opener"><span class="icon-arrow_down"></span></a>
@@ -54,6 +54,10 @@
     components: { Comment },
     computed:{
       ...mapState('discussion', ['current_discussion']),
+      created_at(){
+        return this.argument.thesis.created_at.slice(0,10)
+
+      }
     },
     watch:{
       propThesis(val){

@@ -776,8 +776,28 @@ display:flex; align-items: center; justify-content: center; background: #E1E3EB;
 	.icon-plus {display: block; font-size: 2.6em; margin: 0 18px 0px -4px;}
 	a {display: block; display: flex; flex-direction: row; font-size: 11px; align-items: center; justify-content: center;font-weight: 500; height: 62px; border: 1px solid #0560CE; border-radius: 8px;}
 }
-.disc_line_opener { border-radius: 50%; width: 18px; height: 18px;transform: rotate(90deg); display: block; line-height: 18px; font-size: 10px; text-align: center;background: #9FBFE7; color: #fff;
-	span  {display: inline-block; vertical-align: middle;}
+.disc_line_opener { border-radius: 50%;
+  transform: rotate(90deg); display: inline-block;
+  font-size: 10px; text-align: center;background: #9FBFE7; color: #fff;
+	span  {display: flex;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    &:before{
+      display:flex;
+      align-self: center;
+      padding-top: 1px;
+
+    }
+    @include breakpoint(desktop){
+      width: 26px;
+      height: 26px;
+      line-height: 26px;
+    }
+    &.icon-arrow_down{
+      line-height: 18px;
+    }
+  }
 	&:hover {color:#fff;}
 }
 .disc_line_body {display: none; padding: 23px 0; background: rgba(225, 236, 248, 0.3); position:relative;z-index: 0; border-radius: 0 0 8px 8px; margin-top: -8px;}

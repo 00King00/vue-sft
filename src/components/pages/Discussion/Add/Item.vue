@@ -15,9 +15,10 @@
         active: false
       }
     },
-    props: ['item'],
+    props: ['item', 'count'],
     methods:{
       toggle(){
+        if (this.count > 2 && !this.active) return false
         this.active = !this.active
         if(this.active){
           this.$emit('checkedAspect', this.item.id)

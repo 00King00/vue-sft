@@ -43,7 +43,7 @@
                   <div class="w_thesis_title">{{$lang.descAdd.select}}</div>
                   <div class="aspect aspect-check">
                     <Item
-                      v-for="(item) in allAspects"
+                      v-for="(item) in allAspects" :count="aspectsCount"
                       :key="item.id"
                       :item="item" @checkedAspect="checkedAspect" @checkOffAspect="checkOffAspect"
                       />
