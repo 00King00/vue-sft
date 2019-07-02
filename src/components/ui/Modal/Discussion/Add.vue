@@ -79,6 +79,24 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  .form_row{
+    margin-left: 5px;
+  }
+  @media (max-width: 600px){
+    .win_cont{
+      padding-top: 30px;
+    }
+
+    .win-ed_left{
+      width: 100px;
+      height: 100px;
+      .add_file{
+        min-width: 100px;
+        min-height: 100px;
+        height: 100px;
+      }
+    }
+  }
 
 </style>
