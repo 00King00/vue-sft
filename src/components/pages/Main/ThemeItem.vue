@@ -12,7 +12,7 @@
         <v-icon v-if="permission" :class="{'admin': permission }" :color="is_deleted">delete</v-icon>
         <v-icon v-if="permission && !item.is_frozen" :color="is_frozen" :class="{'admin': permission }">lock_open</v-icon>
         <v-icon v-if="item.is_frozen" :class="{'admin': permission }">lock</v-icon>
-        <div class="posts_item_date">{{item.created_at}}</div>
+        <div class="posts_item_date">{{created_at}}</div>
       </div>
     </div>
   </div>
@@ -35,6 +35,10 @@ export default {
     },
     is_deleted(){
       return this.deleted ? 'red' : ''
+    },
+    created_at(){
+      let created_at = this.item.created_at;
+      return created_at.slice(0, 10)
     }
   },
   methods: {
