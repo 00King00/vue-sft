@@ -119,7 +119,9 @@
                     <a href="#" :class="{'active': form.position == false}" @click.prevent="form.position = false" class="w_pos_links_link w_pos_links_link2">{{$lang.descAdd.no}}</a>
                   </div>
                 </div>
-                <input @click.prevent="sendForm" type="submit" class="btn btn-bot" :value="$lang.descAdd.publish"/>
+                <div class="text-xs-center text-md-left">
+                  <input @click.prevent="sendForm" type="submit" class="btn btn-bot" :value="$lang.descAdd.publish"/>
+                </div>
               </div>
             </div>
           </v-card-text>
