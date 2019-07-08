@@ -2,7 +2,11 @@
   <div class="edu_block_wrap">
     <div v-if="!thesis">
       <div class="w_thesis_title">Мои аспекты</div>
-      <aspectItem  v-for="item in all_aspects" @selected="addAspectId" :item="item" :key="item.id"/>
+      <aspectItem
+        v-for="item in all_aspects" :count="aspectsCount"
+        :key="item.id"
+        :item="item" @checkedAspect="checkedAspect" @checkOffAspect="checkOffAspect" :small="true"
+        />
       <div class="aspect_item aspect_item_plus">
         <a href="#" @click.prevent="addModal({name: 'DiscussionAddAspects', data: 'openModalArgument'})">
           <div class="aspect_item_add">
@@ -60,7 +64,8 @@
 </template>
 
 <script>
-import aspectItem from './aspectItem'
+//import aspectItem from './aspectItem' './Item'
+import aspectItem from '@/components/pages/Discussion/Add/Item'
 import { mapMutations, mapState, mapActions } from 'vuex'
 import {PostDiscussionArgements, PostDiscussionThesis, AddThesisFile, AddThesisLink, GetAllAspects} from '@/api'
 export default {
@@ -81,6 +86,7 @@ export default {
         files: []
       },
       aspect_ids: [],
+      aspectsCount: 0,
       localAspects: []
 
     }
@@ -111,8 +117,18 @@ export default {
     ...mapMutations('discussion', ['pushDiscussionArgument', 'pushDiscussionThesis']),
     ...mapActions('discussion', ['addDiscussionArguments']),
     ...mapActions('modal', ['addModal']),
-    addAspectId(id){
-      this.aspect_ids.push(id)
+    // addAspectId(id){
+    //   this.aspect_ids.push(id)
+    // },
+    checkedAspect(id){
+      this.aspectsCount = this.aspectsCount + 1;
+      this.aspect_ids.push(id);
+    },
+    checkOffAspect(id){
+      this.aspectsCount = this.aspectsCount - 1;
+      this.aspect_ids.find((item, index)=>{
+        if(item == id) this.aspect_ids.splice(index, 1)
+      })
     },
     sendForm(){
       let form = {
@@ -137,6 +153,13 @@ export default {
             this.closeAllModal()
           })
       }else{
+        if(this.form.thesis.length<10 && this.form.argument.length<10){
+            this.$store.commit('openDialog', "Please check filds thesis and arguments the filds must have at least 10 characters long"); return false}
+        if(this.aspectsCount === 0){
+          this.$store.commit('openDialog', "Please check Aspects 'Only maximum three aspects can be chosen'"); return false}
+        if(this.form.position === null){
+            this.$store.commit('openDialog', "Please check Yes or No");return false}
+        
         PostDiscussionArgements({id: this.$route.params.id, form }).then((res)=>{
             let myArg = res.data;
             if(this.form.files.length){

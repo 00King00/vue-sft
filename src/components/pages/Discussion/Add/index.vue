@@ -201,9 +201,9 @@ export default {
       this.discussionPoster = form
     },
     sendForm () {
-      if(this.newDiscussionForm.length<10){
+      if(this.newDiscussionForm.title.length<10){
         this.$store.commit('openDialog', "Please sign title discussion at least 10 characters long"); return false}
-      if(this.index_active_aspect === null && this.aspectsCount > 3){
+      if(this.aspectsCount === 0){
         this.$store.commit('openDialog', "Please check Aspects 'Only maximum three aspects can be chosen'"); return false}
       if(this.form.position === null){
           this.$store.commit('openDialog', "Please check Yes or No");return false}
