@@ -2,7 +2,7 @@
   <div class="aspect_item " :class="{'active': active}" @click.prevent="toggle">
     <a class="aspect_item_img">
       <div class="aspect_item_bg js-bg"><img v-if="item.image_url" :src="$baseUrl + item.image_url" alt="foto"/></div>
-      <div class="aspect_item_text"><span class="icon-check"></span><p>{{item.title}}</p></div>
+      <div class="aspect_item_text"  :class="{'active': small}"><span class="icon-check"></span><p>{{item.title}}</p></div>
     </a>
   </div>
 </template>
@@ -15,7 +15,7 @@
         active: false
       }
     },
-    props: ['item', 'count'],
+    props: ['item', 'count', 'small'],
     methods:{
       toggle(){
         if (this.count > 2 && !this.active) return false
@@ -29,5 +29,7 @@
 </script>
 
 <style scoped>
-
+.aspect_item_text.active{
+  top: 9px;
+}
 </style>
