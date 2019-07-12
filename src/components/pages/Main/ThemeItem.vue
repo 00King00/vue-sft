@@ -49,7 +49,6 @@ export default {
         }else if($event.target.innerText == 'delete'){
             DeleteDiscussion(this.item.id).then(res=>{
               this.deleted = true;
-              console.dir('deleteDisc '+res.data )
             })
         }
 

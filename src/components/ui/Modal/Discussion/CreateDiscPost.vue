@@ -7,14 +7,14 @@
         :key="item.id"
         :item="item" @checkedAspect="checkedAspect" @checkOffAspect="checkOffAspect" :small="true"
         />
-      <div class="aspect_item aspect_item_plus">
+      <!-- <div class="aspect_item aspect_item_plus">
         <a href="#" @click.prevent="addModal({name: 'DiscussionAddAspects', data: 'openModalArgument'})">
           <div class="aspect_item_add">
             <span class="icon-plus"></span>
             <span>Add</span>
           </div>
         </a>
-      </div>
+      </div> -->
     </div>
     <div class="w_thesis" v-if="!thesis">
       <div class="w_thesis_title">{{$lang.descAdd.arg}}</div>
@@ -159,7 +159,7 @@ export default {
           this.$store.commit('openDialog', "Please check Aspects 'Only maximum three aspects can be chosen'"); return false}
         if(this.form.position === null){
             this.$store.commit('openDialog', "Please check Yes or No");return false}
-        
+
         PostDiscussionArgements({id: this.$route.params.id, form }).then((res)=>{
             let myArg = res.data;
             if(this.form.files.length){

@@ -67,6 +67,9 @@ h4, .h4{
 .text-center{text-align: center!important}
 .text-right{text-align: right!important}
 .nowrap{white-space: nowrap!important;}
+.pointer{
+  cursor: pointer;
+}
 
 /* loader */
 .loaded .main-wrapper{visibility:hidden;}
@@ -233,6 +236,10 @@ textarea {border: 1px solid #E3E3E3; background:#fff; border-radius: 6px; height
   height: 81px;
   line-height: 68px; background: url(../img/trueFalse.png) no-repeat top; background-size: 100%; font-weight: bold;font-size: 14px;
   background-position: center;
+  ////////
+  display: flex;
+  align-self: stretch;
+  align-items: center;
   @include breakpoint(mobileonly){
     min-width: 90px;
     max-width: 90px;

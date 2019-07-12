@@ -38,20 +38,20 @@
                   2
                 </div>
               </div>
-              <div class="edu_block_wrap">
+              <div class="edu_block_wrap pt-0">
                 <div class="w_asp country_wr">
-                  <div class="w_thesis_title">{{$lang.descAdd.select}}</div>
+                  <div v-if="allAspects.length" class="w_thesis_title">{{$lang.descAdd.select}}</div>
                   <div class="aspect aspect-check">
                     <Item
                       v-for="(item) in allAspects" :count="aspectsCount"
                       :key="item.id"
                       :item="item" @checkedAspect="checkedAspect" @checkOffAspect="checkOffAspect"
                       />
-                    <div class="aspect_item aspect_item_plus">
+                    <!-- <div class="aspect_item aspect_item_plus">
                       <a href="#" @click.prevent="addModal({name: 'DiscussionAddAspects'})">
                         <div class="aspect_item_add"><span class="icon-plus"></span><span>{{$lang.descAdd.add}}</span></div>
                       </a>
-                    </div>
+                    </div> -->
                   </div>
                   <div class="w_v">
                     <div class="w_thesis_title">{{$lang.descAdd.searchAspects}}</div>
