@@ -2,11 +2,13 @@
   <div class="edu_block_wrap">
     <div v-if="!thesis">
       <div class="w_thesis_title">Мои аспекты</div>
-      <aspectItem
-        v-for="item in all_aspects" :count="aspectsCount"
-        :key="item.id"
-        :item="item" @checkedAspect="checkedAspect" @checkOffAspect="checkOffAspect" :small="true"
-        />
+      <Slick  ref="slick" :options="SlickOptions" class="text-xs-center">
+        <aspectItem
+          v-for="item in all_aspects" :count="aspectsCount"
+          :key="item.id"
+          :item="item" @checkedAspect="checkedAspect" @checkOffAspect="checkOffAspect" :small="true"
+          />
+      </Slick>
       <!-- <div class="aspect_item aspect_item_plus">
         <a href="#" @click.prevent="addModal({name: 'DiscussionAddAspects', data: 'openModalArgument'})">
           <div class="aspect_item_add">
@@ -68,9 +70,10 @@
 import aspectItem from '@/components/pages/Discussion/Add/Item'
 import { mapMutations, mapState, mapActions } from 'vuex'
 import {PostDiscussionArgements, PostDiscussionThesis, AddThesisFile, AddThesisLink, GetAllAspects} from '@/api'
+import Slick from 'vue-slick'
 export default {
   name: 'Argument',
-  components: { aspectItem },
+  components: { aspectItem, Slick },
   props:{
     thesis: Boolean,
     id: null
@@ -87,7 +90,25 @@ export default {
       },
       aspect_ids: [],
       aspectsCount: 0,
-      localAspects: []
+      localAspects: [],
+      SlickOptions: {
+        infinity: true,
+        dots: true,
+        slidesToShow: 5,
+        slidesToScroll: 5,
+        prevArrow: '<button class="slick-prev slick-arrow"><span class="icon-arrow"></span></button>',
+        nextArrow: '<button class="slick-next slick-arrow"><span class="icon-arrow"></span></button>',
+        responsive: [
+          {
+            breakpoint: 600,
+            settings: {
+              slidesToShow: 3,
+              slidesToScroll: 3
+            }
+          },
+        ]
+      },
+
 
     }
   },
