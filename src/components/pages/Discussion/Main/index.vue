@@ -1,7 +1,13 @@
 <template>
   <div class="center">
     <section class="section_discussion" v-if="discussion">
-      <div class="h2"><h1 :class="{'frozen': discussion.is_frozen}">{{ discussion.title +  isFrozen}}</h1></div>
+      <div class="h2"><h1 :class="{'frozen': discussion.is_frozen}">{{ discussion.title +  isFrozen}}</h1>
+        <div class="text-xs-right">
+          <v-icon v-if="permission" :class="{'admin': permission }" :color="is_deleted" class="pointer" @click="deleteDiscussion($route.params.id)">delete</v-icon>
+          <v-icon v-if="permission && !discussion.is_frozen" :color="is_frozen" :class="{'admin': permission }" class="pointer" @click="toggleFreeze($route.params.id)">lock_open</v-icon>
+          <v-icon v-if="discussion.is_frozen" :class="{'admin': permission }" class="pointer" @click="toggleFreeze($route.params.id)">lock</v-icon>
+        </div>
+      </div>
       <div class="country_libra">
         <div class="country_libra_in">
           <div class="country_libra_svg"></div>
@@ -29,7 +35,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import {GetCurrentDiscussions} from '@/api'
+import {GetCurrentDiscussions, ToggleDiscusionFreeze, DeleteDiscussion} from '@/api'
 import Aspects from './Aspects'
 import Argument from './Argument'
 
@@ -40,6 +46,7 @@ export default {
     return {
       discussion: null,
       thesis: null,
+      deleted: false,
       window: {
         width: 0
       }
@@ -50,6 +57,13 @@ export default {
 
   computed: {
     ...mapState('discussion', ['discussion_arguments', 'selected_aspects','current_discussion']),
+    ...mapState('auth', ['permission']),
+    is_frozen(){
+      return this.discussion.is_frozen ? 'red' : ''
+    },
+    is_deleted(){
+      return this.deleted ? 'red' : ''
+    },
     isFrozen(){
       return this.discussion.is_frozen ? ' (Дискусія заморожена)' : ''
     },
@@ -97,6 +111,16 @@ export default {
     ...mapActions('discussion', ['getDiscussionArguments']),
     handleResize() {
       this.window.width = window.innerWidth;
+    },
+    toggleFreeze(id){
+      ToggleDiscusionFreeze(id).then(res=>{
+      this.discussion.is_frozen = res.data.is_frozen
+      })
+    },
+    deleteDiscussion(id){
+      DeleteDiscussion(id).then(()=>{
+        this.deleted = true;
+      })
     },
     async fetch () {
       await Promise.all([
