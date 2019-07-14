@@ -181,6 +181,9 @@ export function GetDiscussions () {
 export function DeleteDiscussion(id){
   return request.delete(`/discussions/${id}`)
 }//*
+export function DeleteAspect(id){
+  return request.delete(`/aspects/${id}`)
+}//*
 export function GetAuthorDiscussions ({id, page}) {
   return request.get(`/discussions?author=${id}&location=all&sort=last&page=${page}`)
 } //*

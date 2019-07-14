@@ -47,7 +47,7 @@ export default {
         if($event.target.innerText == 'lock_open' || $event.target.innerText == 'lock'){
           this.$emit("freeze-toggle", this.item.id)
         }else if($event.target.innerText == 'delete'){
-            DeleteDiscussion(this.item.id).then(res=>{
+            DeleteDiscussion(this.item.id).then(()=>{
               this.deleted = true;
             })
         }
