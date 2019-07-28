@@ -24,18 +24,24 @@
 </template>
 
 <script>
-  import {mapMutations} from 'vuex'
+  import {mapMutations, mapActions} from 'vuex'
+  import {CreateAspects, CreateAspectsImage} from '@/api'
   export default {
-    name: "Add",
+    name: "DiscussionAddAspects",
     data() {
       return {
         title: '',
         image: false,
       }
     },
+    computed:{
+
+    },
     methods: {
       ...mapMutations('modal', ['closeAllModal']),
-      ...mapMutations('profile', ['addCustomAspect']),
+      //...mapMutations('profile', ['addCustomAspect']),
+      ...mapActions('modal', ['addModal']),
+      ...mapMutations('discussion', ['addCustomAspect']),
 
       uploadImage (e) {
         if (e.target.files === 0 || e.target.files > 1) return
@@ -46,18 +52,51 @@
         if (!this.image) {
           return alert('Please select aspect image!')
         }
+        CreateAspects({"title": this.title}).then( res => {
+          let id = res.data.id
+          CreateAspectsImage({id, image: this.image}).then(()=>{
+            this.$axios.get('/aspects/'+id).then(res =>{
+              this.addCustomAspect(res.data)
+              let checkModalArgument = this.$store.state.modal.modals.some(item=>{
+                return item.data == 'openModalArgument'
+              });
+              if(checkModalArgument) {
+                console.log(true)
+                this.closeAllModal()
+                this.addModal({name: 'ModalArgument'})
+              } else{
+                  console.log(false)
+                  this.closeAllModal()
+                }
+            })
 
-        this.addCustomAspect({
-          title: this.title,
-          image: this.image
+
+          })
         })
 
-        this.closeAllModal()
       }
     },
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  .form_row{
+    margin-left: 5px;
+  }
+  @media (max-width: 600px){
+    .win_cont{
+      padding-top: 30px;
+    }
+
+    .win-ed_left{
+      width: 100px;
+      height: 100px;
+      .add_file{
+        min-width: 100px;
+        min-height: 100px;
+        height: 100px;
+      }
+    }
+  }
 
 </style>

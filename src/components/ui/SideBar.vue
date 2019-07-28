@@ -15,7 +15,10 @@
         </router-link>
 
         <router-link :to="'/profile/' + auth.id" class="cab_top_prof">
-          <div class="cab_top_icon"><img :src="auth.avatar" :alt="auth.fullname" style="border-radius: 50%;"></div>
+          <div class="cab_top_icon">
+            <img v-if="auth.avatar_url" :src="$baseUrl+auth.avatar_url" :key="renderKeyAvatar" :alt="auth.fullname" style="border-radius: 50%;">
+            <span v-else class="icon-user"></span>
+          </div>
           <div class="cab_top_txt">
             <div class="cab_top_name">{{auth.fullname}}</div>
             <div class="cab_top_mail">{{auth.email}}</div>
@@ -50,9 +53,11 @@
       </div>
     </div>
     <div class="sidebar-themes m-hid">
-      <router-link class="add_link" to="/discussion/add">
-        <div class="circ_grad"><span class="icon-plus"></span></div>
-        <span>{{$lang.main.add}}</span></router-link>
+      <div class="add_link"  @click.prevent="toggle">
+        <div class="circ_grad"><span class="icon-plus" ></span></div>
+        <span v-if="discussionButton" >{{$lang.main.add}}</span>
+        <span v-else>cancle</span>
+      </div>
       <ul class="sidebar-themes_list">
         <li>
           <router-link to="/" v-scroll-to="'#theme-day'"><span class="icon-arrow_down"></span>{{$lang.main.dayTheme}}</router-link>
@@ -66,9 +71,9 @@
         <li>
           <router-link to="/about"><span class="icon-arrow_down"></span>{{$lang.main.about}}</router-link>
         </li>
-        <li>
+        <!-- <li>
           <router-link to="/archive"><span class="icon-arrow_down"></span>{{$lang.main.archiveDisc}}</router-link>
-        </li>
+        </li> -->
         <li>
           <router-link to="/" v-scroll-to="'#feedback'"><span class="icon-arrow_down"></span>{{$lang.main.feedback}}</router-link>
         </li>
@@ -77,7 +82,7 @@
     <section class="sidebar-top-discuss m-hid">
       <h3>{{$lang.main.discTopTheme}}</h3>
       <div class="cloud">
-        <a href="#" class="cloud_link"><span class="icon-point"></span>Планета Земля</a>
+        <!-- <a href="#" class="cloud_link"><span class="icon-point"></span>Планета Земля</a>
         <a href="#" class="cloud_link"><span class="icon-point"></span>Космос</a>
         <a href="#" class="cloud_link"><span class="icon-point"></span>Психология</a>
 
@@ -92,8 +97,8 @@
 
         <a href="#" class="cloud_link"><span class="icon-point"></span>Кулинария</a>
         <a href="#" class="cloud_link"><span class="icon-point"></span>Животные</a>
-        <a href="#" class="cloud_link"><span class="icon-point"></span>Кант</a>
-        <a href="#" class="cloud_link"><span class="icon-point"></span>Конфеты</a>
+        <a href="#" class="cloud_link"><span class="icon-point"></span>Кант</a> -->
+        <a href="#" class="cloud_link" @click.prevent="allDiscusion()" ><span class="icon-point"></span>Все</a>
       </div>
     </section>
   </aside>
@@ -102,30 +107,43 @@
 <script>
 
 import { mapState, mapActions } from 'vuex'
-
 export default {
   name: 'SideBar',
 
   data () {
     return {
-      userMenuOpened: false
+
     }
   },
 
   methods: {
     ...mapActions('modal', ['openLoginModal']),
+    ...mapActions('modal', ['openLoginModal']),
     openUserMenu () {
-      this.userMenuOpened = !this.userMenuOpened
+      this.$store.commit('auth/toggleUserMenuOpened', null, { root: true })
+    },
+    toggle(){
+      if(this.discussionButton){
+        this.$store.commit('discussion/toggleDiscussionButton', false)
+        this.$router.push('/discussion/add')
+      } else {
+        this.$store.commit('discussion/toggleDiscussionButton', true)
+        this.$router.go(-1)
+      }
+    },
+    allDiscusion(){
+      this.$router.push('/all')
     }
   },
 
   computed: {
-    ...mapState('auth', ['auth']),
-
+    ...mapState('auth', ['auth','userMenuOpened', 'renderKeyAvatar','permission']),
+    ...mapState('discussion', ['discussionButton']),
     activePage () {
       return this.$route.name
     }
-  }
+  },
+
 }
 </script>
 

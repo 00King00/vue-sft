@@ -25,14 +25,14 @@
               <label class="checkbox"><input type="checkbox" v-model="terms" checked=""><div class="checkbox_text">{{$lang.auth.iAccept}} <a href="#">{{$lang.auth.terms}}</a></div></label>
             </div>
           </div>
-          <div class="win_soc">
+          <!-- <div class="win_soc">
             <div class="win_soc_title">{{$lang.auth.orSign}}</div>
             <div class="soc">
               <a href="#" class="soc_link"><span class="icon-google"></span></a>
               <a href="#" class="soc_link"><span class="icon-fb"></span></a>
               <a href="#" class="soc_link"><span class="icon-vk"></span></a>
             </div>
-          </div>
+          </div> -->
           <div class="form_btn"><input type="submit" class="btn btn-bord" :value="$lang.auth.register" /></div>
           <div class="win_account">{{$lang.auth.haveAcc}} <a href="#" @click.prevent="addModal({name: 'Login'})">{{$lang.auth.signIn}}</a></div>
         </form>
@@ -52,10 +52,10 @@ export default {
 
   data () {
     return {
-      email: 'kek@mail.ru',
-      fullname: 'Kek',
-      password: '123456',
-      re_password: '123456',
+      email: '',
+      fullname: '',
+      password: '',
+      re_password: '',
       terms: false
     }
   },
@@ -64,27 +64,33 @@ export default {
     ...mapActions('modal', ['addModal', 'closeModal']),
     ...mapMutations('modal', ['closeAllModal']),
     ...mapMutations('profile', ['setUserData']),
-    ...mapActions('auth', ['register']),
+    ...mapActions('auth', ['register','login']),
 
     registerUser () {
       if (!this.terms) return false;
-      if (this.password !== this.re_password) return false;
-
+      if (this.password !== this.re_password) return false
       this.register({
         email: this.email,
         fullname: this.fullname,
         password: this.password
       })
-        .then(response => {
-          this.closeAllModal()
+        .then(() => {
+          this.login({
+            email: this.email,
+            password: this.password
+          }).then(()=>{
+            this.closeAllModal()
+            this.$router.push('/')
+          })
         })
-
     }
   }
 }
 </script>
 
 
-<style scoped>
-
+<style>
+.win_account{
+	cursor: pointer;
+}
 </style>

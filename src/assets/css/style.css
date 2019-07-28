@@ -427,9 +427,9 @@ input[type=submit], input[type=button], button { -webkit-appearance: none; outli
 Plugin URI: http://manos.malihu.gr/jquery-custom-content-scroller
 */
 /* CONTENTS:  1. BASIC STYLE - Plugin's basic/essential CSS properties (normally, should not be edited).  2. VERTICAL SCROLLBAR - Positioning and dimensions of vertical scrollbar.  3. HORIZONTAL SCROLLBAR - Positioning and dimensions of horizontal scrollbar. 4. VERTICAL AND HORIZONTAL SCROLLBARS - Positioning and dimensions of 2-axis scrollbars.  5. TRANSITIONS - CSS3 transitions for hover events, auto-expanded and auto-hidden scrollbars.  6. SCROLLBAR COLORS, OPACITY AND BACKGROUNDS  6.1 THEMES - Scrollbar colors, opacity, dimensions, backgrounds etc. via ready-to-use themes. */
-/* 
+/*
 ------------------------------------------------------------------------------------------------------------------------
-1. BASIC STYLE  
+1. BASIC STYLE
 ------------------------------------------------------------------------------------------------------------------------
 */
 .mCustomScrollbar { -ms-touch-action: pinch-zoom; touch-action: pinch-zoom; /* direct pointer events to js */ }
@@ -440,9 +440,9 @@ Plugin URI: http://manos.malihu.gr/jquery-custom-content-scroller
 
 .mCSB_container { /* contains the original content */ overflow: hidden; width: auto; height: auto; }
 
-/* 
+/*
 ------------------------------------------------------------------------------------------------------------------------
-2. VERTICAL SCROLLBAR 
+2. VERTICAL SCROLLBAR
 y-axis
 ------------------------------------------------------------------------------------------------------------------------
 */
@@ -484,9 +484,9 @@ y-axis
 
 .mCSB_scrollTools .mCSB_buttonDown { bottom: 0; }
 
-/* 
+/*
 ------------------------------------------------------------------------------------------------------------------------
-3. HORIZONTAL SCROLLBAR 
+3. HORIZONTAL SCROLLBAR
 x-axis
 ------------------------------------------------------------------------------------------------------------------------
 */
@@ -520,10 +520,10 @@ x-axis
 
 .mCSB_scrollTools.mCSB_scrollTools_horizontal .mCSB_buttonRight { right: 0; }
 
-/* 
+/*
 ------------------------------------------------------------------------------------------------------------------------
-4. VERTICAL AND HORIZONTAL SCROLLBARS 
-yx-axis 
+4. VERTICAL AND HORIZONTAL SCROLLBARS
+yx-axis
 ------------------------------------------------------------------------------------------------------------------------
 */
 .mCSB_container_wrapper { position: absolute; height: auto; width: auto; overflow: hidden; top: 0; left: 0; right: 0; bottom: 0; margin-right: 30px; margin-bottom: 30px; }
@@ -557,18 +557,18 @@ yx-axis
 /* non-visible horizontal scrollbar */
 .mCustomScrollBox.mCSB_vertical_horizontal.mCSB_inside > .mCSB_container_wrapper.mCS_no_scrollbar_x.mCS_x_hidden { margin-bottom: 0; }
 
-/* 
+/*
 ------------------------------------------------------------------------------------------------------------------------
-5. TRANSITIONS  
+5. TRANSITIONS
 ------------------------------------------------------------------------------------------------------------------------
 */
 .mCSB_scrollTools, .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar, .mCSB_scrollTools .mCSB_buttonUp, .mCSB_scrollTools .mCSB_buttonDown, .mCSB_scrollTools .mCSB_buttonLeft, .mCSB_scrollTools .mCSB_buttonRight { -webkit-transition: opacity .2s ease-in-out, background-color .2s ease-in-out; -o-transition: opacity .2s ease-in-out, background-color .2s ease-in-out; transition: opacity .2s ease-in-out, background-color .2s ease-in-out; }
 
 .mCSB_scrollTools_vertical.mCSB_scrollTools_onDrag_expand .mCSB_dragger_bar, .mCSB_scrollTools_vertical.mCSB_scrollTools_onDrag_expand .mCSB_draggerRail, .mCSB_scrollTools_horizontal.mCSB_scrollTools_onDrag_expand .mCSB_dragger_bar, .mCSB_scrollTools_horizontal.mCSB_scrollTools_onDrag_expand .mCSB_draggerRail { -webkit-transition: width .2s ease-out .2s, height .2s ease-out .2s,  margin-left .2s ease-out .2s, margin-right .2s ease-out .2s,  margin-top .2s ease-out .2s, margin-bottom .2s ease-out .2s, opacity .2s ease-in-out, background-color .2s ease-in-out; -o-transition: width .2s ease-out .2s, height .2s ease-out .2s,  margin-left .2s ease-out .2s, margin-right .2s ease-out .2s,  margin-top .2s ease-out .2s, margin-bottom .2s ease-out .2s, opacity .2s ease-in-out, background-color .2s ease-in-out; transition: width .2s ease-out .2s, height .2s ease-out .2s,  margin-left .2s ease-out .2s, margin-right .2s ease-out .2s,  margin-top .2s ease-out .2s, margin-bottom .2s ease-out .2s, opacity .2s ease-in-out, background-color .2s ease-in-out; }
 
-/* 
+/*
 ------------------------------------------------------------------------------------------------------------------------
-6. SCROLLBAR COLORS, OPACITY AND BACKGROUNDS  
+6. SCROLLBAR COLORS, OPACITY AND BACKGROUNDS
 ------------------------------------------------------------------------------------------------------------------------
 */
 /*  ---------------------------------------- 6.1 THEMES  ---------------------------------------- */

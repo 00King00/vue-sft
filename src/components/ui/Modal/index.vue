@@ -6,11 +6,25 @@
     <MainRegister v-if="activeModal && activeModal.name === 'Register'" :modal="activeModal" />
     <MainForgotPassword v-if="activeModal && activeModal.name === 'ForgotPassword'" :modal="activeModal" />
     <RewardsInfo v-if="activeModal && activeModal.name === 'RewardsInfo'" :modal="activeModal" />
-    <DiscussionAdd v-if="activeModal && activeModal.name === 'DiscussionAdd'" :modal="activeModal" />
-    <DiscussionArgument v-if="activeModal && activeModal.name === 'DiscussionArgument'" :modal="activeModal" />
+    <DiscussionAddAspects v-if="activeModal && activeModal.name === 'DiscussionAddAspects'" :modal="activeModal" />
+    <ModalArgument v-if="activeModal && activeModal.name === 'ModalArgument'" :modal="activeModal" :id="modals[0].data"/>
     <DiscussionComplaints v-if="activeModal && activeModal.name === 'DiscussionComplaints'" :modal="activeModal" />
     <DiscussionGraph v-if="activeModal && activeModal.name === 'DiscussionGraph'" :modal="activeModal" />
     <Chart v-if="activeModal && activeModal.name === 'Chart'" :modal="activeModal" />
+    <v-dialog  v-model="dialog" max-width="500">
+      <v-card>
+        <v-card-text>
+          <v-alert :value="true"  :color="alertColor" :icon="alertIcon" outline >
+            {{alertMessage}}
+          </v-alert>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" flat  @click="closeDialog"> Ok </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
   </div>
 </template>
 
@@ -21,9 +35,9 @@
 
   import RewardsInfo from './Rewards/Info'
 
-  import DiscussionAdd from './Discussion/Add'
+  import DiscussionAddAspects from './Discussion/Add'
   import Chart from './Chart/Main'
-  import DiscussionArgument from './Discussion/Argument'
+  import ModalArgument from './Discussion/ModalArgument'
   import DiscussionComplaints from './Discussion/Complaints'
   import DiscussionGraph from './Discussion/Graph'
 
@@ -38,15 +52,34 @@
       MainForgotPassword,
       Chart,
       RewardsInfo,
-      DiscussionAdd,
-      DiscussionArgument,
+      DiscussionAddAspects,
+      ModalArgument,
       DiscussionComplaints,
       DiscussionGraph,
+    },
+    methods:{
+      closeDialog(){
+        this.$store.commit('closeDialog')
+      }
     },
 
     computed: {
       ...mapState('modal', ['modals']),
-
+      ...mapState(['dialog', 'alertMessage']),
+      alertColor(){
+        if(this.$store.state.alertType){
+          return this.$store.state.alertType
+        }else{
+          return "error"
+        }
+      },
+      alertIcon(){
+        if(this.$store.state.alertType){
+          return 'check_circle'
+        }else{
+          return "warning"
+        }
+      },
       activeModal () {
         if(this.modals.length) {
           return this.modals[this.modals.length - 1]
@@ -57,6 +90,8 @@
   }
 </script>
 
-<style scoped>
-
+<style>
+.v-alert{
+  font-size: 24px;
+}
 </style>

@@ -12,14 +12,14 @@
             <div class="form_ico"><span class="icon-pass"></span></div>
             <div class="form_el"><input type="password" class="t-inp" :placeholder="$lang.auth.password" v-model="password" /></div>
           </div>
-          <div class="win_soc">
+          <!-- <div class="win_soc">
             <div class="win_soc_title">{{$lang.auth.orSign}}</div>
             <div class="soc">
               <a href="#" class="soc_link"><span class="icon-google"></span></a>
               <a href="#" class="soc_link"><span class="icon-fb"></span></a>
               <a href="#" class="soc_link"><span class="icon-vk"></span></a>
             </div>
-          </div>
+          </div> -->
           <div class="form_btn"><input type="submit" class="btn btn-bord" :value="$lang.auth.signIn" @click.prevent="loginUser()" /></div>
           <div class="forgot_link"><a href="#" @click.prevent="addModal({name : 'ForgotPassword'})">{{$lang.auth.forgotPassword}}</a></div>
           <div class="win_account">{{$lang.auth.noAcc}} <a @click.prevent="addModal({name: 'Register'})">{{$lang.auth.register}}</a></div>
@@ -40,7 +40,7 @@ export default {
 
   data () {
     return {
-      email: 'romka.postgres@gmail.com',
+      email: 'mr-bilous@yandex.ru',
       password: '123456'
     }
   },
@@ -57,11 +57,12 @@ export default {
         password: this.password
       })
         .then(success => {
+			console.log("success login");
           if (success) {
             this.closeAllModal()
           }
         })
-        
+
     }
   }
 }

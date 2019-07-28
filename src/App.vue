@@ -1,4 +1,5 @@
 <template>
+<v-app>
   <div class="main-wrapper">
     <div v-if="showPreloader" class="preloader">
       <div class="preloader_lays">
@@ -19,7 +20,8 @@
       <div class="content_cols">
         <div class="wrapper">
           <SideBar />
-          <router-view/>
+          <router-view :key="$route.path"/>
+
         </div>
       </div>
     </main>
@@ -35,6 +37,7 @@
       <a href="#">Donate</a>
     </div> -->
   </div>
+</v-app>
 </template>
 
 <script>
@@ -45,39 +48,48 @@ import Modal from '@/components/ui/Modal'
 
 import { mapMutations } from 'vuex'
 
-import '@/assets/css/style.css'
-if (window.innerWidth >= 768) {
-  require('@/assets/css/tablet.css')
-}
-if (window.innerWidth >= 1024) {
-  require('@/assets/css/desktop.css')
-}
-
 export default {
   name: 'App',
 
   data () {
     return {
-      showPreloader: true
+      showPreloader: false,
     }
   },
   methods: {
-    ...mapMutations('auth', ['login'])
+    ...mapMutations('auth', ['login', 'setPermission'])
   },
 
-  mounted () {
-    let auth = localStorage.getItem('auth')
+  mounted() {
+    let auth;
+      this.$axios.get('/profiles/current')
+        .then(res => {
+            if(res.status == 200){
+              auth = res.data;
+              this.login(auth)
+              return auth.id
+            }
+        })
+        .then(id =>{
+            return this.$axios.get(`/profiles/${id}/permissions`)
+        })
+        .then((res) => {
+          console.log(res.data)
+          this.setPermission(res.data);
 
-    if (auth) {
-      auth = JSON.parse(auth)
-      this.login(auth)
-    }
+        })
+        .catch(err => console.log(err.message))
 
-    this.$nextTick(() => {
-      setTimeout(() => {
-        this.showPreloader = false
-      }, 0)
-    })
+
+    if(this.$route.path == "/discussion/add"){
+      this.$store.commit('discussion/toggleDiscussionButton', false)
+    }else{this.$store.commit('discussion/toggleDiscussionButton', true)}
+
+  //   this.$nextTick(function() {
+  //     let self = this;
+  //     setTimeout(() => {
+  //       self.showPreloader = false
+	// }, 1000)
   },
 
   components: { Header, Footer, SideBar, Modal }

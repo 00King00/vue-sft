@@ -3,18 +3,14 @@
       <div class="filter_wrap">
         <div class="filter">
           <div class="filter_search">
-
-            <form @submit.prevent="getFilter">
-
+            <form @submit.prevent="">
               <button type="submit" class="search-btn">
                 <span class="icon-search"></span>
               </button>
-
               <input v-model.trim="filter.q"
                      type="text" class="t-inp search-t-inp"
                      placeholder="Введите название темы дискуссии"/>
             </form>
-
           </div>
 
           <a href="#"
@@ -75,7 +71,7 @@
             <div class="aspect aspect-check aspect-gr">
 
               <div class="aspect_item"
-                   v-for="aspect in favorite_aspects" :key="aspect.id"
+                   v-for="aspect in []" :key="aspect.id"
                    @click.prevent="selectAspect(aspect.id)"
                    :class="{'active': filter.aspect.includes(aspect.id)}">
 
@@ -100,24 +96,22 @@
       </div>
 
       <div class="disc disc-fav">
-        <discussionItem
+        <discussionItem @remove="remove"
           v-for="discussion in favoritesDiscussions"
           :discussion="discussion"
           :key="discussion.id"/>
         <!-- <div class="div-date"><span>2017</span></div> -->
       </div>
-
     </div>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState} from 'vuex'
 import DiscussionItem from './DiscussionItem'
-
 export default {
   name: 'Discuss',
 
-  components: { DiscussionItem },
+  components: { DiscussionItem},
 
   data () {
     return {
@@ -128,38 +122,26 @@ export default {
         lang: 'ru',
         aspect: [],
         q: ''
-      }
+      },
+
     }
   },
 
   computed: {
     ...mapState('auth', ['auth']),
-    ...mapState('profile', ['favoritesDiscussions', 'favorite_aspects'])
+    ...mapState('profile', ['favoritesDiscussions'])
   },
 
   methods: {
-    ...mapActions('profile', ['favoritesDiscussion', 'getUserFavoriteAspects', 'filterFavoriteDisquss']),
-
-    selectAspect (value) {
-      if (!this.filter.aspect.includes(value)) {
-        this.filter.aspect = [...this.filter.aspect, value]
-      } else {
-        this.filter.aspect = this.filter.aspect.filter(item => value !== item)
-      }
-    },
-
-    getFilter () {
-      this.filterFavoriteDisquss({
-        id: this.auth.id,
-        data: this.filter
-      })
+    ...mapActions('profile', ['getFavoritesDiscussion']),
+    remove(id){
+      this.$emit("removeDisc", id)
     }
   },
 
   created () {
-    if (this.favoritesDiscussions.length <= 0) { this.favoritesDiscussion(this.auth.id) }
-    if (this.favorite_aspects.length <= 0) { this.getUserFavoriteAspects(this.auth.id) }
-  }
+    if (this.favoritesDiscussions.length == 0) { this.getFavoritesDiscussion(1) }
+  },
 }
 </script>
 

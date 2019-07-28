@@ -23,11 +23,10 @@ export default {
   },
   methods: {
     ...mapActions('profile', ['deleteUser']),
-    ...mapActions(['logout']),
+    ...mapActions('auth', ['logout']),
     userDelete () {
       this.deleteUser(this.auth.id)
         .then(() => this.logout())
-        .then(() => this.$router.push('/'))
     }
   }
 }

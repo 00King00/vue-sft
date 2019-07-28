@@ -1,47 +1,18 @@
 <template>
-  <div class="slider-circle">
-    <div class="fields_item_img" v-if="urlImg">
-      <img :src="urlImg" alt="img">
-    </div>
-    <div class="fields_item_txt" v-if="text">
-      <p>{{text}}</p>
-    </div>
-    <div class="fields_item_svg">
-      <svg v-if="disabled" :width="side + 'px'" :height="(side + 20) + 'px'" :viewBox="'0 0 ' + side + ' ' + side" ref="_svg"
-           @click="handleClick"
-      >
-        <g>
-          <circle :stroke="circleColor" style="cursor: pointer;" fill="none" :stroke-width="cpMainCircleStrokeWidth" :cx="cpCenter" :cy="cpCenter" :r="radius"></circle>
-          <path :stroke="progressColor" fill="none" :stroke-width="cpPathStrokeWidth" :d="cpPathD"></path>
-          <circle style="cursor: pointer;" :fill="knobColor" :r="cpKnobRadius" :cx="cpPathX" :cy="cpPathY" stroke="#FF441D" stroke-width="5"></circle>
-          <text :x="cpPathX" :y="cpPathY"
-                text-anchor="middle"
-                dominant-baseline="central"
-                stroke="#3B3B3B"
-                style="font-size: 24px; font-weight: bold;"
-                stroke-width="1px"
-          > {{value}}
-          </text>
-        </g>
-      </svg>
-      <svg v-else :width="side + 'px'" :height="(side + 20) + 'px'" :viewBox="'0 0 ' + side + ' ' + side" ref="_svg">
-        <g>
-          <circle :stroke="circleColor" fill="none" :stroke-width="cpMainCircleStrokeWidth" :cx="cpCenter" :cy="cpCenter" :r="radius"></circle>
-          <path :stroke="progressColor" fill="none" :stroke-width="cpPathStrokeWidth" :d="cpPathD"></path>
-          <circle style="cursor: pointer;" :fill="knobColor" :r="cpKnobRadius" :cx="cpPathX" :cy="cpPathY" stroke="#FF441D" stroke-width="5"></circle>
-          <text :x="cpPathX" :y="cpPathY"
-                text-anchor="middle"
-                dominant-baseline="central"
-                stroke="#3B3B3B"
-                style="font-size: 24px; font-weight: bold;"
-                stroke-width="1px"
-          > {{value}}
-          </text>
-        </g>
-      </svg>
-
-    </div>
-
+  <div>
+    <svg :width="side + 'px'" :height="side + 'px'" :viewBox="'0 0 ' + side + ' ' + side" ref="_svg"
+      @touchmove="handleTouchMove"
+      @click="handleClick"
+      @mousedown="handleMouseDown"
+      @mouseup="handleMouseUp"
+    >
+      <g>
+        <circle :stroke="circleColor" fill="none" :stroke-width="cpMainCircleStrokeWidth" :cx="cpCenter" :cy="cpCenter" :r="radius"></circle>
+        <path :stroke="progressColor" fill="none" :stroke-width="cpPathStrokeWidth" :d="cpPathD"></path>
+        <circle :fill="knobColor" :r="cpKnobRadius" :cx="cpPathX+circleSiftx" :cy="cpPathY+circleSifty"  stroke="red" stroke-width="4" ></circle>
+        <text fill="black" font-size="24" :x="cpPathX - shiftX" :y="cpPathY + 8">{{currentStepValue}}</text>
+      </g>
+    </svg>
   </div>
 </template>
 <script>
@@ -66,17 +37,6 @@ export default {
   mounted () {
     this.touchPosition = new TouchPosition(this.$refs._svg, this.radius, this.radius / 2)
   },
-  // beforeUpdate () {
-  //   console.log('BeforeUpdated')
-  //   this.stepsCount = 1 + (this.max - this.min) / this.stepSize
-  //   this.steps = Array.from({
-  //     length: this.stepsCount
-  //   }, (_, i) => this.min + i * this.stepSize)
-  //   console.log(this.steps, 'steps before')
-  // },
-  // updated () {
-  //   this.circleSliderState = new CircleSliderState(this.steps, this.startAngleOffset, this.value)
-  // },
   props: {
     startAngleOffset: {
       type: Number,
@@ -90,16 +50,6 @@ export default {
       type: Number,
       required: false,
       default: 0
-    },
-    limit: {
-      type: Number,
-      required: false,
-      default: 0
-    },
-    disabled: {
-      type: Boolean,
-      required: false,
-      default: true
     },
     side: {
       type: Number,
@@ -120,16 +70,6 @@ export default {
       type: Number,
       required: false,
       default: 100
-    },
-    urlImg: {
-      type: String,
-      required: false,
-      default: ''
-    },
-    text: {
-      type: String,
-      required: false,
-      default: ''
     },
     circleColor: {
       type: String,
@@ -175,7 +115,21 @@ export default {
       type: Number,
       required: false,
       default: 10
+    },
+    disabled:{
+      type: Boolean,
+      default: false
     }
+    // limitMin: {
+    //   type: Number,
+    //   required: false,
+    //   default: null
+    // },
+    // limitMax: {
+    //   type: Number,
+    //   required: false,
+    //   default: null
+    // }
   },
   data () {
     return {
@@ -186,18 +140,19 @@ export default {
       currentStepValue: 0,
       mousePressed: false,
       circleSliderState: null,
-      mousemoveTicks: 0,
-      newAngle: null,
-      timer: null,
-      old: null
+      mousemoveTicks: 0
     }
   },
   computed: {
-    // cpStartAngleOffset () {
-    //   if (!this.minStepLimit) {
-    //     return 0
-    //   }
-    // },
+    shiftX(){
+      return this.currentStepValue > 9 ? 14 : 7
+    },
+    circleSiftx(){
+      return this.currentStepValue == 5  ? 1 : this.currentStepValue == 15 ? -1 :0
+    },
+    circleSifty(){
+      return this.currentStepValue == 0  ? -1 : this.currentStepValue == 10 ? 1 :0
+    },
     cpCenter () {
       return this.side / 2
     },
@@ -247,24 +202,18 @@ export default {
     /*
      */
     handleClick (e) {
+      if (this.disabled) return false
       this.touchPosition.setNewPosition(e)
       if (this.touchPosition.isTouchWithinSliderRange) {
-        this.newAngle = this.touchPosition.sliderAngle
-
-        if (this.limit <= 0 && this.newAngle > this.angle) return true
-
-        this.old = this.angleOld.bind(this, this.angle, this.newAngle)
-        this.animateSlider(this.angle, this.newAngle)
+        const newAngle = this.touchPosition.sliderAngle
+        this.animateSlider(this.angle, newAngle)
       }
-    },
-
-    angleOld (angle, newAngle) {
-      this.animateSlider(newAngle, angle)
     },
 
     /*
      */
     handleMouseDown (e) {
+      if (this.disabled) return false
       e.preventDefault()
       this.mousePressed = true
       window.addEventListener('mousemove', this.handleWindowMouseMove)
@@ -275,6 +224,7 @@ export default {
      */
     handleMouseUp (e) {
       e.preventDefault()
+      if (this.disabled) return false
       this.mousePressed = false
       window.removeEventListener('mousemove', this.handleWindowMouseMove)
       window.removeEventListener('mouseup', this.handleMouseUp)
@@ -284,10 +234,13 @@ export default {
     /*
      */
     handleWindowMouseMove (e) {
+      if (this.disabled) return false
       e.preventDefault()
       if (this.mousemoveTicks < 5) {
         this.mousemoveTicks++
+        return
       }
+
       this.touchPosition.setNewPosition(e)
       this.updateSlider()
     },
@@ -295,6 +248,7 @@ export default {
     /*
      */
     handleTouchMove (e) {
+      if (this.disabled) return false
       this.$emit('touchmove')
       // Do nothing if two or more fingers used
       if (e.targetTouches.length > 1 || e.changedTouches.length > 1 || e.touches.length > 1) {
@@ -303,6 +257,7 @@ export default {
 
       const lastTouch = e.targetTouches.item(e.targetTouches.length - 1)
       this.touchPosition.setNewPosition(lastTouch)
+
       if (this.touchPosition.isTouchWithinSliderRange) {
         e.preventDefault()
         this.updateSlider()
@@ -315,6 +270,7 @@ export default {
       this.circleSliderState.updateCurrentStepFromAngle(angle)
       this.angle = this.circleSliderState.angleValue
       this.currentStepValue = this.circleSliderState.currentStep
+
       this.$emit('input', this.currentStepValue)
     },
 
@@ -345,8 +301,7 @@ export default {
       const curveAngleMovementUnit = direction * this.circleSliderState.angleUnit * 2
 
       const animate = () => {
-        // if (Math.abs(endAngle - startAngle) < Math.abs(2 * curveAngleMovementUnit)) {
-        if (true) {
+        if (Math.abs(endAngle - startAngle) < Math.abs(2 * curveAngleMovementUnit)) {
           this.updateAngle(endAngle)
         } else {
           const newAngle = startAngle + curveAngleMovementUnit
@@ -361,48 +316,19 @@ export default {
   watch: {
     value (val) {
       this.updateFromPropValue(val)
-
-      if (this.limit < 0) {
-        clearTimeout(this.timer)
-        this.timer = setTimeout(() => this.old(), 0)
-        return true
-      }
-      clearTimeout(this.timer)
     }
   }
 }
 </script>
+<style lang="scss" scoped>
 
-<style scoped>
-  .slider-circle {
-    display: inline-block;
-    position: relative;
-    padding: 10px;
+  svg {
+    circle{
+      cursor: pointer;
+    }
   }
-
-  .fields_item_svg {
-    position: relative;
-    z-index: 5;
-  }
-  .fields_item_img {
-    position: absolute;
-    width: 117px;
-    height: 117px;
-    top: 49%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-  }
-
-  .slider-circle__item {
-    position: relative;
-    z-index: 10;
-  }
-
-  .circle-text {
-    fill: #ffffff
+  svg text{
+    cursor: pointer;
+    font-weight: bold;
   }
 </style>

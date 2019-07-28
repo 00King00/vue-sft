@@ -1,222 +1,270 @@
 import axios from 'axios'
-const qs = require('qs')
-
-function Request (token) {
+//const qs = require('qs')
+function Request () {
   // TODO дописать зависимость baseURL от process.env.HOST & PORT
   // const baseURL = process.env.NODE_ENV === 'production' ? 'http://sft.sliceplanet.ml/api/public' : 'http://localhost:5000/api/public'
-  const baseURL = 'http://sft.crank.ru:5000/api/public'
-  // console.log('baseURL', baseURL)
-  if (token) {
-    return axios.create({
-      baseURL,
-      headers: {
-        token,
-        'Content-Type': 'application/json'
-      }
-    })
-  }
-  return axios.create({ baseURL })
-}
-
-let request
-let auth = localStorage.getItem('auth')
-if (auth) {
-  auth = JSON.parse(auth)
-  request = Request(auth.token)
-} else {
-  request = Request()
-}
-
+  const baseURL = 'https://sft-dev.tk/api/public'
+  return axios.create({ baseURL, withCredentials: true })
+} //*
+let request = Request() //*
 export function Login (data) {
   let form = new FormData()
   form.append('email', data.email)
   form.append('password', data.password)
-
-  return request.post('/login', form)
+  return request.post('/access/auth', form)
     .then(response => {
-      request = Request(response.data.result.token)
+      //request = Request(response.data.result.token)
       return response
     })
-    .catch(err => alert(err.response.data.message))
-}
-
+    .catch(err =>{
+		return err
+		//alert(err.response.data.message)
+	})
+}//*
+export function Logout (){
+  return request.post('/access/logout')
+}//*
 export function Register (data) {
   let form = new FormData()
   form.append('email', data.email)
   form.append('fullname', data.fullname)
   form.append('password', data.password)
 
-  return request.post('/register', form)
-    .catch(err => alert(err.response.data.message))
-}
+  return request.post('/access/registration', form)
 
-export function GetProfile (id) {
-  return request.get(`/profile/${id}`)
-    .catch(err => alert(err.response.data.message))
-}
-
+}//*
+export function GetProfileId (id) {
+  return request.get(`/profiles/${id}`)
+}//*
+export function GetCurrentProfile () {
+  return request.get(`/profiles/current`)
+}//*
 export function GetProfileEducation (id) {
-  return request.get(`/profile/${id}/education`)
-    .catch(err => alert(err.response.data.message))
-}
+  return request.get(`/profiles/${id}/education`)
+}//*
+export function EditPassword(data){
+  const baseURL = 'http://37.252.1.151:5000/api/public';
+  return request.post(`/profiles/current/security/password`, data,
+    {
+      baseURL,
+      withCredentials: true,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'x-www-form-urlencoded',
+      }
+    })
+}//*
+export function EditEmail(data){
+  let form = new FormData();
+  form.append('email', data.new_email)
+  return request.post("/profiles/current/security/email", form)
+}//*
+export function ChangeAvatar({profile_id, avatar}){
+  let form = new FormData();
+  form.append("avatar", avatar)
 
-export function GetProfileRewards (id) {
-  return request.get(`/profile/${id}/rewards`)
-    .catch(err => alert(err.response.data.message))
-}
-
-export function GetProfileKnowledges (id) {
-  return request.get(`/profile/${id}/knowledges`)
-    .catch(err => alert(err.response.data.message))
-}
-
-export function SavePrifileKnowledges (userId, id, score) {
-  return request.post(`/profile/${userId}/knowledges`, { object_id: id, score })
-}
-
-export function EditProfile (id, data) {
-  let form = new FormData()
-
-  if (data.hasOwnProperty('avatar')) {
-    form.append('avatar', data.avatar)
-  } else if (data.hasOwnProperty('old_email') && data.hasOwnProperty('new_email')) {
-    form.append('old_email', data.old_email)
-    form.append('new_email', data.new_email)
-  } else if (data.hasOwnProperty('old_password') && data.hasOwnProperty('new_password')) {
-    form.append('old_password', data.old_password)
-    form.append('new_password', data.new_password)
-  }
-
-  return request.post(`/profile/${id}`, form)
-    .catch(err => alert(err.response.data.message))
-}
-
-export function EditProfileEducation (id, data) {
-  let form = new FormData()
-
-  let keys = Object.keys(data)
-
-  keys.map(key => {
-    let item = data[key]
-    form.append(key, item)
+  return request.put(`/profiles/${profile_id}/avatar`, form,
+  {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'multipart/form-data',
+    }
   })
-
-  return request.post(`/profile/${id}/education`, form)
-    .catch(err => alert(err.response.data.message))
-}
-
-export function GetProfileFavoriteAspects (id) {
-  return request.get(`/profile/${id}/favorite/aspects`)
-    .catch(err => alert(err.response.data.message))
-}
-
-export function AddFavoritesDiscussion (id, object_id) {
-  return request.post(`/profile/${id}/favorite/disquss`, { object_id })
-    .catch(err => alert(err.response.data.message))
-}
-
-export function FavoritesDiscussion (id) {
-  return request.get(`/profile/${id}/favorite/disquss`)
-    .catch(err => alert(err.response.data.message))
-}
-
-export function DeleteFavoritesDiscussion (id, object_id) {
-  return request.delete(`/profile/${id}/favorite/disquss`, { data: { object_id } })
-    .catch(err => alert(err.response.data.message))
-}
-
-export function AddFavoritesAspects (id, object_id) {
-  return request.post(`/profile/${id}/favorite/aspects`, { object_id })
-    .catch(err => alert(err.response.data.message))
-}
-
-export function FavoritesAspects (id) {
-  return request.get(`/profile/${id}/favorite/aspects`)
-    .catch(err => alert(err.response.data.message))
-}
-
-export function DeleteFavoritesAspects (id, object_id) {
-  return request.delete(`/profile/${id}/favorite/aspects`, { data: { object_id } })
-    .catch(err => alert(err.response.data.message))
-}
-
+}//*
+export function EditProfileEducation ({id, data}){
+  return request.put(`/profiles/${id}/education`, data,
+    {
+      headers:{
+          'Content-Type': 'application/json',
+      }
+    })
+}//*
+export function EditProfileEducationScan ({id, scan}){
+  let form = new FormData();
+  form.append("scan", scan)
+  return request.put(`/profiles/${id}/education/scan`, form,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'multipart/form-data',
+      }
+    }
+  )
+}//*
+export function ToggleAspects (id) {
+  return request.post(`/aspects/${id}/favorite`)
+}//*
+export function GetFavoritesAuthors(page){
+  return request.get(`/profiles?location=favorites&page=${page}`)
+}//*
+export function ToggleDiscusionFav(id){
+    return request.post(`/discussions/${id}/favorite`)
+}//*
+export function ToggleDiscusionAuthorFav(id){
+  return request.post(`/profiles/${id}/favorite`)
+}// *
+export function ToggleDiscusionFreeze(id){
+  return request.post(`/discussions/${id}/freeze`)
+}// *
+export function ToggleDiscusionAuthorLike(id){
+  return request.post(`/profiles/${id}/likes`)
+}// *
+export function CreateAspects (payload) {
+  return request.post(`/aspects`, payload, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  })
+} //*
+export function CreateAspectsImage ({id, image}) {
+  let form = new FormData();
+  form.append("image", image)
+  return request.put(`/aspects/${id}/image`, form, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'multipart/form-data"',
+    }
+  })
+} //*
+export function GetFilteredDiscussion(query){
+  return request.get(`/discussions?q=${query}&location=all&sort=last&page=1`)
+}//*
+export function GetAllDiscussion(page){
+  return request.get(`/discussions?location=all&sort=last&page=${page}`)
+}//*
 export function CreateNewDiscussion (data) {
-  let form = new FormData()
-
-  form.append('title', data.title)
-  form.append('cover', data.cover)
-
-  if (typeof (data.aspect.id) !== 'undefined') {
-    form.append('aspect_id', data.aspect.id)
-  } else {
-    form.append('aspect_title', data.aspect.title)
-    form.append('aspect_image', data.aspect.image)
-  }
-
-  form.append('argument_description', data.argument)
-  form.append('argument_position', data.position)
-  form.append('argument_links', JSON.stringify(data.links))
-
-  Object.keys(data.files).map(i => {
-    form.append('argument_file' + (+i + 1), data.files[i])
+  return request.post(`/discussions`, data,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+    }
   })
-
-  return request.put(`/discussions`, form)
-    .catch(err => alert(err.response.data.message))
-}
-
+} //*
+export function PostDiscussionArgements({id, form}){
+  return request.post(`/discussions/${id}/arguments`, form, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  })
+}//*
+export function PostDiscussionThesis({id, form}){
+  return request.post(`/arguments/${id}/theses`, form, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  })
+}//*
+export function CreateDiscussionArguments (data) {
+  return request.post(`/discussions`, data,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+    }
+  })
+} //*
+export function PutDiscussionImage({id, image}){
+  request.put(`/discussions/${id}/image`, image, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'multipart/form-data"',
+    }
+  })
+} //*
 export function GetDiscussions () {
   return request.get('/discussions')
-    .catch(err => alert(err.response.data.message))
-}
-
+} //* not ready
+export function DeleteDiscussion(id){
+  return request.delete(`/discussions/${id}`)
+}//*
+export function DeleteAspect(id){
+  return request.delete(`/aspects/${id}`)
+}//*
+export function GetAuthorDiscussions ({id, page}) {
+  return request.get(`/discussions?author=${id}&location=all&sort=last&page=${page}`)
+} //*
 export function GetDiscussion (id) {
   return request.get('/discussions/' + id)
-    .catch(err => alert(err.response.data.message))
-}
+} //*
+export function GetDiscussionsTop () {
+  return request.get(`/discussions?location=all&sort=popular&page=1`)
+} //*
+export function GetDiscussionsLast () {
+  return request.get(`/discussions?location=all&sort=last&page=1`)
+}//*
+export function GetDiscussionsFav (page) {
+  return request.get(`/discussions?location=favorites&sort=last&page=${page}`)
+}//*
+export function GetCurrentDiscussions (id) {
+  return request.get(`/discussions/${id}`)
+} //*
+export function GetThesisIdComments(id){
+    return request.get(`/theses/${id}/comments?page=1`)
+}//*
+export function AddThesisFile({id, file}){
+  let form = new FormData();
+  file.forEach(file => {form.append("files[]", file)})
+  return request.post(`/theses/${id}/attachments/files`, form,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'multipart/form-data',
+      }
+    } )
+}//*
+export function AddThesisLink({id, link}){
+  let form = new FormData();
+  link.forEach(link => {form.append("links[]", link)})
+  return request.post(`/theses/${id}/attachments/links`, form, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'multipart/form-data',
+    }
+  } )
 
-export function GetDiscussionAspects (id) {
-  return request.get(`/discussions/${id}/aspects`)
-    .catch(err => alert(err.response.data.message))
-}
+}//*
 
 export function GetDiscussionArguments (id) {
-  return request.get(`/discussions/${id}/arguments`)
-    .catch(err => alert(err.response.data.message))
-}
+  return request.get('/discussions/' + id + '/arguments')
+} //*
+// export function GetDiscussionAspects (id) {
+//   return request.get('/aspects/' + id)
+// } //*
+export function GetAllAspects (page=1) {
+  return request.get(`/aspects?&page=${page}`)
+} //*
+export function GetAspects (payload) {
+  return request.get(`/aspects?q=${payload}&page=1`)
+} //*
+
+export function GetArguments (id) {
+  return request.get(`/arguments/${id}`)
+} //*
+
+export function GetArgumentThesis (id) {
+  return request.get(`/arguments/${id}/theses?page=1`)
+} //*
+export function PatchtThesisVotes (id, data) {
+  return request.patch(`/theses/${id}/votes`, data,
+    {
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    })
+} //*
 
 export function AddDiscussionArguments (id, data) {
   return request.post(`/discussions/${id}/arguments`, data)
-    .catch(err => alert(err.response.data.message))
-}
+} //*
 
-export function UsersTop () {
-  return request.get(`/users/top`)
-    .catch(err => alert(err.response.data.message))
-}
-
-export function GetFavoriteUsers (id) {
-  return request.get(`/profile/favorite/users`, { user_id: id })
-    .catch(err => alert(err.response.data.message))
-}
-
-export function AddFavoriteUsers (id, object_id) {
-  return request.post(`/profile/favorite/users`, { user_id: id, object_id })
-    .catch(err => alert(err.response.data.message))
-}
-
-export function DeleteFavoriteUsers (id, object_id) {
-  return request.delete(`/profile/favorite/users`, { data: { user_id: id, object_id } })
-    .catch(err => alert(err.response.data.message))
-}
+export function GetUsersTop () {
+  return request.get(`/profiles/top_rated`)
+}//*
 
 export function DeleteUser (id) {
-  return request.delete(`/profile`, { data: { user_id: id } })
-}
-
-export function FilterFfavoriteDisquss (id, data) {
-  return request.get(`/profile/${id}/favorite/disquss`, {
-    params: data,
-    paramsSerializer: params => qs.stringify(params, { arrayFormat: 'repeat' })
-  })
-}
+  return request.delete(`/profiles/${id}`)
+}//*
